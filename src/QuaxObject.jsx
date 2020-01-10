@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
+
 import Draggable from 'react-draggable'; // The default
 import './QuaxObject.css';
 import PatchCable from './PatchCable.js'
@@ -7,42 +9,39 @@ import inletOff from '../assets/inlet_off.svg'; // with import
 import outletOff from '../assets/outlet_off.svg'; // with import
 
 
-class PatchCableList extends Component {
-    constructor()
-    {
-        super();
-        this.state.patchCables = {}
-        // this.props.audioNode =
-    }
-    render(){
-        return (Object.keys(this.props.fruits).map(function(key) {
-                  return <PatchCable
-                    x1={this.state.patchCables[key].state.startPos.x}
-                    y1={this.state.patchCables[key].state.startPos.y}
-                    x2={this.state.patchCables[key].state.startPos.x}
-                    y2={this.state.patchCables[key].state.startPos.x}>
-                        </PatchCable>
-                }.bind(this))
-            )
-        }
-    }
-
 class Inlet extends Component {
     constructor(props)
     {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.getPosition = this.getPosition.bind(this);
+        this.state = {
+            pos:{
+                x: 0,
+                y: 0
+            }
+        };
     }
 
     handleClick(e)
     {
-        // this.props.inletClicked();
+        var x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
+        var y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
+        this.props.newPatchCableFn(x, y);
+        console.log(x, y);
+
+    }
+
+    getPosition(e)
+    {
+        console.log("getting inlet position: ");
+        this.state.pos.x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
+        this.state.pos.y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
     }
 
     render() {
 
     return (
-            <img src={inletOff} style={{width: "10%", margin: "0px"}}></img>
+            <img ref={this.getPosition} onClick={this.props.newPatchCableFn} onClick={this.handleClick.bind(this)}src={inletOff} style={{width: "10%", margin: "0px"}}></img>
     );
   }
 }
@@ -56,13 +55,14 @@ class Outlet extends Component {
 
     handleClick(e)
     {
-        // this.props.inletClicked();
+        console.log(e);
+        this.props.newPatchCableFn(e.clientX, e.clientY);
     }
 
     render() {
 
     return (
-            <img src={outletOff} style={{width: "10%", margin: "0px"}}></img>
+            <img onClick={this.handleClick} src={outletOff} style={{width: "10%", margin: "0px"}}></img>
     );
   }
 }
@@ -71,9 +71,9 @@ class QuaxObject extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onDrag = this.onDrag.bind(this);
+
         this.state = {
-          message: "Mouse Event",
-          isDragging: false,
           pos: {
               x: 0,
               y: 0
@@ -81,33 +81,41 @@ class QuaxObject extends Component {
       }
   }
 
+  onDrag(e)
+  {
+      this.state.pos.x = e.clientX;
+      this.state.pos.y = e.clientY;
+      this.setState({pos: {x: this.state.pos.x, y: this.state.pos.y}});
+  }
+
   handleSubmit(event)
   {
     event.preventDefault();
-    }
+  }
 
   render() {
+      console.log("rendering");
       var left = this.state.pos.x;
       var top = this.state.pos.y;
 
     return (
-        <Draggable enableUserSelectHack={false}>
-        <div className="QuaxObject">
+        <Draggable onDrag={this.onDrag} enableUserSelectHack={false}>
+        <div  className="QuaxObject" style={{zIndex:"100"}}>
         <div className="Inlets">
-            <Inlet obj={this}/>
-            <Inlet obj={this}/>
-            <Inlet obj={this}/>
-            <Inlet obj={this}/>
+            <Inlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Inlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Inlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Inlet newPatchCableFn={this.props.newPatchCableFn}/>
         </div>
 
         <form onSubmit={this.handleSubmit}>
             <input type="text"></input>
         </form>
         <div className="Outlets">
-            <Outlet obj={this}/>
-            <Outlet obj={this}/>
-            <Outlet obj={this}/>
-            <Outlet obj={this}/>
+            <Outlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Outlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Outlet newPatchCableFn={this.props.newPatchCableFn}/>
+            <Outlet newPatchCableFn={this.props.newPatchCableFn}/>
         </div>
 
       </div>

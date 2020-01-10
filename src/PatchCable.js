@@ -5,6 +5,7 @@ class PatchCable extends Component {
     constructor(props)
     {
         super(props);
+
         this.state = {
 
             cableGrabbed: false,
@@ -20,6 +21,11 @@ class PatchCable extends Component {
         }
     }
 
+    handleClick(e)
+    {
+        console.log("Clicked path");
+    }
+
     render() {
         var x1 = this.state.startPos.x;
         var y1 = this.state.startPos.y;
@@ -27,10 +33,14 @@ class PatchCable extends Component {
         var x2 = this.state.endPos.x;
         var y2 = this.state.endPos.y;
         var strokeWidth = 2;
+        var left = 0;
+        var top = 0;
+        var width = '1000px';
+        var height = '1000px';
 
       return (
-          <svg className = "PatchCable">
-              <line x1={this.state.startPos.x} y1={this.state.startPos.y} x2={this.state.endPos.x} y2={this.state.endPos.y} style={{strokeWidth, stroke:'rgb(255,0,0)'}}></line>
+          <svg style={{position: "absolute", width, height, left, top, borderStyle:"solid", pointerEvents: "none"}} className = "PatchCable">
+              <line onClick = {this.handleClick.bind(this)} x1={this.state.startPos.x} y1={this.state.startPos.y} x2={this.state.endPos.x} y2={this.state.endPos.y} style={{display: "inline", strokeWidth, stroke:'rgb(0,0,0)'}}></line>
           </svg>
       );
     }
@@ -88,4 +98,4 @@ class PatchCableList extends Component {
     }
 }
 
-export default PatchCableList;
+export default PatchCable;

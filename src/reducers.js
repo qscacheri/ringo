@@ -3,7 +3,7 @@ import { addCable } from "./actions.js"
 
 function quaxApp(state, action) {
   if (typeof state === 'undefined') {
-      console.log("is undefined");
+      // console.log("is undefined");
     return {objects: {}}
   }
 
