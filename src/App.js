@@ -21,65 +21,74 @@ class App extends Component {
     constructor(props)
     {
         super(props);
-        this.state = {patchCables: {}, patchCableActive: false};
+        this.state = {patchCables: [], patchCableActive: false};
 
         this.createNewPatchCable = this.createNewPatchCable.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.mouseMoved = this.mouseMoved.bind(this);
-
     }
 
   createNewPatchCable(x, y)
   {
-      this.state.patchCableActive = true;
-      this.setState({patchCableActive: true})
-      this.state.patchCables[new Date().getTime()] = {
-          startPos: {
-              x: x,
-              y: y,
-          },
 
-          endPos:{
-              x: 100,
-              y: 100
-          }
-      }
-      this.setState({patchCables:  this.state.patchCables});
+      this.setState({patchCableActive: true})
+      this.setState(state => {
+        const patchCables = state.patchCables.concat({
+            startPos:
+            {
+                x,
+                y,
+            },
+
+            endPos: 
+            {
+                x: 100, 
+                y: 100
+            }
+        })
+
+        return {
+          patchCables,
+        };
+      });
+      
+      
   }
 
   mouseMoved(e)
-  {
-      console.log("moved...");
+  {   
+      e.persist();
+
       if (this.state.patchCableActive)
       {
-
-      }
-  }
-
+        this.setState(state => {
+            const patchCables = state.patchCables.map((item, j) => {
+                item.endPos.x = e.clientX;
+                item.endPos.y = e.clientY;
+                return item;
+            });
+            return {
+                patchCables,
+            };
+          });
+        }
+    }
   handleKeyPress(e){
       if (e.key == 'n' || e.key == 'N')
         console.log("new object created...");
   }
 
   render() {
-      var patchCables = [];
-      for (var i in this.state.patchCables)
-      {
-          var currentCable = this.state.patchCables[i];
-          patchCables.push (<PatchCable
-              x1 = {currentCable.startPos.x}
-              y1 = {currentCable.startPos.y}
-              x2 = {currentCable.endPos.x  }
-              y2 = {currentCable.endPos.y  }
-        />);
-      }
-
+    //   console.log(this.state);
+      
     return (
       <div className="App" tabIndex="0" onMouseMove={this.mouseMoved} onKeyDown={this.handleKeyPress}>
           <QuaxObject newPatchCableFn={this.createNewPatchCable}/>,
           <QuaxObject newPatchCableFn={this.createNewPatchCable}/>,
+            {this.state.patchCables.map(patchCable => (                
+            <PatchCable x1={patchCable.startPos.x}  y1={patchCable.startPos.y} x2={patchCable.endPos.x}  y2={patchCable.endPos.y}></PatchCable>
+          ))}
 
-              {patchCables}
       </div>
     );
   }
