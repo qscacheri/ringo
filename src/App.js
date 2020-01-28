@@ -8,6 +8,11 @@ import { addCable } from './actions.js'
 import quaxApp from './reducers'
 const store = createStore(quaxApp)
 
+const IOLetType = 
+{
+    In: 1, 
+    Out: 2
+}
 // Log the initial state
 // console.log(store.getState())
 
@@ -20,34 +25,39 @@ store.dispatch(addCable());
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { patchCables: {}, patchCableActive: -1 };
+    this.state = {
+      patchCables: {},
+      activePatchCableState:
+      {
+        id: -1,
+        connectionType: IOLetType.In
+      }
+    };
 
     this.createNewPatchCable = this.createNewPatchCable.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.mouseMoved = this.mouseMoved.bind(this);
   }
 
-  createNewPatchCable(x, y) {
+  createNewPatchCable(type, x, y) {
 
-    if (this.state.patchCableActive != -1) return;
+    if (this.state.activePatchCableState.id != -1) return;
 
     var id = new Date().getTime();
-    this.setState({ patchCableActive: id })
+    const activePatchCableState = this.state.activePatchCableState;
+    activePatchCableState.id = id;
+    activePatchCableState.connectionType = type;
+
+    
+    this.setState({ activePatchCableState: activePatchCableState});
     this.setState(state => {
 
       const patchCables = state.patchCables;
       patchCables[id] = {
-        startPos:
-        {
-          x,
-          y,
-        },
-
-        endPos:
-        {
-          x,
-          y
-        }
+        x1: x,
+        y1: y,
+        x2: x,
+        y2: y
       }
 
       return {
@@ -70,12 +80,12 @@ class App extends Component {
   mouseMoved(e) {
     e.persist();
 
-    if (this.state.patchCableActive != -1) {
+    if (this.state.activePatchCableState.id != -1) {
       var patchCables = this.state.patchCables;
       for (var patchCableId in patchCables) {
-        if (patchCableId == this.state.patchCableActive) {
-          patchCables[patchCableId].endPos.x = e.clientX;
-          patchCables[patchCableId].endPos.y = e.clientY;
+        if (patchCableId == this.state.activePatchCableState.id) {
+          patchCables[patchCableId].x2 = e.clientX;
+          patchCables[patchCableId].y2 = e.clientY;
         }
       }
       this.setState({ patchCables: patchCables })
@@ -83,11 +93,13 @@ class App extends Component {
   }
 
   mouseClicked(e) {
-    if (this.state.patchCableActive != -1) {
+    if (this.state.activePatchCableState.id != -1) {
       console.log("parent clicked");
 
-      this.removePatchCable(this.state.patchCableActive)
-      this.setState({ patchCableActive: -1 });
+      this.removePatchCable(this.state.activePatchCableState.id)
+      const activePatchCableState = this.state.activePatchCableState;
+      activePatchCableState.id = -1;
+      this.setState({ activePatchCableState: activePatchCableState });
     }
   }
 
@@ -100,12 +112,12 @@ class App extends Component {
     const { patchCables } = this.state;
     return (
       <div className="App" tabIndex="0" onMouseMove={this.mouseMoved} onClick={this.mouseClicked.bind(this)} onKeyDown={this.handleKeyPress}>
-        <QuaxObject newPatchCableFn={this.createNewPatchCable} />,
+        <QuaxObject newPatchCableFn={this.createNewPatchCable} patchCableState={this.activePatchCableState} />,
           <QuaxObject newPatchCableFn={this.createNewPatchCable} />,
           {
           Object.keys(patchCables).map((key, index) => (
-            <PatchCable x1={patchCables[key].startPos.x} y1={patchCables[key].startPos.y}
-              x2={patchCables[key].endPos.x} y2={patchCables[key].endPos.y}></PatchCable>
+            <PatchCable key x1={patchCables[key].x1} y1={patchCables[key].y1}
+              x2={patchCables[key].x2} y2={patchCables[key].y2}></PatchCable>
           ))
         }
       </div>

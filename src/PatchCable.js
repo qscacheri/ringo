@@ -5,20 +5,6 @@ class PatchCable extends Component {
     constructor(props)
     {
         super(props);
-
-        this.state = {
-
-            cableGrabbed: false,
-
-            startPos: {
-                x: this.props.x1,
-                y: this.props.y1
-            },
-            endPos: {
-                x: this.props.x2,
-                y: this.props.y2
-            }
-        }
     }
 
     handleClick(e)
@@ -26,9 +12,7 @@ class PatchCable extends Component {
         console.log("Clicked path");
     }
 
-    render() {
-        console.log(this.props);
-        
+    render() {        
         var x1 = this.props.x1;
         var y1 = this.props.y1;
 

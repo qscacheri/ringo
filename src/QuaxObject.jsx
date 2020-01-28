@@ -9,6 +9,12 @@ import inletOff from '../assets/inlet_off.svg'; // with import
 import outletOff from '../assets/outlet_off.svg'; // with import
 
 
+const IOLetType = 
+{
+    In: 1, 
+    Out: 2
+}
+
 class Inlet extends Component {
     constructor(props)
     {
@@ -26,7 +32,7 @@ class Inlet extends Component {
     {
         var x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
         var y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
-        this.props.newPatchCableFn(x, y);
+        this.props.newPatchCableFn(IOLetType.In, e.clientX, e.clientY);
         e.stopPropagation();
         console.log(x, y);
 
@@ -34,7 +40,6 @@ class Inlet extends Component {
 
     getPosition(e)
     {
-        console.log("getting inlet position: ");
         this.state.pos.x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
         this.state.pos.y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
     }
@@ -56,9 +61,11 @@ class Outlet extends Component {
 
     handleClick(e)
     {
-        console.log(e);
-        e.stopPropagation()
-        this.props.newPatchCableFn(e.clientX, e.clientY);
+        var x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
+        var y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
+        this.props.newPatchCableFn(IOLetType.Out, e.clientX, e.clientY);
+        e.stopPropagation();
+        console.log(x, y);
     }
 
     render() {
