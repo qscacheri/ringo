@@ -8,10 +8,10 @@ import { addCable } from './actions.js'
 import quaxApp from './reducers'
 const store = createStore(quaxApp)
 
-const IOLetType = 
+const IOLetType =
 {
-    In: 1, 
-    Out: 2
+  In: 1,
+  Out: 2
 }
 // Log the initial state
 // console.log(store.getState())
@@ -48,8 +48,8 @@ class App extends Component {
     activePatchCableState.id = id;
     activePatchCableState.connectionType = type;
 
-    
-    this.setState({ activePatchCableState: activePatchCableState});
+
+    this.setState({ activePatchCableState: activePatchCableState });
     this.setState(state => {
 
       const patchCables = state.patchCables;
@@ -112,8 +112,8 @@ class App extends Component {
     const { patchCables } = this.state;
     return (
       <div className="App" tabIndex="0" onMouseMove={this.mouseMoved} onClick={this.mouseClicked.bind(this)} onKeyDown={this.handleKeyPress}>
-        <QuaxObject newPatchCableFn={this.createNewPatchCable} patchCableState={this.activePatchCableState} />,
-          <QuaxObject newPatchCableFn={this.createNewPatchCable} />,
+        <QuaxObject newPatchCableFn={this.createNewPatchCable} activePatchCableState={this.state.activePatchCableState} />,
+        <QuaxObject newPatchCableFn={this.createNewPatchCable} activePatchCableState={this.state.activePatchCableState} />,
           {
           Object.keys(patchCables).map((key, index) => (
             <PatchCable key x1={patchCables[key].x1} y1={patchCables[key].y1}
