@@ -20,7 +20,7 @@ store.dispatch(addCable());
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { patchCables: [], patchCableActive: false };
+    this.state = { patchCables: {}, patchCableActive: -1 };
 
     this.createNewPatchCable = this.createNewPatchCable.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -29,11 +29,14 @@ class App extends Component {
 
   createNewPatchCable(x, y) {
 
-    if (this.state.patchCableActive) return;
+    if (this.state.patchCableActive != -1) return;
 
-    this.setState({ patchCableActive: true })
+    var id = new Date().getTime();
+    this.setState({ patchCableActive: id })
     this.setState(state => {
-      const patchCables = state.patchCables.concat({
+
+      const patchCables = state.patchCables;
+      patchCables[id] = {
         startPos:
         {
           x,
@@ -45,7 +48,7 @@ class App extends Component {
           x,
           y
         }
-      })
+      }
 
       return {
         patchCables,
@@ -53,33 +56,38 @@ class App extends Component {
     });
   }
 
-  removePatchCable(id)
-  {
-
+  removePatchCable(id) {
+    var patchCables = this.state.patchCables;
+    for (var patchCableId in patchCables) {
+      if (patchCableId == id) {
+        delete patchCables[patchCableId];
+        this.setState({ patchCables: patchCables })
+        return;
+      }
+    }
   }
 
   mouseMoved(e) {
     e.persist();
 
-    if (this.state.patchCableActive) {
-      this.setState(state => {
-        const patchCables = state.patchCables.map((item, j) => {
-          item.endPos.x = e.clientX;
-          item.endPos.y = e.clientY;
-          return item;
-        });
-        return {
-          patchCables,
-        };
-      });
+    if (this.state.patchCableActive != -1) {
+      var patchCables = this.state.patchCables;
+      for (var patchCableId in patchCables) {
+        if (patchCableId == this.state.patchCableActive) {
+          patchCables[patchCableId].endPos.x = e.clientX;
+          patchCables[patchCableId].endPos.y = e.clientY;
+        }
+      }
+      this.setState({ patchCables: patchCables })
     }
   }
 
-  mouseClicked(e)
-  {
-    if(this.state.patchCableActive)
-    {
+  mouseClicked(e) {
+    if (this.state.patchCableActive != -1) {
+      console.log("parent clicked");
 
+      this.removePatchCable(this.state.patchCableActive)
+      this.setState({ patchCableActive: -1 });
     }
   }
 
@@ -89,16 +97,17 @@ class App extends Component {
   }
 
   render() {
-    //   console.log(this.state);
-
+    const { patchCables } = this.state;
     return (
       <div className="App" tabIndex="0" onMouseMove={this.mouseMoved} onClick={this.mouseClicked.bind(this)} onKeyDown={this.handleKeyPress}>
         <QuaxObject newPatchCableFn={this.createNewPatchCable} />,
           <QuaxObject newPatchCableFn={this.createNewPatchCable} />,
-            {this.state.patchCables.map(patchCable => (
-          <PatchCable x1={patchCable.startPos.x} y1={patchCable.startPos.y} x2={patchCable.endPos.x} y2={patchCable.endPos.y}></PatchCable>
-        ))}
-
+          {
+          Object.keys(patchCables).map((key, index) => (
+            <PatchCable x1={patchCables[key].startPos.x} y1={patchCables[key].startPos.y}
+              x2={patchCables[key].endPos.x} y2={patchCables[key].endPos.y}></PatchCable>
+          ))
+        }
       </div>
     );
   }

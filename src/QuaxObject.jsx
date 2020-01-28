@@ -27,6 +27,7 @@ class Inlet extends Component {
         var x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
         var y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
         this.props.newPatchCableFn(x, y);
+        e.stopPropagation();
         console.log(x, y);
 
     }
@@ -56,6 +57,7 @@ class Outlet extends Component {
     handleClick(e)
     {
         console.log(e);
+        e.stopPropagation()
         this.props.newPatchCableFn(e.clientX, e.clientY);
     }
 
@@ -94,7 +96,6 @@ class QuaxObject extends Component {
   }
 
   render() {
-      console.log("rendering");
       var left = this.state.pos.x;
       var top = this.state.pos.y;
 
