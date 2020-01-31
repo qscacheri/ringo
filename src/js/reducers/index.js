@@ -5,7 +5,8 @@ import
     OBJECT_CHANGED,
     ADD_OBJECT,
     OBJECT_TYPE_CHANGED,
-    ADD_PATCH_CABLE
+    ADD_PATCH_CABLE,
+    REMOVE_PATCH_CABLE
 } from "../constants/action-types.js";
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 import { OBJECT_TYPES } from "../constants/object-types.js";
@@ -53,17 +54,38 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === ADD_PATCH_CABLE)
     {
+        console.log(payload);
+        
         var newPatchCable = payload;
         return {
             ...state, 
             patchCableData: {
-                activePatchCableId: state.patchCableData.activePatchCableId,
+                activePatchCableId: payload.id,
                 patchCables: 
                 {
                     ...state.patchCableData.patchCables, [action.payload.id]: newPatchCable
                 }
             }
         }
+    }
+
+    if (action.type === REMOVE_PATCH_CABLE)
+    {
+
+        var id = payload.id;
+        var newPatchCableData = Object.assign({}, state.patchCableData);
+        
+        delete newPatchCableData.patchCables[id];
+        
+        return {
+            ...state, 
+            patchCableData: {
+                activePatchCableId: -1,
+                patchCables:  newPatchCableData.patchCables
+            }
+        }
+
+
     }
     return state;
 }

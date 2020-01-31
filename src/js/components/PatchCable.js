@@ -12,9 +12,7 @@ class PatchCable extends Component {
 
     }
 
-    render() {        
-        console.log(this.props);
-        
+    render() {                
         var strokeWidth = 2;
         var left = 0;
         var top = 0;

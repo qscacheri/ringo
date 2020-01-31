@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addObject } from '../actions/index.js';
+import { addObject, removePatchCable } from '../actions/index.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
 
@@ -18,7 +18,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addObject: object => dispatch(addObject(object))
+        addObject: object => dispatch(addObject(object)),
+        removePatchCable: patchCable => dispatch(removePatchCable(patchCable))
     };
 }
 
@@ -36,7 +37,7 @@ class ConnectedApp extends Component {
     handleKeyDown(event) {
         // CREATE NEW OBJECT
         if (event.key == 'n' || event.key == 'N') {
-            var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
+            var newObject = OBJECT_CONFIGS[OBJECT_TYPES.DAC];
             newObject.id = new Date().getTime();
             newObject.position = {
                 x: this.state.mousePosition.x,
@@ -57,6 +58,14 @@ class ConnectedApp extends Component {
             }
         })
     }
+
+    handleClick(e)
+    {
+        if (this.props.patchCableData.activePatchCableId != -1)
+        {
+            this.props.removePatchCable({id: this.props.patchCableData.activePatchCableId})
+        }
+    }
     
     createQuaxObject(k)
     {
@@ -66,7 +75,12 @@ class ConnectedApp extends Component {
     createPatchCable(key)
     {
         var currentPatchCable = this.props.patchCableData.patchCables[key];
-        
+        console.log("active id: ", this.props.patchCableData.activePatchCableId);
+        console.log("key id: ", key);
+        if (key == this.props.patchCableData.activePatchCableId)
+        {
+            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{x: this.state.mousePosition.x, y: this.state.mousePosition.y}}></PatchCable>
+        }
         return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={currentPatchCable.pos2}></PatchCable>
     }
 
@@ -74,7 +88,7 @@ class ConnectedApp extends Component {
     render() {
 
         return (
-            <div className="App" tabIndex="0" onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
+            <div className="App" tabIndex="0" onClick={this.handleClick.bind(this)} onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
                 
                     {Object.keys(this.props.objects).map(this.createQuaxObject)}
                     {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
