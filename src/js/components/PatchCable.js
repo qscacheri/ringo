@@ -9,14 +9,12 @@ class PatchCable extends Component {
 
     handleClick(e)
     {
+
     }
 
     render() {        
-        var x1 = this.props.x1;
-        var y1 = this.props.y1;
-
-        var x2 = this.props.x2;
-        var y2 = this.props.y2;
+        console.log(this.props);
+        
         var strokeWidth = 2;
         var left = 0;
         var top = 0;
@@ -25,7 +23,7 @@ class PatchCable extends Component {
 
       return (
           <svg style={{position: "absolute", width, height, left, top, borderStyle:"solid", pointerEvents: "none"}} className = "PatchCable">
-              <line onClick = {this.handleClick.bind(this)} x1={this.props.x1} y1={this.props.y1} x2={this.props.x2} y2={this.props.y2} style={{display: "inline", strokeWidth, stroke:'rgb(0,0,0)'}}></line>
+              <line onClick = {this.handleClick.bind(this)} x1={this.props.pos1.x} y1={this.props.pos1.y} x2={this.props.pos2.x} y2={this.props.pos2.y} style={{display: "inline", strokeWidth, stroke:'rgb(0,0,0)'}}></line>
           </svg>
       );
     }

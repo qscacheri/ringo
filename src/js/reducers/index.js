@@ -4,17 +4,24 @@ import
     NEW_CONNECTION,
     OBJECT_CHANGED,
     ADD_OBJECT,
-    OBJECT_TYPE_CHANGED
+    OBJECT_TYPE_CHANGED,
+    ADD_PATCH_CABLE
 } from "../constants/action-types.js";
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 import { OBJECT_TYPES } from "../constants/object-types.js";
 
 const initialState = {
     objects: {},
-    patchCables: {}
+    patchCableData: {
+        activePatchCableId: -1,
+        patchCables: {}
+    }
+
 };
 
-function rootReducer(state = initialState, action) {    
+function rootReducer(state = initialState, action) {   
+    const payload = action.payload;
+ 
     if (action.type === ADD_OBJECT) {    
          
         return {
@@ -23,13 +30,10 @@ function rootReducer(state = initialState, action) {
                 ...state.objects, [action.payload.id]: action.payload
             }
         }
-        console.log(state);        
-        return state;
     }
 
     if (action.type === OBJECT_TYPE_CHANGED)
     {
-        const payload = action.payload;
 
         var newObject = OBJECT_CONFIGS[payload.newObjectType]; 
         newObject.id = payload.id;
@@ -43,6 +47,21 @@ function rootReducer(state = initialState, action) {
             ...state, 
             objects: {
                 ...state.objects, [action.payload.id]: newObject
+            }
+        }
+    }
+
+    if (action.type === ADD_PATCH_CABLE)
+    {
+        var newPatchCable = payload;
+        return {
+            ...state, 
+            patchCableData: {
+                activePatchCableId: state.patchCableData.activePatchCableId,
+                patchCables: 
+                {
+                    ...state.patchCableData.patchCables, [action.payload.id]: newPatchCable
+                }
             }
         }
     }

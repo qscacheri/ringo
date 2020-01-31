@@ -6,11 +6,13 @@ import { OBJECT_CONFIGS } from '../constants/object-configs';
 
 import QuaxObject from './QuaxObject'
 import '../../css/index.css';
+import PatchCable from "./PatchCable.js";
 
 
 function mapStateToProps(state) {
     return {
-        objects: state.objects
+        objects: state.objects,
+        patchCableData: state.patchCableData
     }
 }
 
@@ -27,6 +29,8 @@ class ConnectedApp extends Component {
     {
         super(props);
         this.createQuaxObject = this.createQuaxObject.bind(this);
+        this.createPatchCable = this.createPatchCable.bind(this);
+
     }
 
     handleKeyDown(event) {
@@ -59,13 +63,22 @@ class ConnectedApp extends Component {
         return <QuaxObject key={k} id={k} position={this.props.objects[k].position} numInlets={this.props.objects[k].numInlets} numOutlets={this.props.objects[k].numOutlets}></QuaxObject>
     }
 
+    createPatchCable(key)
+    {
+        var currentPatchCable = this.props.patchCableData.patchCables[key];
+        
+        return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={currentPatchCable.pos2}></PatchCable>
+    }
+
+
     render() {
 
         return (
             <div className="App" tabIndex="0" onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
-                {
-                    Object.keys(this.props.objects).map(this.createQuaxObject)
-                }
+                
+                    {Object.keys(this.props.objects).map(this.createQuaxObject)}
+                    {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
+                
             </div>)
     }
 }

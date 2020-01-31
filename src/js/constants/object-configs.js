@@ -18,11 +18,11 @@ configs[OBJECT_TYPES.INVALID] =
     numOutlets: 0
 };
 
-// INVALID
-configs[OBJECT_TYPES.INVALID] = 
+// DAC
+configs[OBJECT_TYPES.DAC] = 
 {
-    type: OBJECT_TYPES.INVALID,
-    numInlets: 0,
+    type: OBJECT_TYPES.DAC,
+    numInlets: 2,
     numOutlets: 0
 };
 
