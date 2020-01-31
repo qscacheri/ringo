@@ -28,6 +28,7 @@ input
 .QuaxObject {
     /* border-style: solid; */
     display: flex;
+    position: absolute;
     flex-direction: column;
     grid-template-rows: 1fr, 1fr, 1fr;
     width: 15%;

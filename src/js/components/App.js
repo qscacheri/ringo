@@ -39,6 +39,8 @@ class ConnectedApp extends Component {
                 y: this.state.mousePosition.y,
             }
             this.props.addObject(newObject);
+            console.log(this.state.mousePosition.y);
+            
             return;
         }
     }
@@ -46,8 +48,8 @@ class ConnectedApp extends Component {
     handleMouseMove(event) {
         this.setState({
             mousePosition: {
-                x: event.clientX,
-                y: event.clientY
+                x: event.pageX,
+                y: event.pageY
             }
         })
     }
