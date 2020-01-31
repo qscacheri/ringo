@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 
@@ -13,8 +14,15 @@ const IOLetType =
 }
 
 class QuaxObject extends Component {
+
+    static ObjectTypes = 
+    {
+        Blank: -1
+    };
+
     constructor(props) {
         super(props);
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onDrag = this.onDrag.bind(this);
         console.log(this.props);
@@ -33,7 +41,7 @@ class QuaxObject extends Component {
         this.setState({ pos: { x: this.state.pos.x, y: this.state.pos.y } });
     }
 
-    handleSubmit(event) {
+    handleSubmit(e) {
         event.preventDefault();
     }
 
@@ -52,7 +60,7 @@ class QuaxObject extends Component {
                     </div>
 
                     <form onSubmit={this.handleSubmit}>
-                        <input type="text"></input>
+                        <input type="text" onChange={this.handleChange.bind(this)}></input>
                     </form>
                     <div className="Outlets">
                         <IOLet connectionType={IOLetType.Out} activePatchCableState={this.props.activePatchCableState} newPatchCableFn={this.props.newPatchCableFn} />

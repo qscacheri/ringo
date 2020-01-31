@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
 import QuaxObject from "./QuaxObject.jsx"
+import IOLet from './IOLet.jsx'
 import PatchCable from "./PatchCable.js"
 import './index.css'
 import { createStore } from 'redux'
-import { addCable } from './actions.js'
-import quaxApp from './reducers'
+import { newConnection } from './actions/actions.js'
+import quaxApp from './reducers/reducers.js'
+import './QuaxCommon.js'
+
 const store = createStore(quaxApp)
 
-const IOLetType =
-{
-  In: 1,
-  Out: 2
-}
 // Log the initial state
 // console.log(store.getState())
 
@@ -20,7 +18,6 @@ const IOLetType =
 // Note that subscribe() returns a function for unregistering the listener
 // const unsubscribe = store.subscribe(() => console.log(store.getState()))
 
-store.dispatch(addCable());
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +27,7 @@ class App extends Component {
       activePatchCableState:
       {
         id: -1,
-        connectionType: IOLetType.In
+        connectionType: IOLet.IOLetType.In
       }
     };
 
@@ -64,6 +61,14 @@ class App extends Component {
         patchCables,
       };
     });
+  }
+
+  createNewObject(x, y)
+  {
+    var newObject = 
+    {
+      type: QuaxObject.ObjectTypes.Blank
+    };
   }
 
   removePatchCable(id) {

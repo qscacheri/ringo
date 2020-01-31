@@ -11,7 +11,15 @@ const IOLetType =
 }
 
 class IOLet extends Component {
-    constructor(props) {
+
+    static IOLetType =
+        {
+            In: 0,
+            Out: 1
+        }
+
+
+        constructor(props) {
         super(props);
         this.getPosition = this.getPosition.bind(this);
         this.state = {
@@ -24,7 +32,7 @@ class IOLet extends Component {
 
     handleClick(e) {
         console.log(this.props);
-        
+
         if (this.props.activePatchCableState.id == -1) {
             var x = ReactDOM.findDOMNode(this).x + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().x;
             var y = ReactDOM.findDOMNode(this).y + ReactDOM.findDOMNode(this).parentNode.getBoundingClientRect().y;
