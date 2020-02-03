@@ -7,7 +7,7 @@ import { OBJECT_CONFIGS } from '../constants/object-configs';
 import QuaxObject from './QuaxObject'
 import '../../css/index.css';
 import PatchCable from "./PatchCable.js";
-
+import Toolbar from './Toolbar.js'
 
 function mapStateToProps(state) {
     return {
@@ -37,15 +37,13 @@ class ConnectedApp extends Component {
     handleKeyDown(event) {
         // CREATE NEW OBJECT
         if (event.key == 'n' || event.key == 'N') {
-            var newObject = OBJECT_CONFIGS[OBJECT_TYPES.DAC];
+            var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
             newObject.id = new Date().getTime();
             newObject.position = {
                 x: this.state.mousePosition.x,
                 y: this.state.mousePosition.y,
             }
-            this.props.addObject(newObject);
-            console.log(this.state.mousePosition.y);
-            
+            this.props.addObject(newObject);            
             return;
         }
     }
@@ -89,7 +87,7 @@ class ConnectedApp extends Component {
 
         return (
             <div className="App" tabIndex="0" onClick={this.handleClick.bind(this)} onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
-                
+                    <Toolbar></Toolbar>,
                     {Object.keys(this.props.objects).map(this.createQuaxObject)}
                     {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
                 

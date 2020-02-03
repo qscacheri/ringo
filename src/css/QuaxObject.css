@@ -26,7 +26,6 @@ input
 }
 
 .QuaxObject {
-    /* border-style: solid; */
     display: flex;
     position: absolute;
     flex-direction: column;

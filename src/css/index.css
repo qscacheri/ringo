@@ -2,7 +2,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #E0E0DC;
+    /* background: #E0E0DC; */
+    background: white;
 }
 
 html, body, #root, .App
