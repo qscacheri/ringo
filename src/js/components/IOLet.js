@@ -15,7 +15,9 @@ function mapStateToProps(state)
 
 function mapDispatchToProps(dispatch) {
     return {
-        addPatchCable: patchCable => dispatch(addPatchCable(patchCable))
+        addPatchCable: patchCable => dispatch(addPatchCable(patchCable)),
+        newConnection: patchCable => dispatch(newConnection(patchCable))
+
     };
 }
 
@@ -57,9 +59,14 @@ class ConnectedIOLet extends Component
             this.props.addPatchCable(this.createPatchCable(event));
         else
         {
+            var boundingRect = this.myRef.current.getBoundingClientRect();
             this.props.newConnection({
                 id: this.props.parentId,
-                ioletIndex: this.props.ioletIndex
+                ioletIndex: this.props.ioletIndex,
+                position: {
+                    x: boundingRect.x + (boundingRect.width / 2),
+                    y: boundingRect.y + (boundingRect.height / 2),
+                }
             })
 
             console.log(this.props.activePatchCable.id);

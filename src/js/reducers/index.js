@@ -3,7 +3,8 @@ import
     ADD_OBJECT,
     OBJECT_TYPE_CHANGED,
     ADD_PATCH_CABLE,
-    REMOVE_PATCH_CABLE
+    REMOVE_PATCH_CABLE,
+    NEW_CONNECTION
 } from "../constants/action-types.js";
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 
@@ -51,7 +52,6 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === ADD_PATCH_CABLE)
     {
-        console.log(payload);
         var activePatchCable = state.patchCableData.activePatchCable;
         activePatchCable.id = payload.id;
         var newPatchCable = payload;
@@ -83,9 +83,34 @@ function rootReducer(state = initialState, action) {
                 patchCables:  newPatchCableData.patchCables
             }
         }
-
-
     }
+
+    if (action.type === NEW_CONNECTION)
+    {
+        console.log("lskjflskdjflsdkjf");
+        
+        var updatedCable = {...state.patchCableData.patchCables[state.patchCableData.activePatchCable.id]};
+        console.log(updatedCable);
+        updatedCable.pos2 = {
+            x: payload.position.x,
+            y: payload.position.y
+        }
+        
+        return {
+            ...state, 
+            patchCableData: {
+                activePatchCable: {
+                    id: -1,
+                    neededConnectionType: -1
+                },
+                patchCables: 
+                {
+                    ...state.patchCableData.patchCables, [state.patchCableData.activePatchCable.id]: updatedCable
+                }
+            }
+        }
+    }
+
     return state;
 }
 export default rootReducer;
