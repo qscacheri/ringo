@@ -59,9 +59,9 @@ class ConnectedApp extends Component {
 
     handleClick(e)
     {
-        if (this.props.patchCableData.activePatchCableId != -1)
+        if (this.props.patchCableData.activePatchCable.id != -1)
         {
-            this.props.removePatchCable({id: this.props.patchCableData.activePatchCableId})
+            this.props.removePatchCable({id: this.props.patchCableData.activePatchCable.id})
         }
     }
     
@@ -73,9 +73,7 @@ class ConnectedApp extends Component {
     createPatchCable(key)
     {
         var currentPatchCable = this.props.patchCableData.patchCables[key];
-        console.log("active id: ", this.props.patchCableData.activePatchCableId);
-        console.log("key id: ", key);
-        if (key == this.props.patchCableData.activePatchCableId)
+        if (key == this.props.patchCableData.activePatchCable.id)
         {
             return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{x: this.state.mousePosition.x, y: this.state.mousePosition.y}}></PatchCable>
         }

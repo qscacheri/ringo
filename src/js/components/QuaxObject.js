@@ -6,12 +6,12 @@ import IOLet from "./IOLet";
 import { IOLetType } from './IOLet'
 import { OBJECT_TYPES } from "../constants/object-types";
 import {objectTypeChanged} from '../actions/index'
+
 function mapStateToProps(state) {
     return {
         test: "test"
     };
 }
-
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -60,11 +60,11 @@ class ConnectedQuaxObject extends Component {
         var outlets = [];
 
         for (let i = 0; i < this.props.numInlets; i++) {
-            inlets.push(<IOLet key={this.props.id + ":" + IOLetType.In + "" + i} connectionType={IOLetType.In}></IOLet>)
+            inlets.push(<IOLet key={this.props.id + ":" + IOLetType.In + "" + i} ioletIndex={i} parentId={this.props.id} connectionType={IOLetType.In}></IOLet>)
         }
 
         for (let i = 0; i < this.props.numOutlets; i++) {
-            outlets.push(<IOLet key={this.props.id + ":" + IOLetType.Out + "" + i} connectionType={IOLetType.Out}></IOLet>)
+            outlets.push(<IOLet key={this.props.id + ":" + IOLetType.Out + "" + i} ioletIndex={i} parentId={this.props.id} connectionType={IOLetType.Out}></IOLet>)
         }
         
         return (

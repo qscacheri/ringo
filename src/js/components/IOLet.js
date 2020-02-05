@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {addPatchCable} from '../actions/index.js'
+import { addPatchCable, newConnection } from '../actions/index.js'
 
 import inletOff from '../../../assets/inlet_off.svg'; // with import
 import outletOff from '../../../assets/outlet_off.svg'; // with import
 
-import { LocationProvider, Match, MatchFirst, Link } from 'react-location'
  
+function mapStateToProps(state)
+{
+    return {
+        activePatchCable: state.patchCableData.activePatchCable
+    }
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         addPatchCable: patchCable => dispatch(addPatchCable(patchCable))
@@ -47,8 +53,20 @@ class ConnectedIOLet extends Component
 
     handleClick(event)
     {
-        var newPatchCable = this.createPatchCable(event);
-        this.props.addPatchCable(newPatchCable);
+        if (this.props.activePatchCable.id == -1)
+            this.props.addPatchCable(this.createPatchCable(event));
+        else
+        {
+            this.props.newConnection({
+                id: this.props.parentId,
+                ioletIndex: this.props.ioletIndex
+            })
+
+            console.log(this.props.activePatchCable.id);
+            console.log(this.props.parentId);
+            
+            
+        }
     }
     
     render()
@@ -62,7 +80,7 @@ class ConnectedIOLet extends Component
 }
 
 const IOLet = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(ConnectedIOLet);
 export default IOLet;

@@ -24,11 +24,10 @@ configs[OBJECT_TYPES.INVALID] =
 configs[OBJECT_TYPES.METRO] =
 {
     type: OBJECT_TYPES.METRO,
-    numInlets: 0,
-    numOutlets: 0,
+    numInlets: 1,
+    numOutlets: 1,
     dsp: false
 };
-
 
 // DAC
 configs[OBJECT_TYPES.DAC] =
@@ -47,74 +46,6 @@ configs[OBJECT_TYPES.SINE] =
     numOutlets: 1,
     dsp: true
 };
-
-
-class QuaxObjectBase {
-    constructor() {
-        this.type = -1;
-        this.receivers = [];
-        this.numInlets = -1;
-        this.numOutlets = -1;
-        this.dsp = -1
-        this.attributes = {};
-    }
-
-    sendData()
-    {
-
-    }
-
-    receiveData(data)
-    {
-
-    }
-
-    toProps() {
-        return {
-            type: this.type,
-            numInlets: this.numInlets,
-            numOutlets: this.numOutlets,
-            dsp: this.dsp
-        }
-    }
-}
-
-class Metro extends QuaxObjectBase {
-    static attributeNames = {
-        active: 'active',
-        rate: 'rate'
-    }
-
-    constructor() {
-        super()
-        this.type = OBJECT_TYPES.METRO;
-        this.numInlets = 1;
-        this.numOutlets = 1;
-        this.dsp = false;
-
-        this.attributes[active] = false;
-        this.attributes[rate] = 0;
-    }
-
-    sendData()
-    {
-        if (this.attributes[active] = true)
-        {
-            for (let i = 0; i < listeners.length(); i++)
-            {
-                setInterval(listeners[i].receiveData(1));
-                console.log('sending data...');
-                
-            }
-        }
-    }
-
-    receiveData(data)
-    {
-
-    }
-
-}
 
 
 export const OBJECT_CONFIGS = configs;
