@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addObject, removePatchCable } from '../actions/index.js';
+import { addObject, removePatchCable } from '../actions/actions.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
 import { Metro } from '../QuaxObjects/Metro.js'

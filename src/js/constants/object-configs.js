@@ -26,6 +26,8 @@ configs[OBJECT_TYPES.BUTTON] =
     type: OBJECT_TYPES.BUTTON,
     numInlets: 1,
     numOutlets: 1,
+    receivers: [],
+    attributes: {},
     dsp: false
 };
 
@@ -36,6 +38,10 @@ configs[OBJECT_TYPES.METRO] =
     numInlets: 1,
     numOutlets: 1,
     receivers: [],
+    attributes: {
+        active: 1,
+        rate: 1000
+    },
     dsp: false
 };
 

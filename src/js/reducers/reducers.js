@@ -4,7 +4,8 @@ import
     OBJECT_TYPE_CHANGED,
     ADD_PATCH_CABLE,
     REMOVE_PATCH_CABLE,
-    NEW_CONNECTION
+    NEW_CONNECTION,
+    SEND_OBJECT_DATA
 } from "../constants/action-types.js";
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 
@@ -93,13 +94,16 @@ function rootReducer(state = initialState, action) {
     }
 
     if (action.type === NEW_CONNECTION)
-    {                
+    {          
+              
         var outObject = { ...state.objects[payload.outObject.id] };
         console.log(outObject);
         outObject.receivers.push({
             objectId: payload.inObject.id,
-            ioletIndex: payload.inObject.ioletIndex
+            inletIndex: payload.inObject.ioletIndex,
+            outletIndex: payload.outObject.ioletIndex
         });
+
         console.log(outObject);
 
         var updatedCable = {...state.patchCableData.patchCables[state.patchCableData.activePatchCable.id]};
@@ -126,6 +130,14 @@ function rootReducer(state = initialState, action) {
         }
     }
 
+    if (action.type === SEND_OBJECT_DATA)
+    {          
+        console.log('recieved', payload.value, 'from outlet', payload.outletIndex, 'of', payload.objectId);
+        console.log('object', payload.objectId, 'outlet', payload.outletIndex, 'is connected to', state.objects[payload.objectId].receivers);
+        
+    }
+
     return state;
 }
+
 export default rootReducer;

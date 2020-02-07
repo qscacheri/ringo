@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addPatchCable, newConnection } from '../actions/index.js'
+import { addPatchCable, newConnection } from '../actions/actions.js'
 import inletOff from '../../../assets/inlet_off.svg'; // with import
 import outletOff from '../../../assets/outlet_off.svg'; // with import
 
@@ -16,7 +16,6 @@ function mapDispatchToProps(dispatch) {
     return {
         addPatchCable: patchCable => dispatch(addPatchCable(patchCable)),
         newConnection: patchCable => dispatch(newConnection(patchCable))
-
     };
 }
 

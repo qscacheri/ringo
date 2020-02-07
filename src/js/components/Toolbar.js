@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addObject, exportState} from '../actions/index.js';
+import { addObject, exportState} from '../actions/actions.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
 import '../../css/Toolbar.css';

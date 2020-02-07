@@ -1,14 +1,30 @@
 import { OBJECT_TYPES } from './object-types'
 OBJECT_CALLBACKS = {};
+/* 
+each outlet send function takes 3 parameters:
+    -which outlet to send data out of,
+    -what data to send
+    -who needs to receive the data
 
-OBJECT_CALLBACKS[OBJECT_TYPES.METRO].SEND = function(data)
-{
-    
+when a receiver gets it's data, it decides what to do with
+that data based on which inlet it was received on, and possibly 
+what type of data it received
+*/
+var OBJECT_CALLBACKS = {};
+
+OBJECT_CALLBACKS[OBJECT_TYPES.BUTTON] = {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        return 'BANG'
+    }
 }
 
-OBJECT_CALLBACKS[OBJECT_TYPES.PRINT].RECIEVE = function(inlet, data)
-{
-    console.log(data);
+OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
+    RECEIVE_DATA: function (inlet, data, objectState) {
+        // completes necessary actions and returns a modified version of itself to update state,
+        console.log(data); 
+        return objectState;
+    }
 }
 
-export const OBJECT_CALLBACKS;                         
+
+export default OBJECT_CALLBACKS;                         
