@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addPatchCable, newConnection } from '../actions/index.js'
-
 import inletOff from '../../../assets/inlet_off.svg'; // with import
 import outletOff from '../../../assets/outlet_off.svg'; // with import
 
@@ -42,6 +41,9 @@ class ConnectedIOLet extends Component
         var boundingRect = this.myRef.current.getBoundingClientRect();
         return {
             id: new Date().getTime(),
+            objectId: parseInt(this.props.parentId),
+            ioletIndex: this.props.ioletIndex,
+            neededConnectionType: !this.props.connectionType,
             pos1: {
                 x: boundingRect.x + (boundingRect.width / 2),
                 y: boundingRect.y + (boundingRect.height / 2)
@@ -57,12 +59,37 @@ class ConnectedIOLet extends Component
     {
         if (this.props.activePatchCable.id == -1)
             this.props.addPatchCable(this.createPatchCable(event));
-        else
+        else if (this.props.activePatchCable.neededConnectionType == this.props.connectionType)
         {
+            var inletId;
+            var outletId;
+            
+            if (this.props.connectionType == IOLetType.In)
+            {                
+                outletId = this.props.activePatchCable.objectId;
+                inletId = parseInt(this.props.parentId);
+            }
+
+            else
+            {           
+                inletId = this.props.activePatchCable.objectId;
+                outletId = parseInt(this.props.parentId);
+            }            
+
             var boundingRect = this.myRef.current.getBoundingClientRect();
             this.props.newConnection({
-                id: this.props.parentId,
-                ioletIndex: this.props.ioletIndex,
+                inObject: 
+                {
+                    id: inletId, 
+                    ioletIndex: 0
+                },
+
+                outObject:
+                {
+                    id: outletId, 
+                    ioletIndex: this.props.ioletIndex
+                },
+                
                 position: {
                     x: boundingRect.x + (boundingRect.width / 2),
                     y: boundingRect.y + (boundingRect.height / 2),

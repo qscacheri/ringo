@@ -10,12 +10,14 @@ import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 
 const initialState = {
     objects: {},
+    objectsToSendTo: [],
     patchCableData: {
         activePatchCable: 
         {
             id: -1,
             neededConnectionType: -1,
-            objectId: -1
+            objectId: -1,
+            ioletIndex: -1
         },
         patchCables: {}
     }
@@ -37,7 +39,9 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === OBJECT_TYPE_CHANGED)
     {
-
+    
+        console.log(payload);
+        
         var newObject = OBJECT_CONFIGS[payload.newObjectType]; 
         newObject.id = payload.id;
         newObject.position = state.objects[payload.id].position;
@@ -51,14 +55,17 @@ function rootReducer(state = initialState, action) {
     }
 
     if (action.type === ADD_PATCH_CABLE)
-    {
-        var activePatchCable = state.patchCableData.activePatchCable;
-        activePatchCable.id = payload.id;
+    {        
         var newPatchCable = payload;
         return {
             ...state, 
             patchCableData: {
-                activePatchCable: activePatchCable,
+                activePatchCable: {
+                    id: payload.id,
+                    neededConnectionType: payload.neededConnectionType,
+                    objectId: payload.objectId,
+                    ioletIndex: payload.ioletIndex
+                },
                 patchCables: 
                 {
                     ...state.patchCableData.patchCables, [action.payload.id]: newPatchCable
@@ -86,15 +93,23 @@ function rootReducer(state = initialState, action) {
     }
 
     if (action.type === NEW_CONNECTION)
-    {
-        console.log("lskjflskdjflsdkjf");
-        
+    {                
+        var outObject = { ...state.objects[payload.outObject.id] };
+        console.log(outObject);
+        outObject.receivers.push({
+            objectId: payload.inObject.id,
+            ioletIndex: payload.inObject.ioletIndex
+        });
+        console.log(outObject);
+
         var updatedCable = {...state.patchCableData.patchCables[state.patchCableData.activePatchCable.id]};
         console.log(updatedCable);
         updatedCable.pos2 = {
             x: payload.position.x,
             y: payload.position.y
         }
+        console.log(payload);
+        
         
         return {
             ...state, 

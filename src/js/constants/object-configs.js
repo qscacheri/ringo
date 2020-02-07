@@ -20,12 +20,31 @@ configs[OBJECT_TYPES.INVALID] =
     dsp: false
 };
 
+// BUTTON
+configs[OBJECT_TYPES.BUTTON] =
+{
+    type: OBJECT_TYPES.BUTTON,
+    numInlets: 1,
+    numOutlets: 1,
+    dsp: false
+};
+
 // METRO
 configs[OBJECT_TYPES.METRO] =
 {
     type: OBJECT_TYPES.METRO,
     numInlets: 1,
     numOutlets: 1,
+    receivers: [],
+    dsp: false
+};
+
+// SINE
+configs[OBJECT_TYPES.PRINT] =
+{
+    type: OBJECT_TYPES.PRINT,
+    numInlets: 1,
+    numOutlets: 0,
     dsp: false
 };
 

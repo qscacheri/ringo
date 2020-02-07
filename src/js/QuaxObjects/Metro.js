@@ -1,5 +1,6 @@
 
-import './QuaxObjectBase';
+import { QuaxObjectBase } from './QuaxObjectBase';
+import { OBJECT_TYPES } from "../constants/object-types";
 
 class Metro extends QuaxObjectBase {
     static attributeNames = {
@@ -43,3 +44,5 @@ class Metro extends QuaxObjectBase {
     }
 
 }
+
+export { Metro }

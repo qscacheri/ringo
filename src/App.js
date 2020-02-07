@@ -99,7 +99,6 @@ class App extends Component {
 
   mouseClicked(e) {
     if (this.state.activePatchCableState.id != -1) {
-      console.log("parent clicked");
 
       this.removePatchCable(this.state.activePatchCableState.id)
       const activePatchCableState = this.state.activePatchCableState;
@@ -110,7 +109,6 @@ class App extends Component {
 
   handleKeyPress(e) {
     if (e.key == 'n' || e.key == 'N')
-      console.log("new object created...");
   }
 
   render() {

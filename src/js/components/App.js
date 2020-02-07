@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { addObject, removePatchCable } from '../actions/index.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
-
+import { Metro } from '../QuaxObjects/Metro.js'
 import QuaxObject from './QuaxObject'
 import '../../css/index.css';
 import PatchCable from "./PatchCable.js";
@@ -23,11 +23,15 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
+function getObjectForType(type)
+{
+    if (type == OBJECT_TYPES.METRO)
+        return new Metro();
+}
 
 class ConnectedApp extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
         this.createQuaxObject = this.createQuaxObject.bind(this);
         this.createPatchCable = this.createPatchCable.bind(this);
@@ -43,7 +47,8 @@ class ConnectedApp extends Component {
                 x: this.state.mousePosition.x,
                 y: this.state.mousePosition.y,
             }
-            this.props.addObject(newObject);            
+            this.props.addObject(newObject);
+            
             return;
         }
     }
@@ -57,38 +62,32 @@ class ConnectedApp extends Component {
         })
     }
 
-    handleClick(e)
-    {
-        if (this.props.patchCableData.activePatchCable.id != -1)
-        {
-            this.props.removePatchCable({id: this.props.patchCableData.activePatchCable.id})
+    handleClick(e) {
+        if (this.props.patchCableData.activePatchCable.id != -1) {
+            this.props.removePatchCable({ id: this.props.patchCableData.activePatchCable.id })
         }
     }
-    
-    createQuaxObject(k)
-    {
-        return <QuaxObject key={k} id={k} position={this.props.objects[k].position} numInlets={this.props.objects[k].numInlets} numOutlets={this.props.objects[k].numOutlets}></QuaxObject>
+
+    createQuaxObject(k) {        
+        return <QuaxObject key={k} id={k} type={this.props.objects[k].type} position={this.props.objects[k].position} numInlets={this.props.objects[k].numInlets} numOutlets={this.props.objects[k].numOutlets}></QuaxObject>
     }
 
-    createPatchCable(key)
-    {
+    createPatchCable(key) {
         var currentPatchCable = this.props.patchCableData.patchCables[key];
-        if (key == this.props.patchCableData.activePatchCable.id)
-        {
-            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{x: this.state.mousePosition.x, y: this.state.mousePosition.y}}></PatchCable>
+        if (key == this.props.patchCableData.activePatchCable.id) {
+            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{ x: this.state.mousePosition.x, y: this.state.mousePosition.y }}></PatchCable>
         }
         return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={currentPatchCable.pos2}></PatchCable>
     }
 
 
     render() {
-
         return (
             <div className="App" tabIndex="0" onClick={this.handleClick.bind(this)} onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
-                    <Toolbar></Toolbar>,
+                <Toolbar></Toolbar>,
                     {Object.keys(this.props.objects).map(this.createQuaxObject)}
-                    {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
-                
+                {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
+
             </div>)
     }
 }

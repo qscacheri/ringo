@@ -1,4 +1,4 @@
-import { OBJECT_TYPES } from './object-types.js'
+import { OBJECT_TYPES } from "../constants/object-types";
 
 class QuaxObjectBase {
     constructor() {
@@ -30,4 +30,4 @@ class QuaxObjectBase {
     }
 }
 
-export default QuaxObjectBase;
+export { QuaxObjectBase }

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addObject } from '../actions/index.js';
+import { addObject, exportState} from '../actions/index.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
 import '../../css/Toolbar.css';
  
 function mapDispatchToProps(dispatch) {
     return {
-        addObject: object => dispatch(addObject(object))
+        addObject: object => dispatch(addObject(object)),
+        exportState: object => dispatch(exportState(object))
     };
 }
 
@@ -26,10 +27,16 @@ class ConnectedToolbar extends React.Component {
         this.props.addObject(newObject);
     }
 
+    handleSave(e)
+    {
+
+    }
+
     render() {
         return (
             <div className="Toolbar">
                 <button onClick={this.handleClick.bind(this)}>new object</button>
+                <button onClick={this.handleSave.bind(this)}>save</button>
             </div>
         )
     }

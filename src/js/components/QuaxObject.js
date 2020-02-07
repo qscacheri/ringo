@@ -4,7 +4,7 @@ import Draggable from 'react-draggable'; // The default
 import '../../css/QuaxObject.css';
 import IOLet from "./IOLet";
 import { IOLetType } from './IOLet'
-import { OBJECT_TYPES } from "../constants/object-types";
+import { OBJECT_TYPES } from "../constants/object-types.js";
 import {objectTypeChanged} from '../actions/index'
 
 function mapStateToProps(state) {
@@ -25,6 +25,12 @@ class ConnectedQuaxObject extends Component {
         this.state = {
             textValue: ''
         }     
+        // console.log("CONSTRUCTED");
+        // setInterval(function(){
+        //     console.log('sending data...');
+        // }, 1000);
+
+        
     }
 
     handleChange(e)
@@ -45,12 +51,12 @@ class ConnectedQuaxObject extends Component {
         {
             if (OBJECT_TYPES[type]===newObjectType)
             {
-                this.props.objectTypeChanged({id: this.props.id, newObjectType: newObjectType});
+                this.props.objectTypeChanged({id: parseInt(this.props.id), newObjectType: newObjectType});
                 return;
             }
         }
 
-        this.props.objectTypeChanged({id: this.props.id, newObjectType: OBJECT_TYPES.INVALID});
+        this.props.objectTypeChanged({id: parseInt(this.props.id), newObjectType: OBJECT_TYPES.INVALID});
         
     }
 
@@ -67,9 +73,15 @@ class ConnectedQuaxObject extends Component {
             outlets.push(<IOLet key={this.props.id + ":" + IOLetType.Out + "" + i} ioletIndex={i} parentId={this.props.id} connectionType={IOLetType.Out}></IOLet>)
         }
         
+        var className;
+        if (this.props.type == OBJECT_TYPES.BUTTON)
+            className = 'QuaxButton'
+        else
+            className = 'QuaxObject'
+
         return (
             <Draggable enableUserSelectHack={false} defaultPosition={{x: this.props.position.x, y: this.props.position.y}}>
-                <div className="QuaxObject" onClick={this.handleClick.bind(this)}>
+                <div className={className} onClick={this.handleClick.bind(this)}>
                     <div className="Inlets">
                         {inlets}
                     </div>

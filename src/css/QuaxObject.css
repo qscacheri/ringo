@@ -46,3 +46,16 @@ input
     flex-direction: row;
     justify-content: left;
 }
+
+/* Button */
+.QuaxButton{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    grid-template-rows: 1fr, 1fr, 1fr;
+    width: 10%;
+    height: 10%;
+    cursor: initial;
+    margin: 0px;
+    padding: 0px;
+}
