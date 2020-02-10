@@ -114,6 +114,7 @@ function rootReducer(state = initialState, action) {
             y: payload.position.y
         }
         return {
+            
             ...state, 
             objects:
             {

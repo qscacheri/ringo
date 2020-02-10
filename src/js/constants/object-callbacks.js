@@ -30,10 +30,16 @@ OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
 
 OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        console.log(attributes);
+        
         return attributes.storedData;
     },
 
     RECEIVE_DATA: function (inlet, data, objectState) {
+        if (data === 'BANG!')  
+        {
+            // do nothing
+        }      
         return objectState;
     }
 }

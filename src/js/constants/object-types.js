@@ -4,6 +4,7 @@ export const OBJECT_TYPES =
     INVALID: 'INVALID',
     BUTTON: 'BUTTON',
     NUMBER: 'NUMBER',
+    RANDOM: 'RANDOM',
     METRO: 'METRO',
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',

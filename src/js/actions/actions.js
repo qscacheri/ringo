@@ -50,18 +50,32 @@ export function sendObjectData(payload) {
     {
         // we've been notified an object has data to send
         // now we need to calculate that object's data based on the type of object, and it's attributes
+        var state = getState();
         var objects = {...getState().objects }
         var current = objects[payload.objectId];
-        // var dataToSend = OBJECT_CALLBACKS[object.type].GET_DATA_FOR_OUTLET(object.type, payload.outletIndex, object.attributes);
         var queue = new Queue();
         var visited = {};
         queue.enqueue(current);
-        var currentParent;
-        var isRoot = true;
         while (queue.isEmpty() == false)
         {
+
+
             current = queue.dequeue();
-            var children = getState().objects[current.id].children;
+            var children = state.objects[current.id].children;
+            // RIGHT NOW HANDLE ONE PARENT 
+            // TODO - HANDLE MULTIPLE PARENTS
+
+            var parents = state.objects[current.id].parents;            
+            var parent;
+            if (parents.length > 0)
+            {
+                parent = state.objects[parents[0].objectId];
+                var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
+                OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                
+            }
+            
+
+
             for (var i = 0; i < current.children.length; i++)
             {
                 var hasVisited = children[i].objectId in visited;
@@ -72,9 +86,7 @@ export function sendObjectData(payload) {
                 }
             }
 
-        }
-        console.log(visited);
-        
+        }        
         return;
     }
 };

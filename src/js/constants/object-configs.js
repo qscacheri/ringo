@@ -44,6 +44,22 @@ configs[OBJECT_TYPES.NUMBER] =
     dsp: false
 };
 
+// RANDOM
+configs[OBJECT_TYPES.RANDOM] =
+{
+    type: OBJECT_TYPES.RANDOM,
+    numInlets: 3,
+    numOutlets: 1,
+    parents: [],
+    children: [],
+    attributes: {
+        storedData: 0,
+        min: 0,
+        max: 10
+    },
+    dsp: false
+};
+
 
 // METRO
 configs[OBJECT_TYPES.METRO] =
