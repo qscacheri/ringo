@@ -31,6 +31,18 @@ configs[OBJECT_TYPES.BUTTON] =
     dsp: false
 };
 
+// NUMBER
+configs[OBJECT_TYPES.NUMBER] =
+{
+    type: OBJECT_TYPES.NUMBER,
+    numInlets: 1,
+    numOutlets: 1,
+    receivers: [],
+    attributes: {storedData: 25},
+    dsp: false
+};
+
+
 // METRO
 configs[OBJECT_TYPES.METRO] =
 {
@@ -51,6 +63,7 @@ configs[OBJECT_TYPES.PRINT] =
     type: OBJECT_TYPES.PRINT,
     numInlets: 1,
     numOutlets: 0,
+    receivers: [],
     dsp: false
 };
 

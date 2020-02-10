@@ -12,12 +12,14 @@ what type of data it received
 */
 var OBJECT_CALLBACKS = {};
 
+// BUTTON
 OBJECT_CALLBACKS[OBJECT_TYPES.BUTTON] = {
     GET_DATA_FOR_OUTLET: function (outlet, attributes) {
         return 'BANG'
     }
 }
 
+// PRINT
 OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
     RECEIVE_DATA: function (inlet, data, objectState) {
         // completes necessary actions and returns a modified version of itself to update state,
@@ -25,6 +27,17 @@ OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
         return objectState;
     }
 }
+
+OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        return attributes.storedData;
+    },
+
+    RECEIVE_DATA: function (inlet, data, objectState) {
+        return objectState;
+    }
+}
+
 
 
 export default OBJECT_CALLBACKS;                         

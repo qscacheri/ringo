@@ -5,7 +5,7 @@ class Queue {
 
     enqueue(newItem) 
     {
-        this.items.push(newItem);
+        this.items.push({...newItem});
     }
 
     dequeue()
