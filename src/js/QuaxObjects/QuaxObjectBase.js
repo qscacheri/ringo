@@ -3,7 +3,7 @@ import { OBJECT_TYPES } from "../constants/object-types";
 class QuaxObjectBase {
     constructor() {
         this.type = -1;
-        this.receivers = [];
+        this.children = [];
         this.numInlets = -1;
         this.numOutlets = -1;
         this.dsp = -1

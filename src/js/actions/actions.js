@@ -56,20 +56,22 @@ export function sendObjectData(payload) {
         var queue = new Queue();
         var visited = {};
         queue.enqueue(current);
-        console.log(current);
+        var currentParent;
+        var isRoot = true;
         while (queue.isEmpty() == false)
         {
             current = queue.dequeue();
-            var receivers = getState().objects[current.id].receivers;
-            for (var i = 0; i < current.receivers.length; i++)
+            var children = getState().objects[current.id].children;
+            for (var i = 0; i < current.children.length; i++)
             {
-                var hasVisited = receivers[i].objectId in visited;
+                var hasVisited = children[i].objectId in visited;
                 if (!hasVisited)
                 {
-                    visited[receivers[i].objectId] = true;
-                    queue.enqueue(getState().objects[receivers[i].objectId]);
+                    visited[children[i].objectId] = true;
+                    queue.enqueue(getState().objects[children[i].objectId]);
                 }
             }
+
         }
         console.log(visited);
         

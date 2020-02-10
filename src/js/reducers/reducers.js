@@ -40,9 +40,7 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === OBJECT_TYPE_CHANGED)
     {
-    
-        console.log(payload);
-        
+            
         var newObject = OBJECT_CONFIGS[payload.newObjectType]; 
         newObject.id = payload.id;
         newObject.position = state.objects[payload.id].position;
@@ -97,26 +95,31 @@ function rootReducer(state = initialState, action) {
     {          
               
         var outObject = { ...state.objects[payload.outObject.id] };
-        console.log(outObject);
-        outObject.receivers.push({
+        outObject.children.push({
             objectId: payload.inObject.id,
             inletIndex: payload.inObject.ioletIndex,
             outletIndex: payload.outObject.ioletIndex
         });
 
-        console.log(outObject);
+        var inObject = { ...state.objects[payload.inObject.id] };
+        inObject.parents.push({
+            objectId: payload.outObject.id,
+            inletIndex: payload.inObject.ioletIndex,
+            outletIndex: payload.outObject.ioletIndex
+        });
 
         var updatedCable = {...state.patchCableData.patchCables[state.patchCableData.activePatchCable.id]};
-        console.log(updatedCable);
         updatedCable.pos2 = {
             x: payload.position.x,
             y: payload.position.y
         }
-        console.log(payload);
-        
-        
         return {
             ...state, 
+            objects:
+            {
+                ...state.objects, [payload.outObject.id] : outObject, [payload.inObject.id] : inObject
+            },
+
             patchCableData: {
                 activePatchCable: {
                     id: -1,
@@ -133,7 +136,7 @@ function rootReducer(state = initialState, action) {
     if (action.type === SEND_OBJECT_DATA)
     {          
         console.log('recieved', payload.value, 'from outlet', payload.outletIndex, 'of', payload.objectId);
-        console.log('object', payload.objectId, 'outlet', payload.outletIndex, 'is connected to', state.objects[payload.objectId].receivers);
+        console.log('object', payload.objectId, 'outlet', payload.outletIndex, 'is connected to', state.objects[payload.objectId].children);
         
     }
 

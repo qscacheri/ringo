@@ -26,7 +26,8 @@ configs[OBJECT_TYPES.BUTTON] =
     type: OBJECT_TYPES.BUTTON,
     numInlets: 1,
     numOutlets: 1,
-    receivers: [],
+    parents: [],
+    children: [],
     attributes: {},
     dsp: false
 };
@@ -37,7 +38,8 @@ configs[OBJECT_TYPES.NUMBER] =
     type: OBJECT_TYPES.NUMBER,
     numInlets: 1,
     numOutlets: 1,
-    receivers: [],
+    parents: [],
+    children: [],
     attributes: {storedData: 25},
     dsp: false
 };
@@ -49,7 +51,8 @@ configs[OBJECT_TYPES.METRO] =
     type: OBJECT_TYPES.METRO,
     numInlets: 1,
     numOutlets: 1,
-    receivers: [],
+    parents: [],
+    children: [],
     attributes: {
         active: 1,
         rate: 1000
@@ -63,7 +66,8 @@ configs[OBJECT_TYPES.PRINT] =
     type: OBJECT_TYPES.PRINT,
     numInlets: 1,
     numOutlets: 0,
-    receivers: [],
+    parents: [],
+    children: [],
     dsp: false
 };
 

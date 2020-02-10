@@ -23,9 +23,9 @@ class Metro extends QuaxObjectBase {
     {
         if (this.attributes[Metro.active] = true)
         {
-            for (let i = 0; i < this.receivers.length(); i++)
+            for (let i = 0; i < this.children.length(); i++)
             {
-                setInterval(this.receivers[i].receiveData(1));
+                setInterval(this.children[i].receiveData(1));
                 console.log('sending data...');
                 
             }
