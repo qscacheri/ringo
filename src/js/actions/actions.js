@@ -41,10 +41,6 @@ export function exportState(payload) {
     return { type: EXPORT_STATE, payload }
 };
 
-// export function sendObjectData(payload) {
-//     return { type: SEND_OBJECT_DATA, payload }
-// };
-
 export function sendObjectData(payload) {
     return function(dispatch, getState)
     {
@@ -58,7 +54,6 @@ export function sendObjectData(payload) {
         queue.enqueue(current);
         while (queue.isEmpty() == false)
         {
-
 
             current = queue.dequeue();
             var children = state.objects[current.id].children;
@@ -74,8 +69,6 @@ export function sendObjectData(payload) {
                 OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                
             }
             
-
-
             for (var i = 0; i < current.children.length; i++)
             {
                 var hasVisited = children[i].objectId in visited;

@@ -10,6 +10,7 @@ import
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
 
 const initialState = {
+    selectedObject: -1,
     objects: {},
     objectsToSendTo: [],
     patchCableData: {

@@ -28,6 +28,7 @@ OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
     }
 }
 
+// NUMBER
 OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     GET_DATA_FOR_OUTLET: function (outlet, attributes) {
         console.log(attributes);
@@ -44,6 +45,33 @@ OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     }
 }
 
+// RANDOM
+OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) 
+    {
+        return Math.random() * (attributes.max + attributes.min) + attributes.min;
+    },
 
+    RECEIVE_DATA: function (inlet, data, objectState) 
+    {
+        var newObject = { ...objectState };
+
+        switch (inlet)
+        {
+            case 0: 
+                // do nothing
+                break;
+            case 1:
+                newObject.attributes.min = data;
+                break;
+            case 2: 
+                newObject.attributes.max = data;
+                break;
+            default:
+                break;
+        }
+        return newObject;
+    }
+}
 
 export default OBJECT_CALLBACKS;                         
