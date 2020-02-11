@@ -3,10 +3,12 @@ import {
     ADD_PATCH_CABLE, 
     SEND_OBJECT_DATA, 
     REMOVE_PATCH_CABLE, 
-    OBJECT_TYPE_CHANGED, 
+    UPDATE_OBJECT, 
     NEW_CONNECTION, 
     OBJECT_DRAGGED, 
-    EXPORT_STATE 
+    EXPORT_STATE, 
+    SELECT_NEW_OBJECT,
+    DELETE_OBJECT
 } from "../constants/action-types.js";
 
 import Queue from '../utils/Queue'
@@ -25,8 +27,8 @@ export function removePatchCable(payload) {
     return { type: REMOVE_PATCH_CABLE, payload }
 };
 
-export function objectTypeChanged(payload) {
-    return { type: OBJECT_TYPE_CHANGED, payload }
+export function updateObject(payload) {
+    return { type: UPDATE_OBJECT, payload }
 };
 
 export function newConnection(payload) {
@@ -84,6 +86,15 @@ export function sendObjectData(payload) {
     }
 };
 
+export function selectNewObject(payload)
+{
+    return {type: SELECT_NEW_OBJECT, payload}
+}
+
+export function deleteObject(payload)
+{
+    return {type: DELETE_OBJECT, payload}
+}
 
 export function testThunk()
 {

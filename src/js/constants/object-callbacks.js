@@ -15,24 +15,35 @@ var OBJECT_CALLBACKS = {};
 // BUTTON
 OBJECT_CALLBACKS[OBJECT_TYPES.BUTTON] = {
     GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+
         return 'BANG'
+
+    }, 
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes)
+    {        
+        return object;
     }
+
 }
 
 // PRINT
 OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
     RECEIVE_DATA: function (inlet, data, objectState) {
         // completes necessary actions and returns a modified version of itself to update state,
-        console.log(data); 
+        console.log(data);
         return objectState;
+    },
+   
+    ASSIGN_ATTRIBUTES: function (object, newAttributes)
+    {        
+        return object;
     }
 }
 
 // NUMBER
 OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     GET_DATA_FOR_OUTLET: function (outlet, attributes) {
-        console.log(attributes);
-        
         return attributes.storedData;
     },
 
@@ -42,6 +53,12 @@ OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
             // do nothing
         }      
         return objectState;
+    },
+    
+    ASSIGN_ATTRIBUTES: function (object, newAttributes)
+    {        
+        object.attributes.storedData = newAttributes[0];
+        return object;
     }
 }
 
@@ -55,7 +72,6 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
     RECEIVE_DATA: function (inlet, data, objectState) 
     {
         var newObject = { ...objectState };
-
         switch (inlet)
         {
             case 0: 
@@ -74,4 +90,4 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
     }
 }
 
-export default OBJECT_CALLBACKS;                         
+export default OBJECT_CALLBACKS;       

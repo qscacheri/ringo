@@ -1,13 +1,16 @@
 import 
 {
     ADD_OBJECT,
-    OBJECT_TYPE_CHANGED,
+    UPDATE_OBJECT,
     ADD_PATCH_CABLE,
     REMOVE_PATCH_CABLE,
     NEW_CONNECTION,
-    SEND_OBJECT_DATA
+    SEND_OBJECT_DATA,
+    SELECT_NEW_OBJECT,
+    DELETE_OBJECT
 } from "../constants/action-types.js";
 import { OBJECT_CONFIGS } from "../constants/object-configs.js";
+import OBJECT_CALLBACKS from "../constants/object-callbacks.js";
 
 const initialState = {
     selectedObject: -1,
@@ -23,7 +26,6 @@ const initialState = {
         },
         patchCables: {}
     }
-
 };
 
 function rootReducer(state = initialState, action) {   
@@ -39,17 +41,40 @@ function rootReducer(state = initialState, action) {
         }
     }
 
-    if (action.type === OBJECT_TYPE_CHANGED)
+    if (action.type === UPDATE_OBJECT)
     {
-            
-        var newObject = OBJECT_CONFIGS[payload.newObjectType]; 
-        newObject.id = payload.id;
-        newObject.position = state.objects[payload.id].position;
+        console.log(payload);
         
-        return {
-            ...state, 
-            objects: {
-                ...state.objects, [action.payload.id]: newObject
+        var oldType = state.objects[payload.id].type;
+        var parsedText = payload.objectText.split(" ");
+        var newType = parsedText[0].toUpperCase();
+        var attributes = parsedText;
+        attributes.splice(0, 1);
+        
+        if (oldType != newType)
+        {
+            var newObject = OBJECT_CONFIGS[newType]; 
+            newObject.id = payload.id;
+            newObject.position = state.objects[payload.id].position;
+            newObject = OBJECT_CALLBACKS[newType].ASSIGN_ATTRIBUTES(newObject, attributes);
+            console.log(newObject);
+            
+            return {
+                ...state, 
+                objects: {
+                    ...state.objects, [action.payload.id]: newObject
+                }
+            }
+        }
+
+        else
+        {
+            var updatedObject = OBJECT_CALLBACKS[newType].ASSIGN_ATTRIBUTES(state.objects[payload.id], attributes);
+            return {
+                ...state, 
+                objects: {
+                    ...state.objects, [payload.id]: updatedObject
+                }
             }
         }
     }
@@ -94,14 +119,15 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === NEW_CONNECTION)
     {          
-              
+        console.log("outlet object id: ", payload.outObject.id);   
         var outObject = { ...state.objects[payload.outObject.id] };
         outObject.children.push({
             objectId: payload.inObject.id,
             inletIndex: payload.inObject.ioletIndex,
             outletIndex: payload.outObject.ioletIndex
         });
-
+        console.log(outObject);
+        
         var inObject = { ...state.objects[payload.inObject.id] };
         inObject.parents.push({
             objectId: payload.outObject.id,
@@ -140,6 +166,26 @@ function rootReducer(state = initialState, action) {
         console.log('recieved', payload.value, 'from outlet', payload.outletIndex, 'of', payload.objectId);
         console.log('object', payload.objectId, 'outlet', payload.outletIndex, 'is connected to', state.objects[payload.objectId].children);
         
+    }
+
+    if (action.type === SELECT_NEW_OBJECT)
+    {          
+        return {
+            ...state,
+            selectedObject: payload.id
+        }
+    }
+
+    if (action.type === DELETE_OBJECT)
+    {       
+        if (state.selectedObject == -1) return state;
+        
+        var newObjects = {...state.objects};
+        delete newObjects[state.selectedObject];
+        return {
+            ...state,
+            objects: newObjects
+        }
     }
 
     return state;

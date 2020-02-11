@@ -93,12 +93,7 @@ class ConnectedIOLet extends Component
                     x: boundingRect.x + (boundingRect.width / 2),
                     y: boundingRect.y + (boundingRect.height / 2),
                 }
-            })
-
-            console.log(this.props.activePatchCable.id);
-            console.log(this.props.parentId);
-            
-            
+            })            
         }
     }
     

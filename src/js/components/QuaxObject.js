@@ -38,7 +38,6 @@ class ConnectedQuaxObject extends Component {
 
     handleDrag(e, data)
     {
-        console.log(data);
         this.setState({isDrag: true})
     }
 
@@ -48,7 +47,6 @@ class ConnectedQuaxObject extends Component {
         {
             console.log("Clicked on object with id:", this.props.id);
             this.setState({inputDisabled: false});
-            console.log(this.ref);
             this.ref.current.focus();
         }
         

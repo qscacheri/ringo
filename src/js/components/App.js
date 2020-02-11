@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addObject, removePatchCable } from '../actions/actions.js';
+import { addObject, removePatchCable, deleteObject } from '../actions/actions.js';
 import { OBJECT_TYPES } from '../constants/object-types';
 import { OBJECT_CONFIGS } from '../constants/object-configs';
 import { Metro } from '../QuaxObjects/Metro.js'
@@ -12,14 +12,15 @@ import Toolbar from './Toolbar.js'
 function mapStateToProps(state) {
     return {
         objects: state.objects,
-        patchCableData: state.patchCableData
+        patchCableData: state.patchCableData,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         addObject: object => dispatch(addObject(object)),
-        removePatchCable: patchCable => dispatch(removePatchCable(patchCable))
+        removePatchCable: patchCable => dispatch(removePatchCable(patchCable)),
+        deleteObject: function(objectId) { dispatch(deleteObject(objectId) )}
     };
 }
 
@@ -50,6 +51,11 @@ class ConnectedApp extends Component {
             this.props.addObject(newObject);
             
             return;
+        }
+
+        if (event.keyCode == 8)
+        {
+            this.props.deleteObject({});
         }
     }
 
