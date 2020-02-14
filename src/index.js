@@ -5,6 +5,8 @@ import index from "./js/index.js";
 import store from "./js/store/index";
 import App from "./js/components/App";
 
+/* eslint-disable */
+
 function handleChange()
 {
   // console.log(store.getState());

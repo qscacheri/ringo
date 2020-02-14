@@ -52,7 +52,7 @@ class ConnectedApp extends Component {
             
             return;
         }
-
+        // DELETE OBJECT
         if (event.keyCode == 8)
         {
             this.props.deleteObject({});

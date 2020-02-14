@@ -5,7 +5,7 @@ import '../../css/QuaxObject.css';
 import IOLet from "./IOLet";
 import { IOLetType } from './IOLet'
 import { OBJECT_TYPES } from "../constants/object-types.js";
-import { updateObject as updateObject, sendObjectData, selectNewObject } from '../actions/actions'
+import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 
 function mapStateToProps(state) {
     return {

@@ -29,10 +29,10 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {   
-    const payload = action.payload;
+    let payload = {...action.payload};
  
     if (action.type === ADD_OBJECT) {    
-         
+        
         return {
             ...state, 
             objects: {
@@ -57,7 +57,6 @@ function rootReducer(state = initialState, action) {
             newObject.id = payload.id;
             newObject.position = state.objects[payload.id].position;
             newObject = OBJECT_CALLBACKS[newType].ASSIGN_ATTRIBUTES(newObject, attributes);
-            console.log(newObject);
             
             return {
                 ...state, 
@@ -118,22 +117,27 @@ function rootReducer(state = initialState, action) {
     }
 
     if (action.type === NEW_CONNECTION)
-    {          
-        console.log("outlet object id: ", payload.outObject.id);   
-        var outObject = { ...state.objects[payload.outObject.id] };
-        outObject.children.push({
+    {  
+        // debugger;        
+        // console.log("outlet object id: ", payload.outObject.id);   
+        // console.log("inlet object id: ", payload.inObject.id);   
+
+        console.log(state);
+
+        // debugger;
+        let outObjectChild = 
+        {
             objectId: payload.inObject.id,
             inletIndex: payload.inObject.ioletIndex,
             outletIndex: payload.outObject.ioletIndex
-        });
-        console.log(outObject);
-        
-        var inObject = { ...state.objects[payload.inObject.id] };
-        inObject.parents.push({
+        };
+                
+        let inObjectParent = 
+        {
             objectId: payload.outObject.id,
             inletIndex: payload.inObject.ioletIndex,
             outletIndex: payload.outObject.ioletIndex
-        });
+        };
 
         var updatedCable = {...state.patchCableData.patchCables[state.patchCableData.activePatchCable.id]};
         updatedCable.pos2 = {
@@ -145,9 +149,20 @@ function rootReducer(state = initialState, action) {
             ...state, 
             objects:
             {
-                ...state.objects, [payload.outObject.id] : outObject, [payload.inObject.id] : inObject
-            },
+                ...state.objects, 
+                [payload.outObject.id]: 
+                {
+                    ...state.objects[payload.outObject.id], 
+                    children: [...state.objects[payload.outObject.id], outObjectChild]
+                },
 
+                [payload.inObject.id]: 
+                {
+                    ...state.objects[payload.inObject.id], 
+                    parents: [...state.objects[payload.inObject.id], inObjectParent]
+                },
+            },
+            // , [payload.outObject.id] : outObject, [payload.inObject.id] : inObject  
             patchCableData: {
                 activePatchCable: {
                     id: -1,
