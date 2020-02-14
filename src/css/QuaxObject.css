@@ -1,5 +1,5 @@
 
-form
+.QuaxObject > form
 {
     display: flex;
     margin: 0px;
@@ -10,7 +10,7 @@ form
 
 }
 
-input
+.QuaxObject > form > input
 {
     cursor: initial;
     border-style: none;

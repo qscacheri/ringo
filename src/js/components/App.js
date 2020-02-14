@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addObject, removePatchCable, deleteObject } from '../actions/actions.js';

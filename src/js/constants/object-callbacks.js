@@ -87,7 +87,19 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
                 break;
         }
         return newObject;
+    },
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes)
+    {   
+        if (typeof(newAttributes[0]) != "undefined")
+            object.attributes.min = parseFloat(newAttributes[0]);
+        
+        if (typeof(newAttributes[1]) != "undefined")
+            object.attributes.max = parseFloat(newAttributes[1]);
+
+        return object;
     }
+
 }
 
 export default OBJECT_CALLBACKS;       

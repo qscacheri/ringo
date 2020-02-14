@@ -1,3 +1,7 @@
+var fileDownload = require('js-file-download');
+console.log(fileDownload);
+
+
 import {
     ADD_OBJECT, 
     ADD_PATCH_CABLE, 
@@ -40,7 +44,11 @@ export function objectDragged(payload) {
 };
 
 export function exportState(payload) {
-    return { type: EXPORT_STATE, payload }
+    return function(dispatch, getState)
+    {
+        fileDownload(JSON.stringify(getState()), 'filename.quax');
+        
+    }
 };
 
 export function sendObjectData(payload) {

@@ -162,7 +162,6 @@ function rootReducer(state = initialState, action) {
                     parents: [...state.objects[payload.inObject.id], inObjectParent]
                 },
             },
-            // , [payload.outObject.id] : outObject, [payload.inObject.id] : inObject  
             patchCableData: {
                 activePatchCable: {
                     id: -1,

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "file-system": "^2.2.2",
+    "js-file-download": "^0.4.9",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-draggable": "^4.2.0",

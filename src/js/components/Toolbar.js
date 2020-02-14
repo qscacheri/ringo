@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addObject, exportState} from '../actions/actions.js';
@@ -29,14 +31,19 @@ class ConnectedToolbar extends React.Component {
 
     handleSave(e)
     {
-
+        this.props.exportState();
     }
 
     render() {
         return (
             <div className="Toolbar">
+                <form>
+                    Patch Name:<input type="text"></input>
+                </form>
                 <button onClick={this.handleClick.bind(this)}>new object</button>
-                <button onClick={this.handleSave.bind(this)}>save</button>
+                <button onClick = { () => this.props.exportState() }>save</button>
+                <button onClick = { () => this.props.exportState() }>load</button>
+
             </div>
         )
     }
