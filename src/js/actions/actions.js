@@ -5,12 +5,10 @@ console.log(fileDownload);
 import {
     ADD_OBJECT, 
     ADD_PATCH_CABLE, 
-    SEND_OBJECT_DATA, 
     REMOVE_PATCH_CABLE, 
     UPDATE_OBJECT, 
     NEW_CONNECTION, 
     OBJECT_DRAGGED, 
-    EXPORT_STATE, 
     SELECT_NEW_OBJECT,
     DELETE_OBJECT
 } from "../constants/action-types.js";
@@ -74,9 +72,14 @@ export function sendObjectData(payload) {
             var parent;
             if (parents.length > 0)
             {
-                parent = state.objects[parents[0].objectId];
-                var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
-                OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                
+                for (let i = 0; i < parents.length; i++)
+                {
+                    console.log(i);
+                    
+                    parent = state.objects[parents[i].objectId];
+                    var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
+                    OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                    
+                }
             }
             
             for (var i = 0; i < current.children.length; i++)

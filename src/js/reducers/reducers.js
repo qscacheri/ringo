@@ -153,13 +153,13 @@ function rootReducer(state = initialState, action) {
                 [payload.outObject.id]: 
                 {
                     ...state.objects[payload.outObject.id], 
-                    children: [...state.objects[payload.outObject.id], outObjectChild]
+                    children: [...state.objects[payload.outObject.id].children, outObjectChild]
                 },
 
                 [payload.inObject.id]: 
                 {
                     ...state.objects[payload.inObject.id], 
-                    parents: [...state.objects[payload.inObject.id], inObjectParent]
+                    parents: [...state.objects[payload.inObject.id].parents, inObjectParent]
                 },
             },
             patchCableData: {

@@ -8,6 +8,8 @@ import IOLet from "./IOLet";
 import { IOLetType } from './IOLet'
 import { OBJECT_TYPES } from "../constants/object-types.js";
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
+var p5 = require('p5')
+import P5Canvas from './P5Canvas'
 
 function mapStateToProps(state) {
     return {
@@ -31,7 +33,7 @@ class ConnectedQuaxObject extends Component {
             isDrag: false, 
             textValue: '',
             inputDisabled: true
-        }
+        }        
     }
 
     handleChange(e) {

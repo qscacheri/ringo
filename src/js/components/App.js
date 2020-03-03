@@ -10,6 +10,7 @@ import QuaxObject from './QuaxObject'
 import '../../css/index.css';
 import PatchCable from "./PatchCable.js";
 import Toolbar from './Toolbar.js'
+import P5Canvas from "./P5Canvas.js";
 
 function mapStateToProps(state) {
     return {
@@ -95,7 +96,7 @@ class ConnectedApp extends Component {
                 <Toolbar></Toolbar>,
                     {Object.keys(this.props.objects).map(this.createQuaxObject)}
                 {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
-
+                <P5Canvas></P5Canvas>
             </div>)
     }
 }
