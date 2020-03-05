@@ -5,10 +5,9 @@ import { connect } from "react-redux";
 import { addPatchCable, newConnection } from '../actions/actions.js'
 import inletOff from '../../../assets/inlet_off.svg'; // with import
 import outletOff from '../../../assets/outlet_off.svg'; // with import
+import '../../css/IOLet.css';
 
- 
-function mapStateToProps(state)
-{
+function mapStateToProps(state) {
     return {
         activePatchCable: state.patchCableData.activePatchCable
     }
@@ -27,18 +26,15 @@ export const IOLetType =
     Out: 1
 }
 
-class ConnectedIOLet extends Component
-{
-    constructor(props)
-    {
+class ConnectedIOLet extends Component {
+    constructor(props) {
         super(props);
         this.createPatchCable = this.createPatchCable.bind(this);
 
         this.myRef = React.createRef();
     }
 
-    createPatchCable(e)
-    {
+    createPatchCable(e) {
         var boundingRect = this.myRef.current.getBoundingClientRect();
         return {
             id: new Date().getTime(),
@@ -56,56 +52,54 @@ class ConnectedIOLet extends Component
         }
     }
 
-    handleClick(event)
-    {
+    handleClick(event) {
         if (this.props.activePatchCable.id == -1)
             this.props.addPatchCable(this.createPatchCable(event));
-        else if (this.props.activePatchCable.neededConnectionType == this.props.connectionType)
-        {
+        else if (this.props.activePatchCable.neededConnectionType == this.props.connectionType) {
             var inletId;
             var outletId;
-            
-            if (this.props.connectionType == IOLetType.In)
-            {                
+
+            if (this.props.connectionType == IOLetType.In) {
                 outletId = this.props.activePatchCable.objectId;
                 inletId = parseInt(this.props.parentId);
             }
 
-            else
-            {           
+            else {
                 inletId = this.props.activePatchCable.objectId;
                 outletId = parseInt(this.props.parentId);
-            }            
+            }
 
             var boundingRect = this.myRef.current.getBoundingClientRect();
             this.props.newConnection({
-                inObject: 
+                inObject:
                 {
-                    id: inletId, 
+                    id: inletId,
                     ioletIndex: 0
                 },
 
                 outObject:
                 {
-                    id: outletId, 
+                    id: outletId,
                     ioletIndex: this.props.ioletIndex
                 },
-                
+
                 position: {
                     x: boundingRect.x + (boundingRect.width / 2),
                     y: boundingRect.y + (boundingRect.height / 2),
                 }
-            })            
+            })
         }
     }
-    
-    render()
-    {
+
+    render() {
         const sourceImage = this.props.connectionType == IOLetType.In ? inletOff : outletOff
         return (
-                <img ref={this.myRef} onClick={this.handleClick.bind(this)} src={sourceImage} style={{ width: "10%", margin: "0px" }}></img>
+            <svg className="IOLet" >
+                <circle ref={this.myRef} onClick={this.handleClick.bind(this)} cx="50%" cy="50%" r="15%" stroke="aqua" />
+            </svg>
+            // <img ref={this.myRef} onClick={this.handleClick.bind(this)} src={sourceImage} style={{ width: "10%", margin: "0px" }}></img>
         );
- 
+
     }
 }
 
