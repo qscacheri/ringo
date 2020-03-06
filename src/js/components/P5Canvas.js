@@ -1,34 +1,43 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, useState } from "react";
 import Draggable from 'react-draggable'; // The default
+import '../../css/P5Canvas.css';
 import '../../css/QuaxObject.css';
 import Sketch from "react-p5";
+import IOLetStrip from './IOLetStrip.js'
+import { IOLetType } from './IOLet.js'
 
-import QuaxObject from './QuaxObject'
+function P5Canvas(props) {
 
-class P5Canvas extends React.Component {
-  constructor(props) {
-    super(props)
-    this.setup = (p5, canvasParentRef) => {
-      p5.createCanvas(500, 500).parent(canvasParentRef); // use parent to render canvas in this ref (without that p5 render this canvas outside your component)
-    };
-    this.draw = p5 => {
-      p5.background(0);
-      p5.ellipse(40, 40, 70, 70);
-      // NOTE: Do not use setState in draw function or in functions that is executed in draw function... pls use normal variables or class properties for this purposes
-      this.x++;
-    };
+  const [shapes, setShapes] = useState([])
+  const [position, setPosition] = useState({ x: 0, y: 100 })
 
-  }
-  render() {
-    return (
-      <Draggable>
-        <div>
-          <Sketch setup={this.setup} draw={this.draw} />
+  let setup = (p5, canvasParentRef) => {
+    console.log(canvasParentRef.getBoundingClientRect());
+    let rect = canvasParentRef.getBoundingClientRect();
+    p5.createCanvas(rect.width, rect.width).parent(canvasParentRef); // use parent to render canvas in this ref (without that p5 render this canvas outside your component)
+  };
 
+  let draw = p5 => {
+    p5.fill(255, 0, 9);
+    p5.background(255);
+    p5.ellipse(position.x, 40, 70, 70);
+    setPosition({ x: position.x + 1, y: 100 });
+
+  };
+
+  return (
+    <Draggable>
+      <div className="P5Canvas">
+        <IOLetStrip numIOLets={props.numInlets} connectionType={IOLetType.In} />
+        <div className="CanvasContainer">
+          <Sketch setup={setup} draw={draw} />
         </div>
-      </Draggable>)
-  }
+        <IOLetStrip />
+
+      </div>
+    </Draggable>)
+
 }
+
 
 export default P5Canvas;

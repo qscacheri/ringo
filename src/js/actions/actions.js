@@ -74,8 +74,6 @@ export function sendObjectData(payload) {
             {
                 for (let i = 0; i < parents.length; i++)
                 {
-                    console.log(i);
-                    
                     parent = state.objects[parents[i].objectId];
                     var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
                     OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                    

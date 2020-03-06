@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addObject, removePatchCable, deleteObject } from '../actions/actions.js';
 import { OBJECT_TYPES } from '../constants/object-types';
@@ -8,9 +8,10 @@ import { OBJECT_CONFIGS } from '../constants/object-configs';
 import { Metro } from '../QuaxObjects/Metro.js'
 import QuaxObject from './QuaxObject'
 import '../../css/index.css';
-import PatchCable from "./PatchCable.js";
-import Toolbar from './Toolbar.js'
-import P5Canvas from "./P5Canvas.js";
+import PatchCable from "./PatchCable";
+import Toolbar from './Toolbar'
+import P5Canvas from "./P5Canvas";
+import QuaxButton from './QuaxButton'
 
 function mapStateToProps(state) {
     return {
@@ -23,82 +24,81 @@ function mapDispatchToProps(dispatch) {
     return {
         addObject: object => dispatch(addObject(object)),
         removePatchCable: patchCable => dispatch(removePatchCable(patchCable)),
-        deleteObject: function(objectId) { dispatch(deleteObject(objectId) )}
+        deleteObject: function (objectId) { dispatch(deleteObject(objectId)) }
     };
 }
 
-function getObjectForType(type)
-{
+function getObjectForType(type) {
     if (type == OBJECT_TYPES.METRO)
         return new Metro();
 }
 
-class ConnectedApp extends Component {
-
-    constructor(props) {
-        super(props);
-        this.createQuaxObject = this.createQuaxObject.bind(this);
-        this.createPatchCable = this.createPatchCable.bind(this);
-
-    }
-
-    handleKeyDown(event) {
+function ConnectedApp(props)
+{
+    const [mousePosition, setMousePosition] = useState({x: 0, y: 0});
+    
+    
+    function handleKeyDown(e) {
+        
         // CREATE NEW OBJECT
-        if (event.key == 'n' || event.key == 'N') {
+        if (e.key == 'n' || e.key == 'N') {
+            
             var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
             newObject.id = new Date().getTime();
             newObject.position = {
-                x: this.state.mousePosition.x,
-                y: this.state.mousePosition.y,
+                x: mousePosition.x,
+                y: mousePosition.y,
             }
-            this.props.addObject(newObject);
-            
+            props.addObject(newObject);
+
             return;
         }
         // DELETE OBJECT
-        if (event.keyCode == 8)
-        {
-            this.props.deleteObject({});
+        if (e.keyCode == 8) {
+            props.deleteObject({});
         }
     }
 
-    handleMouseMove(event) {
-        this.setState({
-            mousePosition: {
-                x: event.pageX,
-                y: event.pageY
-            }
-        })
+    function handleMouseMove(e) {
+        setMousePosition({
+                x: e.pageX,
+                y: e.pageY
+            })
     }
 
-    handleClick(e) {
-        if (this.props.patchCableData.activePatchCable.id != -1) {
-            this.props.removePatchCable({ id: this.props.patchCableData.activePatchCable.id })
+    function handleClick(e) {
+        if (props.patchCableData.activePatchCable.id != -1) {
+            props.removePatchCable({ id: props.patchCableData.activePatchCable.id })
         }
     }
 
-    createQuaxObject(k) {        
-        return <QuaxObject key={k} id={k} type={this.props.objects[k].type} position={this.props.objects[k].position} numInlets={this.props.objects[k].numInlets} numOutlets={this.props.objects[k].numOutlets}></QuaxObject>
+    function createQuaxObject(k) {
+        let type = props.objects[k].type;
+        switch (type) {
+            case (OBJECT_TYPES.BUTTON):
+                return <QuaxButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+            case (OBJECT_TYPES.CANVAS):
+                return <P5Canvas key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+            default:
+                return <QuaxObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+
+        }
     }
 
-    createPatchCable(key) {
-        var currentPatchCable = this.props.patchCableData.patchCables[key];
-        if (key == this.props.patchCableData.activePatchCable.id) {
-            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{ x: this.state.mousePosition.x, y: this.state.mousePosition.y }}></PatchCable>
+    function createPatchCable(key) {
+        var currentPatchCable = props.patchCableData.patchCables[key];
+        if (key == props.patchCableData.activePatchCable.id) {
+            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{ x: mousePosition.x, y: mousePosition.y }}></PatchCable>
         }
         return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={currentPatchCable.pos2}></PatchCable>
     }
 
-
-    render() {
-        return (
-            <div className="App" tabIndex="0" onClick={this.handleClick.bind(this)} onMouseMove={this.handleMouseMove.bind(this)} onKeyDown={this.handleKeyDown.bind(this)}>
-                <Toolbar></Toolbar>,
-                    {Object.keys(this.props.objects).map(this.createQuaxObject)}
-                {Object.keys(this.props.patchCableData.patchCables).map(this.createPatchCable)}
-                <P5Canvas></P5Canvas>
-            </div>)
-    }
+    return (
+        <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+            <Toolbar />,
+                {Object.keys(props.objects).map(createQuaxObject)}
+            {Object.keys(props.patchCableData.patchCables).map(createPatchCable)}
+        </div>)
 }
 
 const App = connect(

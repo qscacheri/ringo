@@ -8,6 +8,13 @@ export const OBJECT_TYPES =
     METRO: 'METRO',
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',
+
+
+    // Tone Objects
     SINE: '~SINE',
-    DAC: '~DAC'
+    GAIN: '~GAIN',
+    DAC: '~DAC',
+
+    // p5
+    CANVAS: 'CANVAS'
 };

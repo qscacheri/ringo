@@ -1,22 +1,10 @@
-/* eslint-disable */
-
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
 import '../../css/QuaxObject.css';
-import IOLet from "./IOLet";
-import { IOLetType } from './IOLet'
-import { OBJECT_TYPES } from "../constants/object-types.js";
+import { IOLetType } from './IOLet.js'
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
-var p5 = require('p5')
-import { Oscillator } from "tone";
-import IOLetStrip from './IOLetStrip'
-
-function mapStateToProps(state) {
-    return {
-        test: "test"
-    };
-}
+import IOLetStrip from './IOLetStrip.js'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -26,68 +14,62 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-class ConnectedQuaxObject extends Component {
-    constructor(props) {
-        super(props);
-        this.ref = React.createRef();
-        this.state = {
-            isDrag: false,
-            textValue: '',
-            inputDisabled: true
-        }
-    }
+function ConnectedQuaxObject(props) {
+    let ref = React.createRef();
+    let dspObject; 
 
-    handleChange(e) {
-        this.setState({ textValue: event.target.value });
-    }
+    const [isDrag, setIsDrag] = useState(false);
+    const [textValue, setTextValue] = useState("");
+    const [inputDisabled, setInputDisabled] = useState(true);
 
-    handleDrag(e, data) {
-        this.setState({ isDrag: true })
+    function handleChange(e) {
+        setTextValue(event.target.value);
     }
 
 
-    handleClick(e) {
-        if (this.state.isDrag == false) {
-            console.log("Clicked on object with id:", this.props.id);
-            this.setState({ inputDisabled: false });
-            this.ref.current.focus();
+    function handleDrag(e, data) {
+        setIsDrag(true);
+    }
+
+
+    function handleClick(e) {
+        if (isDrag == false) {
+            console.log("Clicked on object with id:", props.id);
+            // this.setState({ inputDisabled: false });
+            setInputDisabled(false);
+            // this.ref.current.focus();
+            ref.current.focus();
         }
 
-        this.props.selectNewObject({ id: this.props.id });
-        switch (this.props.type) {
-            case OBJECT_TYPES.BUTTON:
-                this.props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: this.props.id })
-                break;
-            default: break
-        }
+        props.selectNewObject({ id: props.id });
         e.stopPropagation();
-        this.setState({ isDrag: false });
+        setIsDrag(false);
     }
-
-    handleSubmit(e) {
+    
+    function handleSubmit(e)
+    {
         e.preventDefault();
-        var newObjectType = this.state.textValue.toUpperCase();
-        this.props.updateObject({ id: parseInt(this.props.id), objectText: this.state.textValue });
+        // if (textValue.toUpperCase() == OBJECT_TYPES.SINE)
+        //     dspObject = new Oscillator(100, 'square').start().toMaster();
+        // console.log(dspObject);
+        props.updateObject({ id: parseInt(props.id), objectText: textValue });
+
         return;
     }
 
-    render() {
+    return (
+        <Draggable bounds={{ top: 30 }} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+            <div className="QuaxObject" onClick={handleClick}>
+                <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <form onSubmit={handleSubmit}>
+                    <input ref={ref} autoComplete="off" onBlur={disableInput => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
+                </form>
+                <IOLetStrip className='Outlets' id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
+            </div>
+        </Draggable>
+    )
 
 
-        var className = 'QuaxObject'
-
-        return (
-            <Draggable bounds={{ top: 30 }} onDrag={this.handleDrag.bind(this)} enableUserSelectHack={false} defaultPosition={{ x: this.props.position.x, y: this.props.position.y }}>
-                <div className={className} onClick={this.handleClick.bind(this)}>
-                    <IOLetStrip className='Inlets' id={this.props.id} numIOLets={this.props.numInlets} connectionType={IOLetType.In}/>
-                    <form onSubmit={this.handleSubmit.bind(this)}>
-                        <input ref={this.ref} autoComplete="off" onBlur={disableInput => { this.setState({ inputDisabled: true }) }} disabled={this.state.inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={this.state.textValue} type="text" onChange={this.handleChange.bind(this)}></input>
-                    </form>
-                    <IOLetStrip className='Outlets' id={this.props.id} numIOLets={this.props.numOutlets} connectionType={IOLetType.Out}/>
-                </div>
-            </Draggable>    
-        )
-    }
 }
 
 const QuaxObject = connect(

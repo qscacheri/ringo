@@ -87,6 +87,8 @@ configs[OBJECT_TYPES.PRINT] =
     dsp: false
 };
 
+// **************************TONE.JS OBJECTS**************************
+
 // DAC
 configs[OBJECT_TYPES.DAC] =
 {
@@ -102,7 +104,29 @@ configs[OBJECT_TYPES.SINE] =
     type: OBJECT_TYPES.SINE,
     numInlets: 2,
     numOutlets: 1,
+    attributes: {
+        frequency: 440,
+    },
     dsp: true
+};
+
+// GAIN
+configs[OBJECT_TYPES.GAIN] =
+{
+    type: OBJECT_TYPES.SINE,
+    numInlets: 2,
+    numOutlets: 1,
+    
+    dsp: true
+};
+
+// **************************p5 OBJECTS**************************
+configs[OBJECT_TYPES.CANVAS] =
+{
+    type: OBJECT_TYPES.CANVAS,
+    numInlets: 1,
+    numOutlets: 0,
+    dsp: false
 };
 
 

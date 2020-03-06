@@ -48,10 +48,15 @@ OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     },
 
     RECEIVE_DATA: function (inlet, data, objectState) {
-        if (data === 'BANG!')  
+        switch (inlet)
         {
-            // do nothing
-        }      
+            case 0: 
+                break;
+            case 1: 
+                objectState.storedData = data;
+
+        }
+          
         return objectState;
     },
     
@@ -102,4 +107,22 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
 
 }
 
+// Canvas
+OBJECT_CALLBACKS[OBJECT_TYPES.CANVAS] = {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) 
+    {
+        return null;
+    },
+
+    RECEIVE_DATA: function (inlet, data, objectState) 
+    {
+
+    },
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes)
+    {   
+        return object;
+    }
+
+}
 export default OBJECT_CALLBACKS;       
