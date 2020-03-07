@@ -86,7 +86,7 @@ function ConnectedIOLet(props) {
 
     return (
         <svg className="IOLet" >
-            <circle ref={this.myRef} onClick={this.handleClick.bind(this)} cx="50%" cy="50%" r="15%" stroke="aqua" />
+            <circle ref={myRef} onClick={handleClick} cx="50%" cy="50%" r="15%" stroke="aqua" />
         </svg>
         // <img ref={this.myRef} onClick={this.handleClick.bind(this)} src={sourceImage} style={{ width: "10%", margin: "0px" }}></img>
     );
