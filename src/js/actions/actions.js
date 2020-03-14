@@ -10,7 +10,8 @@ import {
     NEW_CONNECTION, 
     OBJECT_DRAGGED, 
     SELECT_NEW_OBJECT,
-    DELETE_OBJECT
+    DELETE_OBJECT,
+    DSP_CREATE_SUCCESS
 } from "../constants/action-types.js";
 
 import Queue from '../utils/Queue'
@@ -39,6 +40,10 @@ export function newConnection(payload) {
 
 export function objectDragged(payload) {
     return { type: OBJECT_DRAGGED, payload }
+};
+
+export function dspCreateSuccess(payload) {
+    return { type: DSP_CREATE_SUCCESS, payload }
 };
 
 export function exportState(payload) {

@@ -1,3 +1,5 @@
+import { Oscillator, Master, Distortion} from 'tone';
+
 import { OBJECT_TYPES } from './object-types'
 OBJECT_CALLBACKS = {};
 /* 
@@ -18,10 +20,9 @@ OBJECT_CALLBACKS[OBJECT_TYPES.BUTTON] = {
 
         return 'BANG'
 
-    }, 
+    },
 
-    ASSIGN_ATTRIBUTES: function (object, newAttributes)
-    {        
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
         return object;
     }
 
@@ -34,9 +35,8 @@ OBJECT_CALLBACKS[OBJECT_TYPES.PRINT] = {
         console.log(data);
         return objectState;
     },
-   
-    ASSIGN_ATTRIBUTES: function (object, newAttributes)
-    {        
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
         return object;
     }
 }
@@ -48,20 +48,18 @@ OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
     },
 
     RECEIVE_DATA: function (inlet, data, objectState) {
-        switch (inlet)
-        {
-            case 0: 
+        switch (inlet) {
+            case 0:
                 break;
-            case 1: 
+            case 1:
                 objectState.storedData = data;
 
         }
-          
+
         return objectState;
     },
-    
-    ASSIGN_ATTRIBUTES: function (object, newAttributes)
-    {        
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
         object.attributes.storedData = newAttributes[0];
         return object;
     }
@@ -69,23 +67,20 @@ OBJECT_CALLBACKS[OBJECT_TYPES.NUMBER] = {
 
 // RANDOM
 OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
-    GET_DATA_FOR_OUTLET: function (outlet, attributes) 
-    {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
         return Math.random() * (attributes.max + attributes.min) + attributes.min;
     },
 
-    RECEIVE_DATA: function (inlet, data, objectState) 
-    {
+    RECEIVE_DATA: function (inlet, data, objectState) {
         var newObject = { ...objectState };
-        switch (inlet)
-        {
-            case 0: 
+        switch (inlet) {
+            case 0:
                 // do nothing
                 break;
             case 1:
                 newObject.attributes.min = data;
                 break;
-            case 2: 
+            case 2:
                 newObject.attributes.max = data;
                 break;
             default:
@@ -94,12 +89,11 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
         return newObject;
     },
 
-    ASSIGN_ATTRIBUTES: function (object, newAttributes)
-    {   
-        if (typeof(newAttributes[0]) != "undefined")
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
+        if (typeof (newAttributes[0]) != "undefined")
             object.attributes.min = parseFloat(newAttributes[0]);
-        
-        if (typeof(newAttributes[1]) != "undefined")
+
+        if (typeof (newAttributes[1]) != "undefined")
             object.attributes.max = parseFloat(newAttributes[1]);
 
         return object;
@@ -109,20 +103,111 @@ OBJECT_CALLBACKS[OBJECT_TYPES.RANDOM] = {
 
 // Canvas
 OBJECT_CALLBACKS[OBJECT_TYPES.CANVAS] = {
-    GET_DATA_FOR_OUTLET: function (outlet, attributes) 
-    {
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
         return null;
     },
 
-    RECEIVE_DATA: function (inlet, data, objectState) 
-    {
+    RECEIVE_DATA: function (inlet, data, objectState) {
 
     },
 
-    ASSIGN_ATTRIBUTES: function (object, newAttributes)
-    {   
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
         return object;
     }
 
 }
+
+// SINE
+OBJECT_CALLBACKS[OBJECT_TYPES.SINE] = {
+    CREATE: function(attributes)
+    {
+        console.log(parseFloat(attributes.frequency));
+        
+        // frequency attribute
+        return new Oscillator(attributes.frequency, 'sine').start();
+    },
+
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        return null;
+    },
+
+    RECEIVE_DATA: function (inlet, data, objectState) {
+        var newObject = { ...objectState };
+        newObject.attributes.freq = parseFloat(data);
+        return newObject;
+    },
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
+
+        console.log(newAttributes);
+        
+        let newFrequency = parseFloat(newAttributes[0]);    
+        console.log(isNaN(newFrequency));
+        
+        if (typeof(newFrequency) !== 'number' || isNaN(newFrequency))
+        {
+            object.attributes.frequency = 440;
+            console.log("invalid attribte");
+        }
+        else
+        {
+            object.attributes.frequency = newFrequency;
+            console.log('new frequency = ', newFrequency);
+            
+        }
+
+            console.log(object);
+            
+        return object;
+    }
+
+    
+}
+
+OBJECT_CALLBACKS[OBJECT_TYPES.DAC] = {
+    CREATE: function()
+    {
+        return;
+    },
+
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        return null;
+    },
+
+    RECEIVE_DATA: function (inlet, data, objectState) {
+        var newObject = { ...objectState };
+        newObject.attributes.freq = parseFloat(data);
+        return newObject;
+    },
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
+
+        // object.attributes.freq = parseFloat(newAttributes[0]);
+        return object;
+    }
+}
+
+OBJECT_CALLBACKS[OBJECT_TYPES.DISTORTION] = {
+    CREATE: function()
+    {
+        return new Distortion(.8);
+    },
+
+    GET_DATA_FOR_OUTLET: function (outlet, attributes) {
+        return null;
+    },
+
+    RECEIVE_DATA: function (inlet, data, objectState) {
+        var newObject = { ...objectState };
+        newObject.attributes.freq = parseFloat(data);
+        return newObject;
+    },
+
+    ASSIGN_ATTRIBUTES: function (object, newAttributes) {
+
+        object.attributes.amount = parseFloat(newAttributes[0]);
+        return object;
+    }
+}
+
 export default OBJECT_CALLBACKS;       

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
-import '../../css/QuaxObject.css';
+import '../../css/Message.css';
 import { IOLetType } from './IOLet.js'
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 import IOLetStrip from './IOLetStrip.js'
@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-function ConnectedQuaxObject(props) {
+function ConnectedMessage(props) {
     let ref = React.createRef();
     let dspObject; 
 
@@ -49,14 +49,17 @@ function ConnectedQuaxObject(props) {
     function handleSubmit(e)
     {
         e.preventDefault();
-        // props.objectTypeChanged({ id: parseInt(props.id), objectText: textValue });
+        // if (textValue.toUpperCase() == OBJECT_TYPES.SINE)
+        //     dspObject = new Oscillator(100, 'square').start().toMaster();
+        // console.log(dspObject);
         props.updateObject({ id: parseInt(props.id), objectText: textValue });
+
         return;
     }
 
     return (
         <Draggable bounds={{ top: 30 }} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
-            <div className="QuaxObject" onClick={handleClick}>
+            <div className="Message" onClick={handleClick}>
                 <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>
                     <input ref={ref} autoComplete="off" onBlur={disableInput => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
@@ -69,7 +72,7 @@ function ConnectedQuaxObject(props) {
 
 }
 
-const QuaxObject = connect(
+const Message = connect(
     null,
-    mapDispatchToProps)(ConnectedQuaxObject);
-export default QuaxObject;
+    mapDispatchToProps)(ConnectedMessage);
+export default Message;

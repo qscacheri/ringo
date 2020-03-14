@@ -1,6 +1,11 @@
 import { OBJECT_TYPES } from './object-types.js'
 
 var configs = {};
+// BASE CONFIG
+let baseConfig = {
+    children: [],
+    parents: []
+}
 
 // EMTPY
 configs[OBJECT_TYPES.EMPTY] =
@@ -76,7 +81,7 @@ configs[OBJECT_TYPES.METRO] =
     dsp: false
 };
 
-// SINE
+// PRINT
 configs[OBJECT_TYPES.PRINT] =
 {
     type: OBJECT_TYPES.PRINT,
@@ -92,6 +97,8 @@ configs[OBJECT_TYPES.PRINT] =
 // DAC
 configs[OBJECT_TYPES.DAC] =
 {
+    ...baseConfig,
+    attributes: {},
     type: OBJECT_TYPES.DAC,
     numInlets: 2,
     numOutlets: 0,
@@ -101,6 +108,7 @@ configs[OBJECT_TYPES.DAC] =
 // SINE
 configs[OBJECT_TYPES.SINE] =
 {
+    ...baseConfig,
     type: OBJECT_TYPES.SINE,
     numInlets: 2,
     numOutlets: 1,
@@ -110,13 +118,27 @@ configs[OBJECT_TYPES.SINE] =
     dsp: true
 };
 
+// DISTORTION
+configs[OBJECT_TYPES.DISTORTION] =
+{
+    ...baseConfig,
+    type: OBJECT_TYPES.DISTORTION,
+    numInlets: 1,
+    numOutlets: 1,
+    attributes: {
+        amount: .8,
+    },
+    dsp: true
+};
+
+
 // GAIN
 configs[OBJECT_TYPES.GAIN] =
 {
-    type: OBJECT_TYPES.SINE,
+    ...baseConfig,
+    type: OBJECT_TYPES.GAIN,
     numInlets: 2,
     numOutlets: 1,
-    
     dsp: true
 };
 

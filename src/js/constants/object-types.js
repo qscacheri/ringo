@@ -13,6 +13,7 @@ export const OBJECT_TYPES =
     // Tone Objects
     SINE: '~SINE',
     GAIN: '~GAIN',
+    DISTORTION: '~DISTORTION',
     DAC: '~DAC',
 
     // p5
