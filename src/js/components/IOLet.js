@@ -4,7 +4,7 @@ import { addPatchCable, newConnection } from '../actions/actions.js'
 import inletOff from '../../../assets/inlet_off.svg'; // with import
 import outletOff from '../../../assets/outlet_off.svg'; // with import
 import '../../css/IOLet.css';
-
+import PatchCableManger from '../../js/utils/PatchCableManager'
 function mapStateToProps(state) {
     return {
         activePatchCable: state.patchCableData.activePatchCable
@@ -20,68 +20,32 @@ function mapDispatchToProps(dispatch) {
 
 export const IOLetType =
 {
-    In: 0,
-    Out: 1
+    In: 'IN',
+    Out: 'OUT'
 }
 
-function ConnectedIOLet(props) {
+function IOLet(props) {
     let myRef = React.createRef();
 
     function createPatchCable(e) {
         var boundingRect = myRef.current.getBoundingClientRect();
-        return {
-            id: new Date().getTime(),
-            objectId: parseInt(props.parentId),
-            ioletIndex: props.ioletIndex,
-            neededConnectionType: !props.connectionType,
-            pos1: {
-                x: boundingRect.x + (boundingRect.width / 2),
-                y: boundingRect.y + (boundingRect.height / 2)
-            },
-            pos2: {
-                x: 0,
-                y: 0
-            }
-        }
     }
 
     function handleClick(event) {
-        if (props.activePatchCable.id == -1)
-            props.addPatchCable(createPatchCable(event));
-        else if (props.activePatchCable.neededConnectionType == props.connectionType) {
-            var inletId;
-            var outletId;
+        var boundingRect = myRef.current.getBoundingClientRect();
 
-            if (props.connectionType == IOLetType.In) {
-                outletId = props.activePatchCable.objectId;
-                inletId = parseInt(props.parentId);
+        const ioletInfo = {
+            objectId: parseInt(props.parentId),
+            ioletIndex: props.ioletIndex,
+            connectionType: props.connectionType,
+            position: {
+                x: boundingRect.x + (boundingRect.width / 2),
+                y: boundingRect.y + (boundingRect.height / 2)
             }
-
-            else {
-                inletId = props.activePatchCable.objectId;
-                outletId = parseInt(props.parentId);
-            }
-
-            var boundingRect = myRef.current.getBoundingClientRect();
-            props.newConnection({
-                inObject:
-                {
-                    id: inletId,
-                    ioletIndex: 0
-                },
-
-                outObject:
-                {
-                    id: outletId,
-                    ioletIndex: props.ioletIndex
-                },
-
-                position: {
-                    x: boundingRect.x + (boundingRect.width / 2),
-                    y: boundingRect.y + (boundingRect.height / 2),
-                }
-            })
         }
+
+        PatchCableManger.handleClick(ioletInfo)
+
     }
 
     return (
@@ -93,8 +57,5 @@ function ConnectedIOLet(props) {
 
 }
 
-const IOLet = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ConnectedIOLet);
+
 export default IOLet;

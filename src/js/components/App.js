@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { addObject, removePatchCable, deleteObject } from '../actions/actions.js';
 import { OBJECT_TYPES } from '../constants/object-types';
@@ -12,45 +12,34 @@ import PatchCable from "./PatchCable";
 import Toolbar from './Toolbar'
 import P5Canvas from "./P5Canvas";
 import QuaxButton from './QuaxButton'
+import ProcessorTree from '../../ProcessorTree'
+import PatchCableManager from '../utils/PatchCableManager'
 
-function mapStateToProps(state) {
-    return {
-        objects: state.objects,
-        patchCableData: state.patchCableData,
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        addObject: object => dispatch(addObject(object)),
-        removePatchCable: patchCable => dispatch(removePatchCable(patchCable)),
-        deleteObject: function (objectId) { dispatch(deleteObject(objectId)) }
-    };
-}
-
-function getObjectForType(type) {
-    if (type == OBJECT_TYPES.METRO)
-        return new Metro();
-}
-
-function ConnectedApp(props)
+function App(props)
 {
     const [mousePosition, setMousePosition] = useState({x: 0, y: 0});
-    
-    
+    const [render, setRender] = useState(true)
+    useEffect(()=>{
+        ProcessorTree.newObjectCallback = () => {
+            console.log('OBJECT ADDED');
+            setRender(!render)
+        }
+    }, [])
+
     function handleKeyDown(e) {
         
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
             
-            var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
-            newObject.id = new Date().getTime();
-            newObject.position = {
-                x: mousePosition.x,
-                y: mousePosition.y,
-            }
-            props.addObject(newObject);
+            // var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
+            // newObject.id = new Date().getTime();
+            // newObject.position = {
+            //     x: mousePosition.x,
+            //     y: mousePosition.y,
+            // }
+            // props.addObject(newObject);
 
+            ProcessorTree.addObject();
             return;
         }
         // DELETE OBJECT
@@ -63,26 +52,61 @@ function ConnectedApp(props)
         setMousePosition({
                 x: e.pageX,
                 y: e.pageY
-            })
+            })        
     }
 
     function handleClick(e) {
-        if (props.patchCableData.activePatchCable.id != -1) {
-            props.removePatchCable({ id: props.patchCableData.activePatchCable.id })
+        // if (props.patchCableData.activePatchCable.id != -1) {
+        //     props.removePatchCable({ id: props.patchCableData.activePatchCable.id })
+        // }
+    }
+
+    const renderQuaxObjects = () => {
+        const objects = []
+        for (let i in ProcessorTree.objects) {
+            objects.push(<QuaxObject 
+                key={i} 
+                id={i} 
+                position={{x: 100, y: 100}} 
+                numInlets={ProcessorTree.objects[i].numInlets}
+                numOutlets={ProcessorTree.objects[i].numOutlets} 
+            />)
         }
+        return objects
+    }
+
+    const renderPatchCables = () => {
+        const patchCables = []
+        for (let i in PatchCableManager.patchCables) {
+            if (i == PatchCableManager.activeCableID)
+                patchCables.push(<PatchCable
+                    key={i}
+                    pos1={PatchCableManager.patchCables[i].pos1} 
+                    pos2={mousePosition} 
+                />)
+            else 
+                patchCables.push(<PatchCable 
+                    key={i}
+                    pos1={PatchCableManager.patchCables[i].pos1} 
+                    pos2={PatchCableManager.patchCables[i].pos2} 
+                />)
+
+        }        
+        return patchCables
     }
 
     function createQuaxObject(k) {
-        let type = props.objects[k].type;
-        switch (type) {
-            case (OBJECT_TYPES.BUTTON):
-                return <QuaxButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
-            case (OBJECT_TYPES.CANVAS):
-                return <P5Canvas key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
-            default:
-                return <QuaxObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+        return null
+        // let type = props.objects[k].type;
+        // switch (type) {
+        //     case (OBJECT_TYPES.BUTTON):
+        //         return <QuaxButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+        //     case (OBJECT_TYPES.CANVAS):
+        //         return <P5Canvas key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+        //     default:
+        //         return <QuaxObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
 
-        }
+        // }
     }
 
     function createPatchCable(key) {
@@ -95,14 +119,13 @@ function ConnectedApp(props)
 
     return (
         <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
-            <Toolbar />,
-                {Object.keys(props.objects).map(createQuaxObject)}
-            {Object.keys(props.patchCableData.patchCables).map(createPatchCable)}
+            <Toolbar />
+            {renderPatchCables()}
+            {renderQuaxObjects()}
+            
+                {/* {Object.keys(props.objects).map(createQuaxObject)}
+            {Object.keys(props.patchCableData.patchCables).map(createPatchCable)} */}
         </div>)
 }
 
-const App = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ConnectedApp);
 export default App;

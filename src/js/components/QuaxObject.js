@@ -5,6 +5,7 @@ import '../../css/QuaxObject.css';
 import { IOLetType } from './IOLet.js'
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 import IOLetStrip from './IOLetStrip.js'
+import ProcessorTree from '../../ProcessorTree'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -52,8 +53,10 @@ function ConnectedQuaxObject(props) {
         // if (textValue.toUpperCase() == OBJECT_TYPES.SINE)
         //     dspObject = new Oscillator(100, 'square').start().toMaster();
         // console.log(dspObject);
-        props.updateObject({ id: parseInt(props.id), objectText: textValue });
-
+        // props.updateObject({ id: parseInt(props.id), objectText: textValue });
+        console.log(textValue);
+        
+        ProcessorTree.updateObject(props.id, textValue)
         return;
     }
 
