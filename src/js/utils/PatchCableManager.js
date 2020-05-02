@@ -1,4 +1,4 @@
-import ProcessorTree from '../../ProcessorTree'
+import ProcessorTree from './ProcessorTree'
 
 class PatchCableManagerClass {
     constructor() {

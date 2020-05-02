@@ -1,16 +1,15 @@
 /* eslint-disable */
 
 import React, { Component, useState} from "react";
-import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
-import '../../css/QuaxButton.css';
-import '../../css/QuaxObject.css';
+import '../../css/RingoButton.css';
+import '../../css/RingoObject.css';
 
 import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
-import ProcessorTree from '../../ProcessorTree' 
+import ProcessorTree from '../utils/ProcessorTree'
 
-function QuaxButton(props) {
+function RingoButton(props) {
     
     const [isDrag, setIsDrag] = useState(0);
     function handleClick(e) {
@@ -24,12 +23,12 @@ function QuaxButton(props) {
     }
 
     return (<Draggable>
-        <div className="QuaxButton">
+        <div className="RingoButton">
             <IOLetStrip id={props.id}
                 numIOLets={props.numInlets}
                 connectionType={IOLetType.In} />
             <svg>
-                <circle className="QuaxButtonCircle" cx="50%" cy="50%" r="20%" onClick={handleClick} stroke="aqua"> </circle>
+                <circle className="RingoButtonCircle" cx="50%" cy="50%" r="20%" onClick={handleClick} stroke="aqua"> </circle>
             </svg>
             <IOLetStrip id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
         </div>
@@ -37,4 +36,4 @@ function QuaxButton(props) {
     )
 }
 
-export default QuaxButton;
+export default RingoButton;

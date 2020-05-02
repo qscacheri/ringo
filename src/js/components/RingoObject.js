@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
-import '../../css/QuaxObject.css';
+import '../../css/RingoObject.css';
 import { IOLetType } from './IOLet.js'
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 import IOLetStrip from './IOLetStrip.js'
-import ProcessorTree from '../../ProcessorTree'
+import ProcessorTree from '../utils/ProcessorTree'
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -15,7 +15,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-function ConnectedQuaxObject(props) {
+function ConnectedRingoObject(props) {
     let ref = React.createRef();
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
@@ -56,7 +56,7 @@ function ConnectedQuaxObject(props) {
 
     return (
         <Draggable bounds={{ top: 30 }} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
-            <div className="QuaxObject" onClick={handleClick}>
+            <div className="RingoObject" onClick={handleClick}>
                 <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>
                     <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
@@ -69,7 +69,7 @@ function ConnectedQuaxObject(props) {
 
 }
 
-const QuaxObject = connect(
+const RingoObject = connect(
     null,
-    mapDispatchToProps)(ConnectedQuaxObject);
-export default QuaxObject;
+    mapDispatchToProps)(ConnectedRingoObject);
+export default RingoObject;

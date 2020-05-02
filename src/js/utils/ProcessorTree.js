@@ -1,7 +1,6 @@
 import * as Tone from 'tone'
-import NewQuaxObject from './js/QuaxObjects/NewQuaxObject'
-import RandomObject from './js/QuaxObjects/RandomObject'
-import createObject from './js/utils/object-creators'
+import NewQuaxObject from '../RingoObjects/NewQuaxObject'
+import createObject from './object-creators'
 
 class ProcessorTreeClass
 {

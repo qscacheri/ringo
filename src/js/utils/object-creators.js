@@ -1,13 +1,13 @@
 import OBJECT_TYPES from '../constants/object-types'
-import RandomObject from '../QuaxObjects/RandomObject'
-import PrintObject from '../QuaxObjects/PrintObject';
-import NewQuaxObject from '../QuaxObjects/NewQuaxObject';
-import OscillatorObject from '../QuaxObjects/OscillatorObject'
-import DacObject from '../QuaxObjects/DacObject'
-import MeterObject from '../QuaxObjects/MeterObject';
-import ButtonObject from '../QuaxObjects/ButtonObject';
-import NumberObject from '../QuaxObjects/NumberObject';
-import MetroObject from '../QuaxObjects/MetroObject';
+import RandomObject from '../RingoObjects/RandomObject'
+import PrintObject from '../RingoObjects/PrintObject';
+import NewQuaxObject from '../RingoObjects/NewQuaxObject';
+import OscillatorObject from '../RingoObjects/OscillatorObject'
+import DacObject from '../RingoObjects/DacObject'
+import MeterObject from '../RingoObjects/MeterObject';
+import ButtonObject from '../RingoObjects/ButtonObject';
+import NumberObject from '../RingoObjects/NumberObject';
+import MetroObject from '../RingoObjects/MetroObject';
 
 const createObject = (processorTree, type) => {
     console.log(type);

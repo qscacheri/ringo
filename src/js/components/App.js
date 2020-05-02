@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import OBJECT_TYPES from '../constants/object-types';
-import QuaxObject from './QuaxObject'
+import RingoObject from './RingoObject'
 import '../../css/index.css';
 import PatchCable from "./PatchCable";
 import Toolbar from './Toolbar'
-import QuaxButton from './QuaxButton'
-import ProcessorTree from '../../ProcessorTree'
+import RingoButton from './RingoButton'
+import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 
 function App(props) {
@@ -55,12 +55,12 @@ function App(props) {
         // }
     }
 
-    const renderQuaxObjects = () => {
+    const renderRingoObjects = () => {
         const objects = []
         for (let i in ProcessorTree.objects) {
             switch (ProcessorTree.objects[i].type) {
                 case OBJECT_TYPES.BUTTON:
-                    objects.push(<QuaxButton
+                    objects.push(<RingoButton
                         key={i}
                         id={i}
                         position={{ x: 100, y: 100 }}
@@ -70,7 +70,7 @@ function App(props) {
                     break;
 
                 default:
-                    objects.push(<QuaxObject
+                    objects.push(<RingoObject
                         key={i}
                         id={i}
                         position={{ x: 100, y: 100 }}
@@ -103,16 +103,16 @@ function App(props) {
         return patchCables
     }
 
-    function createQuaxObject(k) {
+    function createRingoObject(k) {
         return null
         // let type = props.objects[k].type;
         // switch (type) {
         //     case (OBJECT_TYPES.BUTTON):
-        //         return <QuaxButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+        //         return <RingoButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
         //     case (OBJECT_TYPES.CANVAS):
         //         return <P5Canvas key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
         //     default:
-        //         return <QuaxObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
+        //         return <RingoObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
 
         // }
     }
@@ -129,9 +129,9 @@ function App(props) {
         <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <Toolbar />
             {renderPatchCables()}
-            {renderQuaxObjects()}
+            {renderRingoObjects()}
 
-            {/* {Object.keys(props.objects).map(createQuaxObject)}
+            {/* {Object.keys(props.objects).map(createRingoObject)}
             {Object.keys(props.patchCableData.patchCables).map(createPatchCable)} */}
         </div>)
 }

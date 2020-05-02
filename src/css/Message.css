@@ -23,7 +23,7 @@
 
 }
 
-.QuaxObject {
+.Message {
     z-index: 100;
     display: flex;
     position: absolute;
@@ -35,7 +35,7 @@
     padding: 0px;
     border-style: solid;
     border-radius: 10px;
-    border-color: magenta;
+    border-color: purple;
 }
 
 .IOLetStrip
