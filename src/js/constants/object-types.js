@@ -1,4 +1,4 @@
-export const OBJECT_TYPES = 
+const OBJECT_TYPES =
 {
     EMPTY: 'EMPTY',
     INVALID: 'INVALID',
@@ -8,6 +8,17 @@ export const OBJECT_TYPES =
     METRO: 'METRO',
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',
+    SCALE: 'SCALE',
+
+
+    // Tone Objects
     SINE: '~SINE',
-    DAC: '~DAC'
+    GAIN: '~GAIN',
+    DAC: '~DAC',
+    METER: '~METER',
+
+    // p5
+    CANVAS: 'CANVAS'
 };
+
+export default OBJECT_TYPES

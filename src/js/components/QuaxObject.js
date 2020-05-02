@@ -1,109 +1,72 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
 import '../../css/QuaxObject.css';
-import IOLet from "./IOLet";
-import { IOLetType } from './IOLet'
-import { OBJECT_TYPES } from "../constants/object-types.js";
-import { objectTypeChanged, sendObjectData, testThunk } from '../actions/actions'
-
-function mapStateToProps(state) {
-    return {
-        test: "test"
-    };
-}
+import { IOLetType } from './IOLet.js'
+import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
+import IOLetStrip from './IOLetStrip.js'
+import ProcessorTree from '../../ProcessorTree'
 
 function mapDispatchToProps(dispatch) {
     return {
-        objectTypeChanged: newType => dispatch(objectTypeChanged(newType)),
+        updateObject: newType => dispatch(updateObject(newType)),
         sendObjectData: data => dispatch(sendObjectData(data)),
-        testThunk: thunk => dispatch(testThunk())
+        selectNewObject: newObject => dispatch(selectNewObject(newObject))
     };
 }
 
-class ConnectedQuaxObject extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            textValue: '',
-            inputDisabled: false
-        }
+function ConnectedQuaxObject(props) {
+    let ref = React.createRef();
+    const [isDrag, setIsDrag] = useState(false);
+    const [textValue, setTextValue] = useState("");
+    const [inputDisabled, setInputDisabled] = useState(true);
+
+    function handleChange(e) {
+        setTextValue(event.target.value);
     }
 
-    handleChange(e) {
-        this.setState({ textValue: event.target.value });
+
+    function handleDrag(e, data) {
+        setIsDrag(true);
     }
 
-    handleClick(e) {
-        console.log("Clicked on object with id:", this.props.id);
-        
-        switch (this.props.type) {
-            case OBJECT_TYPES.BUTTON:
-                console.log("button clicked, bang sent");
-                this.props.sendObjectData({value: 'BANG', outletIndex: 0, objectId: this.props.id})
-                break;
-            default: break
+
+    function handleClick(e) {
+        if (isDrag == false) {
+            console.log("Clicked on object with id:", props.id);
+            // this.setState({ inputDisabled: false });
+            setInputDisabled(false);
+            // this.ref.current.focus();
+            ref.current.focus();
         }
+
+        props.selectNewObject({ id: props.id });
         e.stopPropagation();
+        setIsDrag(false);
     }
-
-    handleSubmit(e) {
+    
+    function handleSubmit(e)
+    {
         e.preventDefault();
-        var newObjectType = this.state.textValue.toUpperCase();
-        for (var type in OBJECT_TYPES) {
-            if (OBJECT_TYPES[type] === newObjectType) {
-                this.props.objectTypeChanged({ id: parseInt(this.props.id), newObjectType: newObjectType });
-                switch (newObjectType) {
-                    case OBJECT_TYPES.BUTTON:
-                        this.setState({inputDisabled: true, textValue: ""})
-                        break;
-                    default: break
-                }
-                return;
-            }
-        }
-
-        this.props.objectTypeChanged({ id: parseInt(this.props.id), newObjectType: OBJECT_TYPES.INVALID });
-
+        console.log(textValue);
+        
+        ProcessorTree.updateObject(props.id, textValue)
+        return;
     }
 
-    render() {
+    return (
+        <Draggable bounds={{ top: 30 }} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+            <div className="QuaxObject" onClick={handleClick}>
+                <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <form onSubmit={handleSubmit}>
+                    <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
+                </form>
+                <IOLetStrip className='Outlets' id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
+            </div>
+        </Draggable>
+    )
 
 
-        var inlets = [];
-        var outlets = [];
-
-
-        for (let i = 0; i < this.props.numInlets; i++) {
-            inlets.push(<IOLet key={this.props.id + ":" + IOLetType.In + "" + i} ioletIndex={i} parentId={this.props.id} connectionType={IOLetType.In}></IOLet>)
-        }
-
-        for (let i = 0; i < this.props.numOutlets; i++) {
-            outlets.push(<IOLet key={this.props.id + ":" + IOLetType.Out + "" + i} ioletIndex={i} parentId={this.props.id} connectionType={IOLetType.Out}></IOLet>)
-        }
-
-        var className;
-        if (this.props.type == OBJECT_TYPES.BUTTON)
-            className = 'QuaxButton'
-        else
-            className = 'QuaxObject'
-
-        return (
-            <Draggable enableUserSelectHack={false} defaultPosition={{ x: this.props.position.x, y: this.props.position.y }}>
-                <div className={className} onClick={this.handleClick.bind(this)}>
-                    <div className="Inlets">
-                        {inlets}
-                    </div>
-                    <form onSubmit={this.handleSubmit.bind(this)}>
-                        <input disabled={this.state.inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={this.state.textValue} type="text" onChange={this.handleChange.bind(this)}></input>
-                    </form>
-                    <div className="Outlets">
-                        {outlets}
-                    </div>
-                </div>
-            </Draggable>
-        )
-    }
 }
 
 const QuaxObject = connect(

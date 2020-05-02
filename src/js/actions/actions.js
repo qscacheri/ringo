@@ -1,12 +1,16 @@
+var fileDownload = require('js-file-download');
+console.log(fileDownload);
+
+
 import {
     ADD_OBJECT, 
     ADD_PATCH_CABLE, 
-    SEND_OBJECT_DATA, 
     REMOVE_PATCH_CABLE, 
-    OBJECT_TYPE_CHANGED, 
+    UPDATE_OBJECT, 
     NEW_CONNECTION, 
     OBJECT_DRAGGED, 
-    EXPORT_STATE 
+    SELECT_NEW_OBJECT,
+    DELETE_OBJECT
 } from "../constants/action-types.js";
 
 import Queue from '../utils/Queue'
@@ -25,8 +29,8 @@ export function removePatchCable(payload) {
     return { type: REMOVE_PATCH_CABLE, payload }
 };
 
-export function objectTypeChanged(payload) {
-    return { type: OBJECT_TYPE_CHANGED, payload }
+export function updateObject(payload) {
+    return { type: UPDATE_OBJECT, payload }
 };
 
 export function newConnection(payload) {
@@ -38,12 +42,12 @@ export function objectDragged(payload) {
 };
 
 export function exportState(payload) {
-    return { type: EXPORT_STATE, payload }
+    return function(dispatch, getState)
+    {
+        fileDownload(JSON.stringify(getState()), 'filename.quax');
+        
+    }
 };
-
-// export function sendObjectData(payload) {
-//     return { type: SEND_OBJECT_DATA, payload }
-// };
 
 export function sendObjectData(payload) {
     return function(dispatch, getState)
@@ -59,7 +63,6 @@ export function sendObjectData(payload) {
         while (queue.isEmpty() == false)
         {
 
-
             current = queue.dequeue();
             var children = state.objects[current.id].children;
             // RIGHT NOW HANDLE ONE PARENT 
@@ -69,13 +72,14 @@ export function sendObjectData(payload) {
             var parent;
             if (parents.length > 0)
             {
-                parent = state.objects[parents[0].objectId];
-                var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
-                OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                
+                for (let i = 0; i < parents.length; i++)
+                {
+                    parent = state.objects[parents[i].objectId];
+                    var dataToSend = OBJECT_CALLBACKS[parent.type].GET_DATA_FOR_OUTLET(payload.outletIndex, parent.attributes);
+                    OBJECT_CALLBACKS[current.type].RECEIVE_DATA(0, dataToSend, current);                    
+                }
             }
             
-
-
             for (var i = 0; i < current.children.length; i++)
             {
                 var hasVisited = children[i].objectId in visited;
@@ -91,6 +95,15 @@ export function sendObjectData(payload) {
     }
 };
 
+export function selectNewObject(payload)
+{
+    return {type: SELECT_NEW_OBJECT, payload}
+}
+
+export function deleteObject(payload)
+{
+    return {type: DELETE_OBJECT, payload}
+}
 
 export function testThunk()
 {

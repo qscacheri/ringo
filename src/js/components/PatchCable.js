@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 
 
@@ -21,7 +23,7 @@ class PatchCable extends Component {
 
       return (
           <svg style={{position: "absolute", width, height, left, top, pointerEvents: "none"}} className = "PatchCable">
-              <line onClick = {this.handleClick.bind(this)} x1={this.props.pos1.x} y1={this.props.pos1.y} x2={this.props.pos2.x} y2={this.props.pos2.y} style={{display: "inline", strokeWidth, stroke:'rgb(0,0,0)'}}></line>
+              <line onClick = {this.handleClick.bind(this)} x1={this.props.pos1.x} y1={this.props.pos1.y} x2={this.props.pos2.x} y2={this.props.pos2.y} style={{display: "inline", strokeWidth, stroke:"aqua"}}></line>
           </svg>
       );
     }

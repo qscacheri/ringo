@@ -7,7 +7,6 @@ import App from "./js/components/App";
 
 function handleChange()
 {
-  // console.log(store.getState());
   
 }
 
