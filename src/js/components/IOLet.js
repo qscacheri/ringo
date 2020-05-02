@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { addPatchCable, newConnection } from '../actions/actions.js'
-import inletOff from '../../../assets/inlet_off.svg'; // with import
-import outletOff from '../../../assets/outlet_off.svg'; // with import
 import '../../css/IOLet.css';
 import PatchCableManger from '../../js/utils/PatchCableManager'
 function mapStateToProps(state) {
@@ -49,8 +46,8 @@ function IOLet(props) {
     }
 
     return (
-        <svg className="IOLet" >
-            <circle ref={myRef} onClick={handleClick} cx="50%" cy="50%" r="15%" stroke="aqua" />
+        <svg className="IOLet" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" >
+            <circle ref={myRef} onClick={handleClick} cx="50" cy="50" r="40" stroke="white" strokeWidth="10"/>
         </svg>
         // <img ref={this.myRef} onClick={this.handleClick.bind(this)} src={sourceImage} style={{ width: "10%", margin: "0px" }}></img>
     );

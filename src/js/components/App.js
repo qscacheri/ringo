@@ -134,9 +134,11 @@ function App(props) {
 
     return (
         <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+            <div className='WorkSpace'>
+                {renderPatchCables()}
+                {renderRingoObjects()}
+            </div>
             <Toolbar />
-            {renderPatchCables()}
-            {renderRingoObjects()}
 
             {/* {Object.keys(props.objects).map(createRingoObject)}
             {Object.keys(props.patchCableData.patchCables).map(createPatchCable)} */}

@@ -55,7 +55,7 @@ function ConnectedRingoObject(props) {
     }
 
     return (
-        <Draggable bounds={{ top: 30 }} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+        <Draggable bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoObject" onClick={handleClick}>
                 <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>
