@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import RingoObject from './RingoObject'
-import '../../css/index.css';
+import '../../css/App.css';
 import PatchCable from "./PatchCable";
 import Toolbar from './Toolbar'
 import RingoButton from './RingoButton'

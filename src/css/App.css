@@ -1,0 +1,8 @@
+.App,  #root
+{
+    width: 1000vw;
+    height: 1000vh;
+    outline: 0;
+    margin: 0;
+    background: black;
+}

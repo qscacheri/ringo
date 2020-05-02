@@ -22,7 +22,13 @@ class RandomObject extends NewQuaxObject {
     }
 
     sendData(data) {
-        const scaledData = this.scaleValue(data)
+        const scaledData = this.scaleValue(
+            data, 
+            this.attributes.inputMin, 
+            this.attributes.inputMax, 
+            this.attributes.outputMin, 
+            this.attributes.outputMax)
+
         for (let i in this.receivers[0]) {
             this.processor.objects[i].receiveData(this.receivers[0][i], scaledData)
         }        
@@ -49,10 +55,10 @@ class RandomObject extends NewQuaxObject {
     }
 
     updateAttributes(newAttributes) {
-        if (newAttributes[1]) this.attributes.inputMin = newAttributes[1]
-        if (newAttributes[2]) this.attributes.inputMax = newAttributes[2]
-        if (newAttributes[3]) this.attributes.outputMin = newAttributes[3]
-        if (newAttributes[4]) this.attributes.outputMax = newAttributes[4]
+        if (newAttributes[1]) this.attributes.inputMin = parseFloat(newAttributes[1])
+        if (newAttributes[2]) this.attributes.inputMax = parseFloat(newAttributes[2])
+        if (newAttributes[3]) this.attributes.outputMin = parseFloat(newAttributes[3])
+        if (newAttributes[4]) this.attributes.outputMax = parseFloat(newAttributes[4])
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
