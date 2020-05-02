@@ -39,6 +39,10 @@ class ProcessorTreeClass {
         this.objects[id].sendData()
     }
 
+    registerMessageCallback(id, callback) {
+        this.objects[id].callback = callback
+    }
+
     connectObjects(outputObject, inputObject) {
         this.objects[outputObject.id].addReceiver(outputObject.outletIndex, inputObject.inletIndex, inputObject.id)
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoMessage.css';
 import { IOLetType } from './IOLet.js'
@@ -10,6 +10,13 @@ function RingoMessage(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
+
+    useEffect(() => {
+        ProcessorTree.registerMessageCallback(props.id, (newValue) => {
+            console.log('message value changed');
+            setTextValue(newValue)
+        })
+    }, [])
 
     function handleChange(e) {
         setTextValue(event.target.value);

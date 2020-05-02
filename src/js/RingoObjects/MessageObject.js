@@ -11,6 +11,7 @@ class MessageObject extends NewQuaxObject {
         }
         this.type = OBJECT_TYPES.MESSAGE
         this.receivers = this.createReceiverArray(this.numOutlets)
+        this.callback = null
     }
 
     sendData() {        
@@ -29,6 +30,7 @@ class MessageObject extends NewQuaxObject {
                 return;
             case 1: 
                 this.attributes.data = data
+                this.callback(data)
                 return
         }
     }
