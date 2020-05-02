@@ -13,7 +13,7 @@ const OBJECT_TYPES =
     M2F: 'M2F',
     
     // Tone Objects
-    SINE: '~SINE',
+    OSC: '~OSC',
     GAIN: '~GAIN',
     DAC: '~DAC',
     METER: '~METER',

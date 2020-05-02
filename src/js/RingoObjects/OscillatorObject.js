@@ -5,13 +5,13 @@ import { Oscillator, Tone } from 'tone'
 class OscillatorObject extends NewQuaxObject {
     constructor(processor) {
         super(processor)
-        this.numInlets = 2
+        this.numInlets = 3
         this.numOutlets = 1
         this.attributes = {
             frequency: 220,
             type: 'sine'
         }
-        this.type = OBJECT_TYPES.SINE
+        this.type = OBJECT_TYPES.OSC
         this.audioNode = new Oscillator()
         this.audioNode.start()
         this.receivers = this.createReceiverArray(this.numOutlets)
@@ -24,18 +24,17 @@ class OscillatorObject extends NewQuaxObject {
     }
 
     receiveData(inlet, data) {
-        debugger
         switch (inlet) {
             case 0:
                 return;
             case 1: 
                 if (typeof(data) !== 'number') return
-                
                 this.attributes.frequency = data
                 this.audioNode.frequency.value = this.attributes.frequency
                 return
             case 2:
                 this.attributes.type = data
+                this.audioNode.type = this.attributes.type
                 return
         }
     }

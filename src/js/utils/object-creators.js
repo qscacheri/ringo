@@ -25,7 +25,7 @@ const createObject = (processorTree, type) => {
             return new NumberObject(processorTree)
         case OBJECT_TYPES.BUTTON:
             return new ButtonObject(processorTree)
-        case OBJECT_TYPES.SINE:
+        case OBJECT_TYPES.OSC:
             return new OscillatorObject(processorTree)
         case OBJECT_TYPES.DAC:
             return new DacObject(processorTree)
