@@ -11,6 +11,8 @@ import NumberObject from '../RingoObjects/NumberObject';
 import MetroObject from '../RingoObjects/MetroObject';
 import MessageObject from '../RingoObjects/MessageObject'
 import M2FObject from '../RingoObjects/M2FObject'
+import InputObject from '../RingoObjects/InputObject'
+
 const createObject = (processorTree, type) => {
     switch (type) {
         case OBJECT_TYPES.EMPTY:
@@ -27,6 +29,9 @@ const createObject = (processorTree, type) => {
             return new ButtonObject(processorTree)
         case OBJECT_TYPES.OSC:
             return new OscillatorObject(processorTree)
+        case OBJECT_TYPES.INPUT:
+            return new InputObject(processorTree)
+
         case OBJECT_TYPES.DAC:
             return new DacObject(processorTree)
         case OBJECT_TYPES.METER:
