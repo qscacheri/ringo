@@ -9,8 +9,9 @@ const OBJECT_TYPES =
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',
     SCALE: 'SCALE',
-
-
+    MESSAGE: 'MESSAGE',
+    M2F: 'M2F',
+    
     // Tone Objects
     SINE: '~SINE',
     GAIN: '~GAIN',

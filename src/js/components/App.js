@@ -9,6 +9,7 @@ import Toolbar from './Toolbar'
 import RingoButton from './RingoButton'
 import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
+import RingoMessage from "./RingoMessage";
 
 function App(props) {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -18,24 +19,22 @@ function App(props) {
             console.log('OBJECT ADDED');
             setRender(!render)
         }
+        window.tree = ProcessorTree
     }, [])
 
     function handleKeyDown(e) {
 
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-
-            // var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
-            // newObject.id = new Date().getTime();
-            // newObject.position = {
-            //     x: mousePosition.x,
-            //     y: mousePosition.y,
-            // }
-            // props.addObject(newObject);
-
             ProcessorTree.addObject();
             return;
         }
+
+        else if (e.key == 'm' || e.key == 'M') {
+            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE);
+            return;
+        }
+
         // DELETE OBJECT
         if (e.keyCode == 8) {
             props.deleteObject({});
@@ -68,7 +67,15 @@ function App(props) {
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                     />)
                     break;
-
+                case OBJECT_TYPES.MESSAGE:
+                    objects.push(<RingoMessage
+                        key={i}
+                        id={i}
+                        position={{ x: 100, y: 100 }}
+                        numInlets={ProcessorTree.objects[i].numInlets}
+                        numOutlets={ProcessorTree.objects[i].numOutlets}
+                    />)
+                    break;
                 default:
                     objects.push(<RingoObject
                         key={i}

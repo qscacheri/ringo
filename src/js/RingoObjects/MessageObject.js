@@ -1,24 +1,24 @@
 import NewQuaxObject from './NewQuaxObject'
 import OBJECT_TYPES from '../constants/object-types'
 
-class RandomObject extends NewQuaxObject {
+class MessageObject extends NewQuaxObject {
     constructor(processor) {
         super(processor)
-        this.numInlets = 3
+        this.numInlets = 2
         this.numOutlets = 1
         this.attributes = {
-            min: 0,
-            max: 1
+            data: ''
         }
-        this.type = OBJECT_TYPES.RANDOM
-        this.hasDSP = true
+        this.type = OBJECT_TYPES.MESSAGE
         this.receivers = this.createReceiverArray(this.numOutlets)
     }
 
-    sendData() {
+    sendData() {        
+        let sendData = parseFloat(this.attributes.data)
+        if (isNaN(sendData))
+            sendData = this.attributes.data
         for (let i in this.receivers[0]) {
-            const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
-            this.processor.objects[i].receiveData(this.receivers[0][i], randVal)
+            this.processor.objects[i].receiveData(this.receivers[0][i], sendData)
         }        
     }
 
@@ -28,17 +28,13 @@ class RandomObject extends NewQuaxObject {
                 this.sendData(0)
                 return;
             case 1: 
-                this.attributes.min = data
-                return
-            case 2:
-                this.attributes.max = data
+                this.attributes.data = data
                 return
         }
     }
 
     updateAttributes(newAttributes) {
-        if (newAttributes[1]) this.attributes.min = parseFloat(newAttributes[1])
-        if (newAttributes[2]) this.attributes.max = parseFloat(newAttributes[2])
+        
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
@@ -47,4 +43,4 @@ class RandomObject extends NewQuaxObject {
     
 }
 
-export default RandomObject
+export default MessageObject
