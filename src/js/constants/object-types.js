@@ -8,6 +8,7 @@ const OBJECT_TYPES =
     METRO: 'METRO',
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',
+    SCALE: 'SCALE',
 
 
     // Tone Objects

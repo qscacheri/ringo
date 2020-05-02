@@ -7,30 +7,17 @@ import '../../css/QuaxButton.css';
 import '../../css/QuaxObject.css';
 
 import { IOLetType } from './IOLet'
-import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 import IOLetStrip from './IOLetStrip'
+import ProcessorTree from '../../ProcessorTree' 
 
-function mapStateToProps(state) {
-    return {
-        test: "test"
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        updateObject: newType => dispatch(updateObject(newType)),
-        sendObjectData: data => dispatch(sendObjectData(data)),
-        selectNewObject: newObject => dispatch(selectNewObject(newObject))
-    };
-}
-
-function ConnectedQuaxButton(props) {
+function QuaxButton(props) {
     
     const [isDrag, setIsDrag] = useState(0);
     function handleClick(e) {
 
-        props.selectNewObject({ id: props.id });
-        props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: props.id })
+        // props.selectNewObject({ id: props.id });
+        // props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: props.id })
+        ProcessorTree.objects[props.id].sendData()
         e.stopPropagation();
         setIsDrag(false);
 
@@ -50,9 +37,4 @@ function ConnectedQuaxButton(props) {
     )
 }
 
-
-
-const QuaxButton = connect(
-    null,
-    mapDispatchToProps)(ConnectedQuaxButton);
 export default QuaxButton;

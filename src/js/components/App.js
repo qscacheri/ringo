@@ -1,25 +1,19 @@
 /* eslint-disable */
 
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { addObject, removePatchCable, deleteObject } from '../actions/actions.js';
-import { OBJECT_TYPES } from '../constants/object-types';
-import { OBJECT_CONFIGS } from '../constants/object-configs';
-import { Metro } from '../QuaxObjects/Metro.js'
+import OBJECT_TYPES from '../constants/object-types';
 import QuaxObject from './QuaxObject'
 import '../../css/index.css';
 import PatchCable from "./PatchCable";
 import Toolbar from './Toolbar'
-import P5Canvas from "./P5Canvas";
 import QuaxButton from './QuaxButton'
 import ProcessorTree from '../../ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 
-function App(props)
-{
-    const [mousePosition, setMousePosition] = useState({x: 0, y: 0});
+function App(props) {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [render, setRender] = useState(true)
-    useEffect(()=>{
+    useEffect(() => {
         ProcessorTree.newObjectCallback = () => {
             console.log('OBJECT ADDED');
             setRender(!render)
@@ -27,10 +21,10 @@ function App(props)
     }, [])
 
     function handleKeyDown(e) {
-        
+
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-            
+
             // var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
             // newObject.id = new Date().getTime();
             // newObject.position = {
@@ -50,9 +44,9 @@ function App(props)
 
     function handleMouseMove(e) {
         setMousePosition({
-                x: e.pageX,
-                y: e.pageY
-            })        
+            x: e.pageX,
+            y: e.pageY
+        })
     }
 
     function handleClick(e) {
@@ -64,13 +58,27 @@ function App(props)
     const renderQuaxObjects = () => {
         const objects = []
         for (let i in ProcessorTree.objects) {
-            objects.push(<QuaxObject 
-                key={i} 
-                id={i} 
-                position={{x: 100, y: 100}} 
-                numInlets={ProcessorTree.objects[i].numInlets}
-                numOutlets={ProcessorTree.objects[i].numOutlets} 
-            />)
+            switch (ProcessorTree.objects[i].type) {
+                case OBJECT_TYPES.BUTTON:
+                    objects.push(<QuaxButton
+                        key={i}
+                        id={i}
+                        position={{ x: 100, y: 100 }}
+                        numInlets={ProcessorTree.objects[i].numInlets}
+                        numOutlets={ProcessorTree.objects[i].numOutlets}
+                    />)
+                    break;
+
+                default:
+                    objects.push(<QuaxObject
+                        key={i}
+                        id={i}
+                        position={{ x: 100, y: 100 }}
+                        numInlets={ProcessorTree.objects[i].numInlets}
+                        numOutlets={ProcessorTree.objects[i].numOutlets}
+                    />)
+                    break;
+            }
         }
         return objects
     }
@@ -81,17 +89,17 @@ function App(props)
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].pos1} 
-                    pos2={mousePosition} 
+                    pos1={PatchCableManager.patchCables[i].pos1}
+                    pos2={mousePosition}
                 />)
-            else 
-                patchCables.push(<PatchCable 
+            else
+                patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].pos1} 
-                    pos2={PatchCableManager.patchCables[i].pos2} 
+                    pos1={PatchCableManager.patchCables[i].pos1}
+                    pos2={PatchCableManager.patchCables[i].pos2}
                 />)
 
-        }        
+        }
         return patchCables
     }
 
@@ -122,8 +130,8 @@ function App(props)
             <Toolbar />
             {renderPatchCables()}
             {renderQuaxObjects()}
-            
-                {/* {Object.keys(props.objects).map(createQuaxObject)}
+
+            {/* {Object.keys(props.objects).map(createQuaxObject)}
             {Object.keys(props.patchCableData.patchCables).map(createPatchCable)} */}
         </div>)
 }

@@ -8,18 +8,20 @@ class ButtonObject extends NewQuaxObject {
         this.numOutlets = 1
         this.type = OBJECT_TYPES.BUTTON
         this.receivers = this.createReceiverArray(this.numOutlets)
-
     }
 
     sendData() {
-        for (let i in this.receivers) {
-            let currentReceiver = this.processor.objects[i]
-            currentReceiver.receiveData(0, 'BANG')
+        console.log(this.receivers);
+        
+        for (let i in this.receivers[0]) {
+            this.processor.objects[i].receiveData(0, 'BANG')
         }
+        console.log('SENDING BANG');
+        
     }
 
     receiveData(inlet, data) {
-        sendData()
+        this.sendData()
     }
 
     updateAttributes(newAttributes) {

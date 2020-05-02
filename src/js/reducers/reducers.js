@@ -118,13 +118,6 @@ function rootReducer(state = initialState, action) {
 
     if (action.type === NEW_CONNECTION)
     {  
-        // debugger;        
-        // console.log("outlet object id: ", payload.outObject.id);   
-        // console.log("inlet object id: ", payload.inObject.id);   
-
-        console.log(state);
-
-        // debugger;
         let outObjectChild = 
         {
             objectId: payload.inObject.id,

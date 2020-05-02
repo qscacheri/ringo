@@ -9,7 +9,7 @@ class MeterObject extends NewQuaxObject {
         this.numOutlets = 1
         this.type = OBJECT_TYPES.METER
         this.audioNode = new Meter()
-        setInterval(async () => this.sendData(this), 1)
+        setInterval(() => this.sendData(this), 1)
         this.receivers = this.createReceiverArray(this.numOutlets)
         this.hasDSP = true
 

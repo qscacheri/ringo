@@ -17,8 +17,6 @@ function mapDispatchToProps(dispatch) {
 
 function ConnectedQuaxObject(props) {
     let ref = React.createRef();
-    let dspObject; 
-
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
@@ -50,10 +48,6 @@ function ConnectedQuaxObject(props) {
     function handleSubmit(e)
     {
         e.preventDefault();
-        // if (textValue.toUpperCase() == OBJECT_TYPES.SINE)
-        //     dspObject = new Oscillator(100, 'square').start().toMaster();
-        // console.log(dspObject);
-        // props.updateObject({ id: parseInt(props.id), objectText: textValue });
         console.log(textValue);
         
         ProcessorTree.updateObject(props.id, textValue)
@@ -65,7 +59,7 @@ function ConnectedQuaxObject(props) {
             <div className="QuaxObject" onClick={handleClick}>
                 <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>
-                    <input ref={ref} autoComplete="off" onBlur={disableInput => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
+                    <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
                 </form>
                 <IOLetStrip className='Outlets' id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
             </div>

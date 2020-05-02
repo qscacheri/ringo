@@ -14,15 +14,15 @@ class NewQuaxObject {
 
     }
 
-    addReceiver(receiverID) {
-        this.receivers.push({receiverID, inlet: 0})
+    addReceiver(outletIndex, inletIndex, inputID) {
+        this.receivers[outletIndex][inputID] = inletIndex
     }
 
     sendData() {
 
     }
 
-    receiveData(data) {
+    receiveData(inlet, data) {
         
     }
 

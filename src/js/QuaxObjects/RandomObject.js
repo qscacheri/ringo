@@ -18,10 +18,10 @@ class RandomObject extends NewQuaxObject {
     }
 
     sendData() {
-        this.receivers.forEach(receiver => {
-            console.log(this.receivers);
-            
-        });
+        for (let i in this.receivers[0]) {
+            const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
+            this.processor.objects[i].receiveData(this.receivers[0][i], randVal)
+        }        
     }
 
     receiveData(inlet, data) {
@@ -39,16 +39,11 @@ class RandomObject extends NewQuaxObject {
     }
 
     updateAttributes(newAttributes) {
-        console.log('UPDATING ATTRIBUTES');
-        
-        if (newAttributes[1]) this.attributes.min = newAttributes[1]
-        if (newAttributes[2]) this.attributes.max = newAttributes[2]
+        if (newAttributes[1]) this.attributes.min = parseFloat(newAttributes[1])
+        if (newAttributes[2]) this.attributes.max = parseFloat(newAttributes[2])
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
-        debugger
-        console.log(this.receivers);
-        
         this.receivers[outletIndex][inputID] = inletIndex
     }
     

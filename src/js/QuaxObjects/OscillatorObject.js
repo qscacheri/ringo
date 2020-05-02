@@ -16,30 +16,31 @@ class OscillatorObject extends NewQuaxObject {
         this.audioNode.start()
         this.receivers = this.createReceiverArray(this.numOutlets)
     }
-
-    sendData() {
+    
+    sendData(data) {
         this.receivers.forEach(receiver => {
-            console.log(this.receivers);
+            
         });
     }
 
     receiveData(inlet, data) {
+        debugger
         switch (inlet) {
             case 0:
-                this.sendData(0)
                 return;
             case 1: 
-                this.attributes.min = data
+                if (typeof(data) !== 'number') return
+                
+                this.attributes.frequency = data
+                this.audioNode.frequency.value = this.attributes.frequency
                 return
             case 2:
-                this.attributes.max = data
+                this.attributes.type = data
                 return
         }
     }
 
-    updateAttributes(newAttributes) {
-        if (newAttributes.name) console.log('OBJECT MODE');
-                
+    updateAttributes(newAttributes) {                
         if (newAttributes[1]) {
             this.attributes.frequency = parseFloat(newAttributes[1])
             this.audioNode.frequency.value = this.attributes.frequency
@@ -55,13 +56,10 @@ class OscillatorObject extends NewQuaxObject {
         this.receivers[outletIndex][inputID] = inletIndex
         const receiverObject = this.processor.objects[inputID]
         console.log(this.processor.objects);
-        debugger
         if (receiverObject.hasDSP) {
             this.audioNode.connect(receiverObject.audioNode)
         }
         this.audioNode.start()
-        console.log(this.audioNode, 'connected to ', receiverObject.audioNode);
-        
     }
 }
 
