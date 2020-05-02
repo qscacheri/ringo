@@ -37,13 +37,14 @@ class ConnectedToolbar extends React.Component {
     render() {
         return (
             <div className="Toolbar">
-                <form>
+                <h1>Ringo</h1>
+                {/* <form>
                     Patch Name:<input type="text"></input>
                 </form>
                 <button onClick={this.handleClick.bind(this)}>new object</button>
                 <button onClick = { () => this.props.exportState() }>save</button>
                 <button onClick = { () => this.props.exportState() }>load</button>
-
+ */}
             </div>
         )
     }

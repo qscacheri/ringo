@@ -1,4 +1,4 @@
-import { OBJECT_TYPES } from './object-types'
+import OBJECT_TYPES from './object-types'
 OBJECT_CALLBACKS = {};
 /* 
 each outlet send function takes 3 parameters:

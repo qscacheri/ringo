@@ -3,10 +3,11 @@ class NewQuaxObject {
         this.processor = processor
         this.numInlets = 1
         this.numOutlets = 1
-        this.receivers = {}
+        this.receivers = []
         this.attributes = {}
         this.position = {x: 0, y: 0}
         this.type = 'EMPTY'
+        this.hasDSP = false
     }
 
     updateAttributes(attributeName, value) {
@@ -14,7 +15,7 @@ class NewQuaxObject {
     }
 
     addReceiver(receiverID) {
-        // this.receivers[receiverID]
+        this.receivers.push({receiverID, inlet: 0})
     }
 
     sendData() {
@@ -22,7 +23,13 @@ class NewQuaxObject {
     }
 
     receiveData(data) {
+        
+    }
 
+    createReceiverArray(numOutlets) {
+        const array = new Array(numOutlets)
+        for (let i = 0; i < numOutlets; i++) array[i] = {}
+        return array
     }
 }
 

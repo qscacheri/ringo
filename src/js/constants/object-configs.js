@@ -1,4 +1,4 @@
-import { OBJECT_TYPES } from './object-types.js'
+import OBJECT_TYPES from './object-types.js'
 
 var configs = {};
 

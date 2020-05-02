@@ -1,6 +1,7 @@
 import * as Tone from 'tone'
 import NewQuaxObject from './js/QuaxObjects/NewQuaxObject'
 import RandomObject from './js/QuaxObjects/RandomObject'
+import createObject from './js/utils/object-creators'
 
 class ProcessorTreeClass
 {
@@ -19,10 +20,6 @@ class ProcessorTreeClass
         if (this.newObjectCallback) this.newObjectCallback()
     }
 
-    connectObject(outputObjectID, inputObjectID) {
-
-    }
-
     updateObject(id, objectText) {
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
@@ -30,11 +27,16 @@ class ProcessorTreeClass
         console.log(this.objects[id].type);
         
         if (type != this.objects[id].type) {
-            this.objects[id] = new RandomObject(this)
+            this.objects[id] = createObject(this, type)
         }
 
         this.objects[id].updateAttributes(splitText)                
     }
+
+    connectObjects(outputObject, inputObject) {
+        this.objects[outputObject.id].addReceiver(outputObject.outletIndex, inputObject.inletIndex, inputObject.id)        
+    }
+
 }
 
 const ProcessorTree = new ProcessorTreeClass();

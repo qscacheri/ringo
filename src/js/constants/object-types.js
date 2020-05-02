@@ -1,4 +1,4 @@
-export const OBJECT_TYPES = 
+const OBJECT_TYPES =
 {
     EMPTY: 'EMPTY',
     INVALID: 'INVALID',
@@ -14,7 +14,10 @@ export const OBJECT_TYPES =
     SINE: '~SINE',
     GAIN: '~GAIN',
     DAC: '~DAC',
+    METER: '~METER',
 
     // p5
     CANVAS: 'CANVAS'
 };
+
+export default OBJECT_TYPES

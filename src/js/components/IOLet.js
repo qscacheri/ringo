@@ -35,7 +35,7 @@ function IOLet(props) {
         var boundingRect = myRef.current.getBoundingClientRect();
 
         const ioletInfo = {
-            objectId: parseInt(props.parentId),
+            objectID: parseInt(props.parentId),
             ioletIndex: props.ioletIndex,
             connectionType: props.connectionType,
             position: {

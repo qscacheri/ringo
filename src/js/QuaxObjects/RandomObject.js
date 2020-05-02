@@ -1,4 +1,5 @@
 import NewQuaxObject from './NewQuaxObject'
+import OBJECT_TYPES from '../constants/object-types'
 
 class RandomObject extends NewQuaxObject {
     constructor(processor) {
@@ -9,7 +10,11 @@ class RandomObject extends NewQuaxObject {
             min: 0,
             max: 1
         }
-        this.type = 'RANDOM'
+        this.type = OBJECT_TYPES.RANDOM
+        this.hasDSP = true
+        this.receivers = this.createReceiverArray(this.numOutlets)
+        console.log(this.receivers);
+        
     }
 
     sendData() {
@@ -39,6 +44,14 @@ class RandomObject extends NewQuaxObject {
         if (newAttributes[1]) this.attributes.min = newAttributes[1]
         if (newAttributes[2]) this.attributes.max = newAttributes[2]
     }
+
+    addReceiver(outletIndex, inletIndex, inputID) {
+        debugger
+        console.log(this.receivers);
+        
+        this.receivers[outletIndex][inputID] = inletIndex
+    }
+    
 }
 
 export default RandomObject
