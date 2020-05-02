@@ -9,7 +9,7 @@ const OBJECT_TYPES =
     PRINT: 'PRINT',
     PEAKAMP: 'PEAKAMP',
     SCALE: 'SCALE',
-
+    SLIDER: 'SLIDER',
 
     // Tone Objects
     SINE: '~SINE',
