@@ -13,6 +13,8 @@ import MessageObject from '../RingoObjects/MessageObject'
 import M2FObject from '../RingoObjects/M2FObject'
 import InputObject from '../RingoObjects/InputObject'
 import ScaleObject from '../RingoObjects/ScaleObject'
+import ThreeCanvasObject from '../RingoObjects/ThreeCanvasObject'
+import ThreeShapeObject from '../RingoObjects/ThreeShapeObject'
 
 const createObject = (processorTree, type) => {
     switch (type) {
@@ -42,6 +44,10 @@ const createObject = (processorTree, type) => {
             return new MetroObject(processorTree)
         case OBJECT_TYPES.M2F:
             return new M2FObject(processorTree)
+        case OBJECT_TYPES.THREE_CANVAS:
+            return new ThreeCanvasObject(processorTree)
+        case OBJECT_TYPES.THREE_SHAPE:
+            return new ThreeShapeObject(processorTree)
         default:
             return new NewQuaxObject(processorTree)
     }

@@ -15,6 +15,7 @@
     "react-scripts": "0.9.x",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "three": "^0.116.1",
     "tone": "^13.8.25"
   },
   "devDependencies": {},

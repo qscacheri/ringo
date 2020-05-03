@@ -31,8 +31,7 @@ class ProcessorTreeClass {
 
     updateMessage(id, text) {
         const message = this.objects[id]
-        const splitText = text.split(' ');
-        message.attributes.data = splitText[0]
+        message.attributes.data = text
     }
 
     triggerMessage(id) {
@@ -45,6 +44,11 @@ class ProcessorTreeClass {
 
     connectObjects(outputObject, inputObject) {
         this.objects[outputObject.id].addReceiver(outputObject.outletIndex, inputObject.inletIndex, inputObject.id)
+    }
+
+    // Three functions
+    initializeThree(id, width, height, callback) {
+        return this.objects[id].initializeThree(width, height, callback)
     }
 
 }

@@ -20,7 +20,11 @@ const OBJECT_TYPES =
     METER: '~METER',
 
     // p5
-    CANVAS: 'CANVAS'
+    CANVAS: 'CANVAS',
+
+    // Three
+    THREE_CANVAS: 'THREE.CANVAS',
+    THREE_SHAPE: 'THREE.SHAPE'
 };
 
 export default OBJECT_TYPES

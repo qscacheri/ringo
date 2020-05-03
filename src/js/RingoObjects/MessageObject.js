@@ -14,12 +14,11 @@ class MessageObject extends NewQuaxObject {
         this.callback = null
     }
 
-    sendData() {        
-        let sendData = parseFloat(this.attributes.data)
-        if (isNaN(sendData))
-            sendData = this.attributes.data
+    sendData() {      
+        console.log(this.attributes.data);
+         
         for (let i in this.receivers[0]) {
-            this.processor.objects[i].receiveData(this.receivers[0][i], sendData)
+            this.processor.objects[i].receiveData(this.receivers[0][i], this.attributes.data)
         }        
     }
 

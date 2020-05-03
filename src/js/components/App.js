@@ -10,6 +10,7 @@ import RingoButton from './RingoButton'
 import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
+import RingoThree from './RingoThree'
 
 function App(props) {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -76,6 +77,16 @@ function App(props) {
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                     />)
                     break;
+                case OBJECT_TYPES.THREE_CANVAS:
+                    objects.push(<RingoThree
+                        key={i}
+                        id={i}
+                        position={{ x: 100, y: 100 }}
+                        numInlets={ProcessorTree.objects[i].numInlets}
+                        numOutlets={ProcessorTree.objects[i].numOutlets}
+                    />)
+                    break;
+
                 default:
                     objects.push(<RingoObject
                         key={i}
@@ -110,28 +121,6 @@ function App(props) {
         return patchCables
     }
 
-    function createRingoObject(k) {
-        return null
-        // let type = props.objects[k].type;
-        // switch (type) {
-        //     case (OBJECT_TYPES.BUTTON):
-        //         return <RingoButton key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
-        //     case (OBJECT_TYPES.CANVAS):
-        //         return <P5Canvas key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
-        //     default:
-        //         return <RingoObject key={k} id={k} type={props.objects[k].type} position={props.objects[k].position} numInlets={props.objects[k].numInlets} numOutlets={props.objects[k].numOutlets} />
-
-        // }
-    }
-
-    function createPatchCable(key) {
-        var currentPatchCable = props.patchCableData.patchCables[key];
-        if (key == props.patchCableData.activePatchCable.id) {
-            return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={{ x: mousePosition.x, y: mousePosition.y }}></PatchCable>
-        }
-        return <PatchCable key={key} pos1={currentPatchCable.pos1} pos2={currentPatchCable.pos2}></PatchCable>
-    }
-
     return (
         <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <div className='WorkSpace'>
@@ -139,9 +128,6 @@ function App(props) {
                 {renderRingoObjects()}
             </div>
             <Toolbar />
-
-            {/* {Object.keys(props.objects).map(createRingoObject)}
-            {Object.keys(props.patchCableData.patchCables).map(createPatchCable)} */}
         </div>)
 }
 
