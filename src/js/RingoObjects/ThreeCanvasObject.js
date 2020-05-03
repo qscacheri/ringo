@@ -9,7 +9,6 @@ class ThreeCanvasObject extends NewQuaxObject {
         this.numOutlets = 1
         this.type = OBJECT_TYPES.THREE_CANVAS
         this.hasDSP = true
-        this.receivers = this.createReceiverArray(this.numOutlets)
         this.shapes = {}
         this.animate = this.animate.bind(this)
         

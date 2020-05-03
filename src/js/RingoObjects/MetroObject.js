@@ -11,20 +11,14 @@ class Metro extends NewQuaxObject {
             rate: 1000
         }
         this.type = OBJECT_TYPES.NUMBER
-        this.receivers = this.createReceiverArray(this.numOutlets)
+        this.sendData = this.sendData.bind(this)
         this.metroFunction = setInterval(() => {
-            this.sendData('BANG', this)
+            this.sendData('BANG')
         }, this.attributes.rate)
     }
 
-    sendData(data, self) {
-        if (!self.attributes.start) return
-        for (let i in this.receivers[0]) {
-            self.processor.objects[i].receiveData(self.receivers[0][i], data)
-        }
-    }
-
     receiveData(inlet, data) {
+        // TODO - implement rate change when receiving data
         switch (inlet) {
             case 0:
                 this.attributes.start = true
@@ -43,10 +37,6 @@ class Metro extends NewQuaxObject {
                 this.sendData('BANG', this)
             }, this.attributes.rate)
         }
-    }
-
-    addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
     }
 }
 

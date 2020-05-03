@@ -10,13 +10,6 @@ class NumberObject extends NewQuaxObject {
             value: 0
         }
         this.type = OBJECT_TYPES.NUMBER
-        this.receivers = this.createReceiverArray(this.numOutlets)
-    }
-
-    sendData(data) {
-        for (let i in this.receivers[0]) {
-            this.processor.objects[i].receiveData(this.receivers[0][i], this.attributes.value)
-        }        
     }
 
     receiveData(inlet, data) {
@@ -32,10 +25,6 @@ class NumberObject extends NewQuaxObject {
 
     updateAttributes(newAttributes) {
         if (newAttributes[1]) this.attributes.value = parseFloat(newAttributes[1])
-    }
-
-    addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
     }
 }
 

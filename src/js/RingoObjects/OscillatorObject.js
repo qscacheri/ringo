@@ -52,9 +52,8 @@ class OscillatorObject extends NewQuaxObject {
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
+        super.addReceiver(outletIndex, inletIndex, inputID)
         const receiverObject = this.processor.objects[inputID]
-        console.log(this.processor.objects);
         if (receiverObject.hasDSP) {
             this.audioNode.connect(receiverObject.audioNode)
         }

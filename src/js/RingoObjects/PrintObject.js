@@ -8,10 +8,6 @@ class PrintObject extends NewQuaxObject {
         this.type = 'PRINT'
     }
 
-    sendData() {
-        throw(new Error('This object should not send data'))
-    }
-
     receiveData(inlet, data) {
         console.log(data)
     }
