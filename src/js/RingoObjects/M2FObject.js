@@ -8,15 +8,6 @@ class NumberObject extends NewQuaxObject {
         this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.M2F
-        this.receivers = this.createReceiverArray(this.numOutlets)
-    }
-
-    sendData(data) {
-        console.log(data);
-
-        for (let i in this.receivers[0]) {
-            this.processor.objects[i].receiveData(this.receivers[0][i], data)
-        }        
     }
 
     receiveData(inlet, data) {

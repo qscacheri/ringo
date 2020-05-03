@@ -9,27 +9,9 @@ class MeterObject extends NewQuaxObject {
         this.numOutlets = 1
         this.type = OBJECT_TYPES.METER
         this.audioNode = new Meter()
-        setInterval(() => this.sendData(this), 1)
-        this.receivers = this.createReceiverArray(this.numOutlets)
+        setInterval(() => this.sendData(this.audioNode.getLevel()), 1)
         this.hasDSP = true
-
-    }
-
-    sendData(self) {
-        for (let i in this.receivers[0]) {
-            const level = self.audioNode.getLevel()
-            this.processor.objects[i].receiveData(this.receivers[0][i], level)
-        }        
-    }
-
-    receiveData(inlet, data) {
-        
-    }
-
-    addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
-        console.log(this.receivers);
-        
+        this.sendData = this.sendData.bind(this)
     }
 }
 
