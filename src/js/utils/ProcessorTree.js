@@ -41,8 +41,8 @@ class ProcessorTreeClass {
         this.objects[id].callback = callback
     }
 
-    connectObjects(outputObject, inputObject) {
-        this.objects[outputObject.id].addReceiver(outputObject.outletIndex, inputObject.inletIndex, inputObject.id)
+    connectObjects(outputObject, inputObject) {        
+        this.objects[outputObject.id].addReceiver(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
     }
 
     // Three functions

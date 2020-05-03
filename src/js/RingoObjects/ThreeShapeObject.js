@@ -11,46 +11,40 @@ class ThreeShapeObject extends NewQuaxObject {
         this.type = OBJECT_TYPES.THREE
         this.hasDSP = true
         this.receivers = this.createReceiverArray(this.numOutlets)
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        const material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-        this.shape = new THREE.Mesh( geometry, material );
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        this.shape = new THREE.Mesh(geometry, material);
         // setInterval(() => {
         //     this.shape.rotation.x += .01;
         //     this.shape.rotation.z += .01;
         // }, 1)
-        
+
         this.attributes = {
             type: 'cube',
             size: {
                 width: 10,
-                height: 10, 
+                height: 10,
                 depth: 10
             },
             position: {
-                x: 0, 
-                y: 0, 
+                x: 0,
+                y: 0,
                 z: 0
             },
             color: ''
         }
     }
 
-    sendData() {
-        for (let i in this.receivers[0]) {
-            const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
-            this.processor.objects[i].receiveData(this.receivers[0][i], randVal)
-        }        
-    }
-
     receiveData(inlet, data) {
         debugger
-        switch(inlet) {
+        switch (inlet) {
             case 0:
-                const pos = data.split(' ')
-                this.shape.position.x = parseFloat(pos[0])
-                this.shape.position.y = parseFloat(pos[1])
-                this.shape.position.z = parseFloat(pos[2])
+                this.parseData(data, 'position')
                 return
+            case 1:
+                this.parseData(data, 'rotation')
+                return
+
         }
     }
 
@@ -58,7 +52,36 @@ class ThreeShapeObject extends NewQuaxObject {
         super.addReceiver(outletIndex, inletIndex, inputID)
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
-    
+
+    parseData(data, shapeAttribute) {
+        console.log(data);
+        
+        const splitData = data.split(' ')
+        const x = splitData[0] ? parseFloat(splitData[0]) : null
+        const y = splitData[1] ? parseFloat(splitData[1]) : null
+        const z = splitData[2] ? parseFloat(splitData[2]) : null
+
+        if (shapeAttribute == 'position') {
+            if (!isNaN(x)) this.shape.position.x = x
+            if (!isNaN(y)) this.shape.position.y = y
+            if (!isNaN(z)) this.shape.position.z = z
+            console.log(x, y, z);
+            
+            return
+        }
+
+        if (shapeAttribute == 'rotation') {
+            if (!isNaN(x) && x) this.shape.rotation.x = x
+            if (!isNaN(y) && y) this.shape.rotation.y = y
+            if (!isNaN(z) && z) this.shape.rotation.z = z
+            // console.log(x, y, z);
+            this.shape.rotation.x
+            return
+        }
+
+
+    }
+
 }
 
 export default ThreeShapeObject

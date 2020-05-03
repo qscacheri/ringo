@@ -1,12 +1,6 @@
 import React, { useRef } from "react";
-import { addPatchCable, newConnection } from '../actions/actions.js'
 import '../../css/IOLet.css';
 import PatchCableManger from '../../js/utils/PatchCableManager'
-function mapStateToProps(state) {
-    return {
-        activePatchCable: state.patchCableData.activePatchCable
-    }
-}
 
 export const IOLetType =
 {
@@ -27,7 +21,8 @@ function IOLet(props) {
             position: {
                 x: boundingRect.x + (boundingRect.width / 2),
                 y: boundingRect.y + (boundingRect.height / 2)
-            }
+            },
+            ref: myRef.current
         }
 
         PatchCableManger.handleClick(ioletInfo)

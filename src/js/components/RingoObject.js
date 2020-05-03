@@ -6,6 +6,7 @@ import { IOLetType } from './IOLet.js'
 import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
 import IOLetStrip from './IOLetStrip.js'
 import ProcessorTree from '../utils/ProcessorTree'
+import PatchCableManager from "../utils/PatchCableManager";
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -20,7 +21,7 @@ function ConnectedRingoObject(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
-
+    const [hasMoved, setHasMoved] = useState(false)
     function handleChange(e) {
         setTextValue(event.target.value);
     }
@@ -28,6 +29,7 @@ function ConnectedRingoObject(props) {
 
     function handleDrag(e, data) {
         setIsDrag(true);
+        PatchCableManager.update(props.id)
     }
 
 

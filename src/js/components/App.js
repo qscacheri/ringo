@@ -38,7 +38,8 @@ function App(props) {
 
         // DELETE OBJECT
         if (e.keyCode == 8) {
-            props.deleteObject({});
+            const deletedObjectID = ProcessorTree.deleteSelected()
+            PatchCableManager.objectDeleted(deletedObjectID)
         }
     }
 
@@ -105,14 +106,14 @@ function App(props) {
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].pos1}
+                    pos1={PatchCableManager.patchCables[i].outObject.pos}
                     pos2={mousePosition}
                 />)
             else
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].pos1}
-                    pos2={PatchCableManager.patchCables[i].pos2}
+                    pos1={PatchCableManager.patchCables[i].outObject.pos}
+                    pos2={PatchCableManager.patchCables[i].inObject.pos}
                 />)
 
         }
