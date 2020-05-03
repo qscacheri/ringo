@@ -12,20 +12,13 @@ class RandomObject extends NewQuaxObject {
         }
         this.type = OBJECT_TYPES.RANDOM
         this.hasDSP = true
-        this.receivers = this.createReceiverArray(this.numOutlets)
-    }
-
-    sendData() {
-        for (let i in this.receivers[0]) {
-            const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
-            this.processor.objects[i].receiveData(this.receivers[0][i], randVal)
-        }        
+        this.receivers = []
     }
 
     receiveData(inlet, data) {
         switch (inlet) {
             case 0:
-                this.sendData(0)
+                this.processData()
                 return;
             case 1: 
                 this.attributes.min = data
@@ -36,13 +29,15 @@ class RandomObject extends NewQuaxObject {
         }
     }
 
+    processData() {
+        const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
+        debugger
+        this.sendData(randVal)
+    }
+
     updateAttributes(newAttributes) {
         if (newAttributes[1]) this.attributes.min = parseFloat(newAttributes[1])
         if (newAttributes[2]) this.attributes.max = parseFloat(newAttributes[2])
-    }
-
-    addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
     }
     
 }

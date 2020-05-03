@@ -30,8 +30,7 @@ class ProcessorTreeClass {
     }
 
     updateMessage(id, text) {
-        const message = this.objects[id]
-        message.attributes.data = text
+        this.objects[id].update(text)
     }
 
     triggerMessage(id) {
