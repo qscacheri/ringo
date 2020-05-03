@@ -16,7 +16,7 @@ function RingoButton(props) {
 
         // props.selectNewObject({ id: props.id });
         // props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: props.id })
-        ProcessorTree.objects[props.id].sendData()
+        ProcessorTree.objects[props.id].sendData('BANG')
         e.stopPropagation();
         setIsDrag(false);
 

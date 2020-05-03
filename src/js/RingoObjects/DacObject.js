@@ -13,12 +13,6 @@ class DacObject extends NewQuaxObject {
         this.hasDSP = true
     }
 
-    sendData() {
-        this.receivers.forEach(receiver => {
-            console.log(this.receivers);
-        });
-    }
-
     receiveData(inlet, data) {
         switch (inlet) {
             case 0:

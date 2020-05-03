@@ -16,12 +16,6 @@ class InputObject extends NewQuaxObject {
         this.receivers = this.createReceiverArray(this.numOutlets)
     }
     
-    sendData(data) {
-        this.receivers.forEach(receiver => {
-            
-        });
-    }
-
     receiveData(inlet, data) {
         switch (inlet) {
             default: 
@@ -33,9 +27,8 @@ class InputObject extends NewQuaxObject {
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
+        super.addReceiver(outletIndex, inletIndex, inputID)
         const receiverObject = this.processor.objects[inputID]
-        console.log(this.processor.objects);
         if (receiverObject.hasDSP) {
             this.audioNode.connect(receiverObject.audioNode)
         }
