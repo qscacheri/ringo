@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoMessage.css';
-import { IOLetType } from './IOLet.js'
-import IOLetStrip from './IOLetStrip.js'
+import { IOLetType } from './IOLet'
+import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
 
 function RingoMessage(props) {

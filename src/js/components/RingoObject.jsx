@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoObject.css';
-import { IOLetType } from './IOLet.js'
-import { updateObject, sendObjectData, selectNewObject } from '../actions/actions'
-import IOLetStrip from './IOLetStrip.js'
+import { IOLetType } from './IOLet'
+import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from "../utils/PatchCableManager";
 
-function mapDispatchToProps(dispatch) {
-    return {
-        updateObject: newType => dispatch(updateObject(newType)),
-        sendObjectData: data => dispatch(sendObjectData(data)),
-        selectNewObject: newObject => dispatch(selectNewObject(newObject))
-    };
-}
-
-function ConnectedRingoObject(props) {
+function RingoObject(props) {
     let ref = React.createRef();
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
@@ -71,7 +61,4 @@ function ConnectedRingoObject(props) {
 
 }
 
-const RingoObject = connect(
-    null,
-    mapDispatchToProps)(ConnectedRingoObject);
 export default RingoObject;

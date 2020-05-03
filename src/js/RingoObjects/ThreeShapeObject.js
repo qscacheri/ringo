@@ -75,7 +75,7 @@ class ThreeShapeObject extends NewQuaxObject {
             if (!isNaN(y) && y) this.shape.rotation.y = y
             if (!isNaN(z) && z) this.shape.rotation.z = z
             // console.log(x, y, z);
-            this.shape.rotation.x
+            console.log(this.shape.rotation.x)
             return
         }
 

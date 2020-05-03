@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoThree.css';
-import { IOLetType } from './IOLet.js'
-import IOLetStrip from './IOLetStrip.js'
+import { IOLetType } from './IOLet'
+import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
-import * as THREE from "three";
-
 
 function RingoThree(props) {
     let ref = React.createRef();
