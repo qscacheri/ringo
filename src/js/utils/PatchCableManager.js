@@ -8,7 +8,13 @@ class PatchCableManagerClass {
     }
 
     handleClick(ioletInfo) {
-        console.log(ioletInfo);
+        if (!ioletInfo) {
+            delete this.patchCables[this.activeCableID]
+            this.activeCableID = -1
+            this.userGrabbedPatchCable = false
+            return
+        }
+        
         if (this.userGrabbedPatchCable == false) this.newPatchCable(ioletInfo)
         else this.checkCableCompatiblity(ioletInfo)
     }

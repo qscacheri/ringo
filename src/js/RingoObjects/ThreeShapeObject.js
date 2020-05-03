@@ -49,18 +49,8 @@ class ThreeShapeObject extends NewQuaxObject {
         }
     }
 
-    parseMessage(message) {
-
-    }
-
-    updateAttributes(newAttributes) {
-        
-    }
-
     addReceiver(outletIndex, inletIndex, inputID) {
-        this.receivers[outletIndex][inputID] = inletIndex
-        console.log(ProcessorTree.objects[inputID]);
-        
+        super.addReceiver(outletIndex, inletIndex, inputID)
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
     

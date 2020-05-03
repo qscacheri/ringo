@@ -11,7 +11,7 @@ const OBJECT_TYPES =
     SCALE: 'SCALE',
     MESSAGE: 'MESSAGE',
     M2F: 'M2F',
-    
+    ADD: '+',
     // Tone Objects
     INPUT: '~INPUT',
     OSC: '~OSC',

@@ -50,9 +50,7 @@ function App(props) {
     }
 
     function handleClick(e) {
-        // if (props.patchCableData.activePatchCable.id != -1) {
-        //     props.removePatchCable({ id: props.patchCableData.activePatchCable.id })
-        // }
+        PatchCableManager.handleClick(null)
     }
 
     const renderRingoObjects = () => {

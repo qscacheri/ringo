@@ -13,6 +13,7 @@ import MessageObject from '../RingoObjects/MessageObject'
 import M2FObject from '../RingoObjects/M2FObject'
 import InputObject from '../RingoObjects/InputObject'
 import ScaleObject from '../RingoObjects/ScaleObject'
+import AddObject from '../RingoObjects/AddObject'
 import ThreeCanvasObject from '../RingoObjects/ThreeCanvasObject'
 import ThreeShapeObject from '../RingoObjects/ThreeShapeObject'
 
@@ -44,6 +45,8 @@ const createObject = (processorTree, type) => {
             return new MetroObject(processorTree)
         case OBJECT_TYPES.M2F:
             return new M2FObject(processorTree)
+        case OBJECT_TYPES.ADD:
+            return new AddObject(processorTree)
         case OBJECT_TYPES.THREE_CANVAS:
             return new ThreeCanvasObject(processorTree)
         case OBJECT_TYPES.THREE_SHAPE:
