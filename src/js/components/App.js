@@ -106,14 +106,14 @@ function App(props) {
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].outObject.pos}
+                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={mousePosition}
                 />)
             else
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].outObject.pos}
-                    pos2={PatchCableManager.patchCables[i].inObject.pos}
+                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
+                    pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
 
         }

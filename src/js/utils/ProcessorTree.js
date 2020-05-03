@@ -1,5 +1,4 @@
 import * as Tone from 'tone'
-import NewQuaxObject from '../RingoObjects/NewQuaxObject'
 import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 

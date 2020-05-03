@@ -24,11 +24,11 @@ class PatchCableManagerClass {
     }
 
     update(id) {
-        // for (let i in this.patchCables) {
-        //     if (this.patchCables[i].id === id) {
-        //         this.
-        //     }
-        // }
+        for (let i in this.patchCables) {
+            if (this.patchCables[i].isConnectedToObject(id)) {
+
+            }
+        }
     }
 
     newPatchCable(ioletInfo) {
@@ -54,7 +54,7 @@ class PatchCableManagerClass {
     checkCableCompatiblity(ioletInfo) {
         if (ioletInfo.connectionType != this.activeCableType) {
             console.log(this.patchCables[this.activeCableID]);
-            
+
             this.patchCables[this.activeCableID].updateObject({
                 id: ioletInfo.objectID,
                 ioletIndex: ioletInfo.ioletIndex,
@@ -83,6 +83,26 @@ export function PatchCable(id) {
         else
             this.inObject = data
     }
+
+    this.getPosition = function (type) {
+        if (type === 'OUT') {
+            const boundingRect = this.outObject.ref.getBoundingClientRect();
+            return {
+                x: boundingRect.x + (boundingRect.width / 2),
+                y: boundingRect.y + (boundingRect.height / 2)
+            }
+        }
+
+        else {
+            const boundingRect = this.inObject.ref.getBoundingClientRect();
+            return {
+                x: boundingRect.x + (boundingRect.width / 2),
+                y: boundingRect.y + (boundingRect.height / 2)
+            }
+        }
+
+    }
+
     this.id = id
     this.outObject = {
         id: '',
