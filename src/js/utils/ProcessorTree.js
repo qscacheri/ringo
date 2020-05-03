@@ -34,7 +34,7 @@ class ProcessorTreeClass {
     }
 
     triggerMessage(id) {
-        this.objects[id].sendData()
+        this.objects[id].triggerMessage()
     }
 
     registerMessageCallback(id, callback) {

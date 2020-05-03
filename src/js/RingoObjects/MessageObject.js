@@ -14,33 +14,13 @@ class MessageObject extends NewQuaxObject {
         this.receivers = []
     }
 
-    sendData(data) {
-        let dataToSend = this.data
-        // if (this.wildCards.length > 0)
-        //     dataToSend = this.subsituteWildCards()
-        // for (let i in this.receivers[0]) {
-        //     for (let inlet = 0; inlet < this.receivers[0][i].length; i++)
-        //         this.processor.objects[i].receiveData(this.receivers[0][i][inlet], dataToSend)
-        // }
-        // iterate through receiver objects
-        
-        for (let i = 0; i < this.receivers.length; i++) {
-            let currentID = this.receivers[i].id            
-            // iterate through all outlet/inlet combinations
-            for (let j = 0; j < this.receivers[i].outletInletPairs.length; j++) {
-                let currentOutlet = this.receivers[i].outletInletPairs[j].outlet
-                let currentInlet = this.receivers[i].outletInletPairs[j].inlet
-                this.processor.objects[currentID].receiveData(currentInlet, dataToSend)
-            }
-            
-        }
-    }
-
     receiveData(inlet, data) {
+        console.log(data);
+        
         if (this.wildCards.length > 0) {
             if (inlet < this.wildCards.length) {
                 this.wildCards[inlet] = data
-                if (inlet === 0) this.sendData()
+                if (inlet === 0) this.sendData(this.subsituteWildCards())
             }
             else {
                 this.data = data
@@ -49,7 +29,7 @@ class MessageObject extends NewQuaxObject {
         else {
             switch (inlet) {
                 case 0:
-                    this.sendData(0)
+                    this.sendData(this.data)
                     return;
                 case 1:
                     this.data = data
@@ -74,6 +54,10 @@ class MessageObject extends NewQuaxObject {
 
     }
 
+    triggerMessage() {
+        this.sendData(this.data)
+    }
+
     update(text) {
         this.data = text
         this.wildCards = new Array((text.match(/\$/g) || []).length)
@@ -82,22 +66,6 @@ class MessageObject extends NewQuaxObject {
             this.callback(this.data)
         }
     }
-
-    addReceiver(outletIndex, inletIndex, inputID) {
-        let newPair = new OutletInletPair(outletIndex, inletIndex)
-        let alreadyPresent = false
-        for (let i = 0; i < this.receivers.length; i++) {
-            if (this.receivers[i].id === inputID) {
-                this.receivers[i].outletInletPairs.push(newPair)
-                alreadyPresent = true
-            }
-        }
-
-        if (!alreadyPresent) this.receivers.push(new Receiver(inputID, newPair))
-        
-        // this.receivers[outletIndex][inputID] = [...this.receivers[outletIndex][inputID], inletIndex]
-    }
-
 }
 
 export default MessageObject
