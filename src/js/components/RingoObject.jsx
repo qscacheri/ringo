@@ -32,7 +32,6 @@ function RingoObject(props) {
             ref.current.focus();
         }
 
-        props.selectNewObject({ id: props.id });
         e.stopPropagation();
         setIsDrag(false);
     }

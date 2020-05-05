@@ -3,7 +3,7 @@ import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 
 class ProcessorTreeClass {
-    constructor() {
+    constructor() {        
         this.context = new AudioContext();
         Tone.setContext(this.context)
         this.objects = {}

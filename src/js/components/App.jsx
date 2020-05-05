@@ -21,6 +21,8 @@ function App(props) {
             setRender(!render)
         }
         window.tree = ProcessorTree
+        console.log(window.mm);
+
     }, [])
 
     function handleKeyDown(e) {

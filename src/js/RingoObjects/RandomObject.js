@@ -31,7 +31,6 @@ class RandomObject extends NewQuaxObject {
 
     processData() {
         const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
-        debugger
         this.sendData(randVal)
     }
 

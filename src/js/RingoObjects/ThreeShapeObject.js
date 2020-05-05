@@ -54,32 +54,41 @@ class ThreeShapeObject extends NewQuaxObject {
     }
 
     parseData(data, shapeAttribute) {
-        console.log(data);
-        
-        const splitData = data.split(' ')
-        const x = splitData[0] ? parseFloat(splitData[0]) : null
-        const y = splitData[1] ? parseFloat(splitData[1]) : null
-        const z = splitData[2] ? parseFloat(splitData[2]) : null
+        if (typeof (data) === 'number') {
+            if (shapeAttribute == 'position') {
+                this.shape.position.x = data
+                return
+            }
 
-        if (shapeAttribute == 'position') {
-            if (!isNaN(x)) this.shape.position.x = x
-            if (!isNaN(y)) this.shape.position.y = y
-            if (!isNaN(z)) this.shape.position.z = z
-            console.log(x, y, z);
-            
-            return
+            if (shapeAttribute == 'rotation') {
+                this.shape.rotation.x = data
+                return
+            }
         }
+        else {
+            const splitData = data.split(' ')
+            const x = splitData[0] ? parseFloat(splitData[0]) : null
+            const y = splitData[1] ? parseFloat(splitData[1]) : null
+            const z = splitData[2] ? parseFloat(splitData[2]) : null
 
-        if (shapeAttribute == 'rotation') {
-            if (!isNaN(x) && x) this.shape.rotation.x = x
-            if (!isNaN(y) && y) this.shape.rotation.y = y
-            if (!isNaN(z) && z) this.shape.rotation.z = z
-            // console.log(x, y, z);
-            console.log(this.shape.rotation.x)
-            return
+            if (shapeAttribute == 'position') {
+                if (!isNaN(x)) this.shape.position.x = x
+                if (!isNaN(y)) this.shape.position.y = y
+                if (!isNaN(z)) this.shape.position.z = z
+                console.log(x, y, z);
+
+                return
+            }
+
+            if (shapeAttribute == 'rotation') {
+                if (!isNaN(x) && x) this.shape.rotation.x = x
+                if (!isNaN(y) && y) this.shape.rotation.y = y
+                if (!isNaN(z) && z) this.shape.rotation.z = z
+                // console.log(x, y, z);
+                console.log(this.shape.rotation.x)
+                return
+            }
         }
-
-
     }
 
 }
