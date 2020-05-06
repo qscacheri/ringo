@@ -11,7 +11,6 @@ function RingoObject(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
-    const [hasMoved, setHasMoved] = useState(false)
     function handleChange(e) {
         setTextValue(event.target.value);
     }
