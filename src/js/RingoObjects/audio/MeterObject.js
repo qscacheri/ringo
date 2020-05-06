@@ -1,8 +1,8 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
+import RingoObject from '../base/RingoObject'
+import OBJECT_TYPES from '../../constants/object-types'
 import { Meter } from 'tone'
 
-class MeterObject extends NewQuaxObject {
+class MeterObject extends RingoObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 2

@@ -1,7 +1,6 @@
-import NewQuaxObject, { Receiver, OutletInletPair } from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
-
-class MessageObject extends NewQuaxObject {
+import RingoObject, { Receiver, OutletInletPair } from '../base/RingoObject'
+import OBJECT_TYPES from '../../constants/object-types'
+class MessageObject extends RingoObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 2

@@ -1,8 +1,8 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
+import OBJECT_TYPES from '../../constants/object-types'
 import { Gain } from 'tone'
+import RingoAudioObject from '../base/RingoAudioObject'
 
-class DacObject extends NewQuaxObject {
+class DacObject extends RingoAudioObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 1
@@ -25,10 +25,6 @@ class DacObject extends NewQuaxObject {
                 this.attributes.max = data
                 return
         }
-    }
-
-    addReceiver(receiverID) {
-        throw new Error('The DAC object should not have any receivers')
     }
 }
 

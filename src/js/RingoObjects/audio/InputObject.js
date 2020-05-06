@@ -1,8 +1,8 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
+import RingoAudioObject from '../base/RingoAudioObject'
+import OBJECT_TYPES from '../../constants/object-types'
 import { UserMedia } from 'tone'
 
-class InputObject extends NewQuaxObject {
+class InputObject extends RingoAudioObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 1
@@ -26,13 +26,6 @@ class InputObject extends NewQuaxObject {
     updateAttributes(newAttributes) {                
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
-        super.addReceiver(outletIndex, inletIndex, inputID)
-        const receiverObject = this.processor.objects[inputID]
-        if (receiverObject.hasDSP) {
-            this.audioNode.connect(receiverObject.audioNode)
-        }
-    }
 }
 
 export default InputObject

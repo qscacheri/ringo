@@ -1,26 +1,26 @@
 import OBJECT_TYPES from '../constants/object-types'
-import NewRingoObject from '../RingoObjects/NewQuaxObject'
-import RandomObject from '../RingoObjects/RandomObject'
-import PrintObject from '../RingoObjects/PrintObject';
-import NewQuaxObject from '../RingoObjects/NewQuaxObject';
-import OscillatorObject from '../RingoObjects/OscillatorObject'
-import DacObject from '../RingoObjects/DacObject'
-import MeterObject from '../RingoObjects/MeterObject';
-import ButtonObject from '../RingoObjects/ButtonObject';
-import NumberObject from '../RingoObjects/NumberObject';
-import MetroObject from '../RingoObjects/MetroObject';
-import MessageObject from '../RingoObjects/MessageObject'
-import M2FObject from '../RingoObjects/M2FObject'
-import InputObject from '../RingoObjects/InputObject'
-import ScaleObject from '../RingoObjects/ScaleObject'
-import AddObject from '../RingoObjects/AddObject'
-import ThreeCanvasObject from '../RingoObjects/ThreeCanvasObject'
-import ThreeShapeObject from '../RingoObjects/ThreeShapeObject'
+import RingoObject from '../RingoObjects/base/RingoObject';
+import RandomObject from '../RingoObjects/core/RandomObject'
+import PrintObject from '../RingoObjects/core/PrintObject';
+import GainObject from '../RingoObjects/audio/GainObject'
+import OscillatorObject from '../RingoObjects/audio/OscillatorObject'
+import DacObject from '../RingoObjects/audio/DacObject'
+import MeterObject from '../RingoObjects/audio/MeterObject';
+import ButtonObject from '../RingoObjects/core/ButtonObject';
+import NumberObject from '../RingoObjects/core/NumberObject';
+import MetroObject from '../RingoObjects/core/MetroObject';
+import MessageObject from '../RingoObjects/core/MessageObject'
+import M2FObject from '../RingoObjects/core/M2FObject'
+import InputObject from '../RingoObjects/audio/InputObject'
+import ScaleObject from '../RingoObjects/core/ScaleObject'
+import AddObject from '../RingoObjects/core/AddObject'
+import ThreeCanvasObject from '../RingoObjects/three/ThreeCanvasObject'
+import ThreeShapeObject from '../RingoObjects/three/ThreeShapeObject'
 
 const createObject = (processorTree, type) => {
     switch (type) {
         case OBJECT_TYPES.EMPTY:
-            return new NewRingoObject(processorTree)
+            return new RingoObject(processorTree)
         case OBJECT_TYPES.MESSAGE:
             return new MessageObject(processorTree)
         case OBJECT_TYPES.RANDOM:
@@ -43,6 +43,8 @@ const createObject = (processorTree, type) => {
             return new MeterObject(processorTree)
         case OBJECT_TYPES.METRO:
             return new MetroObject(processorTree)
+        case OBJECT_TYPES.GAIN:
+            return new GainObject(processorTree)
         case OBJECT_TYPES.M2F:
             return new M2FObject(processorTree)
         case OBJECT_TYPES.ADD:
@@ -52,7 +54,7 @@ const createObject = (processorTree, type) => {
         case OBJECT_TYPES.THREE_SHAPE:
             return new ThreeShapeObject(processorTree)
         default:
-            return new NewQuaxObject(processorTree)
+            return new RingoObject(processorTree)
     }
 }
 

@@ -1,7 +1,6 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
-
-class RandomObject extends NewQuaxObject {
+import RingoObject from '../base/RingoObject'
+import OBJECT_TYPES from '../../constants/object-types'
+class RandomObject extends RingoObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 3

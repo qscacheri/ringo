@@ -1,8 +1,8 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
+import RingoObject from '../base/RingoObject'
+import OBJECT_TYPES from '../../constants/object-types'
 import * as THREE from "three";
 
-class ThreeCanvasObject extends NewQuaxObject {
+class ThreeCanvasObject extends RingoObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 3

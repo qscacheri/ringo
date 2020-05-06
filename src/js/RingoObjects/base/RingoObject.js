@@ -1,4 +1,4 @@
-class NewQuaxObject {
+class RingoObject {
     constructor(processor) {
         this.processor = processor
         this.numInlets = 1
@@ -63,4 +63,4 @@ export const Receiver = function (id, outletInletPair) {
     this.outletInletPairs.push(outletInletPair)
 }
 
-export default NewQuaxObject
+export default RingoObject

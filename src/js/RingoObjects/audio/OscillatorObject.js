@@ -1,8 +1,8 @@
-import NewQuaxObject from './NewQuaxObject'
-import OBJECT_TYPES from '../constants/object-types'
-import { Oscillator, Tone } from 'tone'
+import OBJECT_TYPES from '../../constants/object-types'
+import { Oscillator } from 'tone'
+import RingoAudioObject from '../base/RingoAudioObject'
 
-class OscillatorObject extends NewQuaxObject {
+class OscillatorObject extends RingoAudioObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 3
@@ -16,10 +16,10 @@ class OscillatorObject extends NewQuaxObject {
         this.audioNode.start()
         this.receivers = this.createReceiverArray(this.numOutlets)
     }
-    
+
     sendData(data) {
         this.receivers.forEach(receiver => {
-            
+
         });
     }
 
@@ -27,8 +27,8 @@ class OscillatorObject extends NewQuaxObject {
         switch (inlet) {
             case 0:
                 return;
-            case 1: 
-                if (typeof(data) !== 'number') return
+            case 1:
+                if (typeof (data) !== 'number') return
                 this.attributes.frequency = data
                 this.audioNode.frequency.value = this.attributes.frequency
                 return
@@ -39,7 +39,7 @@ class OscillatorObject extends NewQuaxObject {
         }
     }
 
-    updateAttributes(newAttributes) {                
+    updateAttributes(newAttributes) {
         if (newAttributes[1]) {
             this.attributes.frequency = parseFloat(newAttributes[1])
             this.audioNode.frequency.value = this.attributes.frequency
@@ -50,13 +50,8 @@ class OscillatorObject extends NewQuaxObject {
             this.audioNode.frequency.type = this.attributes.type
         }
     }
-
     addReceiver(outletIndex, inletIndex, inputID) {
         super.addReceiver(outletIndex, inletIndex, inputID)
-        const receiverObject = this.processor.objects[inputID]
-        if (receiverObject.hasDSP) {
-            this.audioNode.connect(receiverObject.audioNode)
-        }
         this.audioNode.start()
     }
 }

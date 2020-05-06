@@ -1,6 +1,6 @@
-import NewQuaxObject from './NewQuaxObject'
+import RingoObject from '../base/RingoObject'
 
-class PrintObject extends NewQuaxObject {
+class PrintObject extends RingoObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 1
