@@ -1,5 +1,6 @@
 import IOLet from './IOLet'
-import React, { Component } from "react";
+import React from "react";
+import '../../css/IOLetStrip.css'
 
 function IOLetStrip(props)
 {

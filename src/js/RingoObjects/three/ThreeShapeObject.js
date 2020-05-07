@@ -14,10 +14,6 @@ class ThreeShapeObject extends RingoObject {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         this.shape = new THREE.Mesh(geometry, material);
-        // setInterval(() => {
-        //     this.shape.rotation.x += .01;
-        //     this.shape.rotation.z += .01;
-        // }, 1)
 
         this.attributes = {
             type: 'cube',
