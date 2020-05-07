@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { Component, useState} from "react";
+import React, { useState } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoButton.css';
 import '../../css/RingoObject.css';
@@ -22,12 +22,12 @@ function RingoButton(props) {
 
     }
 
-    return (<Draggable>
+    return (<Draggable bounds='parent' enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
         <div className="RingoButton">
             <IOLetStrip id={props.id}
                 numIOLets={props.numInlets}
                 connectionType={IOLetType.In} />
-            <svg>
+            <svg className='Shape'>
                 <circle className="RingoButtonCircle" cx="50%" cy="50%" r="20%" onClick={handleClick} stroke="aqua"> </circle>
             </svg>
             <IOLetStrip id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
