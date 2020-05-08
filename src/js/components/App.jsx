@@ -123,7 +123,7 @@ function App() {
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
-        // console.log(PatchCableManager.patchCables[i].getPosition('OUT'))
+        console.log(PatchCableManager.patchCables[i].getPosition('OUT').y)
         }
         return patchCables
     }

@@ -86,16 +86,16 @@ export function PatchCable(id) {
         if (type === 'OUT') {
             const boundingRect = this.outObject.ref.getBoundingClientRect();
             return {
-                x: boundingRect.x + (boundingRect.width / 2),
-                y: boundingRect.y + (boundingRect.height / 2)
+                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
             }
         }
 
         else {
             const boundingRect = this.inObject.ref.getBoundingClientRect();
             return {
-                x: boundingRect.x + (boundingRect.width / 2),
-                y: boundingRect.y + (boundingRect.height / 2)
+                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
             }
         }
 
