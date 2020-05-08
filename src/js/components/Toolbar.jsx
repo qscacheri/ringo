@@ -1,44 +1,28 @@
 /* eslint-disable */
 
 import React from "react";
-import { OBJECT_TYPES } from '../constants/object-types';
-import { OBJECT_CONFIGS } from '../constants/object-configs';
+import OBJECT_TYPES from '../constants/object-types';
 import '../../css/Toolbar.css';
+import Processor from "../utils/ProcessorTree";
  
 
-class Toolbar extends React.Component {
-    constructor(props) {
-        super(props);
+function Toolbar() {
+
+    const createObject = (type) => {
+        Processor.addObject(type)
     }
 
-    handleClick(e) {
-        var newObject = OBJECT_CONFIGS[OBJECT_TYPES.EMPTY];
-        newObject.id = new Date().getTime();
-        newObject.position = {
-            x: window.innerWidth / 2,
-            y: window.innerHeight / 2,
-        }   
-        this.props.addObject(newObject);
-    }
-
-    handleSave(e)
-    {
-        this.props.exportState();
-    }
-
-    render() {
         return (
             <div className="Toolbar">
-                <h1>Ringo</h1>
-                {/* <form>
-                    Patch Name:<input type="text"></input>
-                </form>
-                <button onClick={this.handleClick.bind(this)}>new object</button>
-                <button onClick = { () => this.props.exportState() }>save</button>
-                <button onClick = { () => this.props.exportState() }>load</button>
- */}
+                <div className="Header">
+                    <h1>Ringo</h1>
+                </div>
+                <div className="Controls">
+                    <button className="ToolbarButton" onClick={() => {createObject(OBJECT_TYPES.EMPTY)}}>New Object</button>
+                    <button className="ToolbarButton" onClick={() => {createObject(OBJECT_TYPES.MESSAGE)}}>New Message</button>
+                </div>
             </div>
         )
-    }
 }
-    export default Toolbar;
+
+export default Toolbar;

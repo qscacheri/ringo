@@ -12,14 +12,16 @@ import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
 
-function App(props) {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [render, setRender] = useState(true)
+function App() {
+    // let mousePosition = useRef({ x: 0, y: 0 })
+    const [mousePosition, setMousePostion] = useState()
+    const [objectIDs, setObjectIDs] = useState([])
     let myRef = useRef(null)
+
     useEffect(() => {
-        ProcessorTree.newObjectCallback = () => {
-            console.log('OBJECT ADDED');
-            setRender(!render)
+        ProcessorTree.newObjectCallback = (newObjectID) => {
+            
+            setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
         console.log(window.mm);
@@ -27,7 +29,8 @@ function App(props) {
     }, [])
 
     function handleKeyDown(e) {
-
+        console.log(e);
+        
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
             ProcessorTree.addObject();
@@ -47,7 +50,7 @@ function App(props) {
     }
 
     function handleMouseMove(e) {
-        setMousePosition({
+        setMousePostion({
             x: e.pageX,
             y: e.pageY
         })
