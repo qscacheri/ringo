@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import RingoObject from './RingoObject'
 import '../../css/App.css';
@@ -15,6 +15,7 @@ import RingoThree from './RingoThree'
 function App(props) {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [render, setRender] = useState(true)
+    let myRef = useRef(null)
     useEffect(() => {
         ProcessorTree.newObjectCallback = () => {
             console.log('OBJECT ADDED');
@@ -103,6 +104,8 @@ function App(props) {
     }
 
     const renderPatchCables = () => {
+        console.log(window.pageYOffset)
+
         const patchCables = []
         for (let i in PatchCableManager.patchCables) {
             if (i == PatchCableManager.activeCableID)
@@ -117,13 +120,13 @@ function App(props) {
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
-
+        // console.log(PatchCableManager.patchCables[i].getPosition('OUT'))
         }
         return patchCables
     }
 
     return (
-        <div className="App" tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+        <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <div className='WorkSpace'>
                 {renderPatchCables()}
                 {renderRingoObjects()}

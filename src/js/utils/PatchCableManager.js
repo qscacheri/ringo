@@ -53,8 +53,6 @@ class PatchCableManagerClass {
 
     checkCableCompatiblity(ioletInfo) {
         if (ioletInfo.connectionType != this.activeCableType) {
-            console.log(this.patchCables[this.activeCableID]);
-
             this.patchCables[this.activeCableID].updateObject({
                 id: ioletInfo.objectID,
                 ioletIndex: ioletInfo.ioletIndex,

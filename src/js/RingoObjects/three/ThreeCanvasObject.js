@@ -5,8 +5,8 @@ import * as THREE from "three";
 class ThreeCanvasObject extends RingoObject {
     constructor(processor) {
         super(processor)
-        this.numInlets = 3
-        this.numOutlets = 1
+        this.numInlets = 1
+        this.numOutlets = 0
         this.type = OBJECT_TYPES.THREE_CANVAS
         this.hasDSP = true
         this.shapes = {}
@@ -21,7 +21,7 @@ class ThreeCanvasObject extends RingoObject {
 
     initializeThree(width, height, callback) {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera( 75, width/height, 0.1, 1000 );
+        this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize( width, height );
         this.camera.position.z = 5;
