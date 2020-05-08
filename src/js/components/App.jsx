@@ -16,6 +16,7 @@ function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
+    const [locked, setLocked] = useState(false)
     let myRef = useRef(null)
 
     useEffect(() => {
@@ -54,6 +55,12 @@ function App() {
             x: e.pageX,
             y: e.pageY
         })
+    }
+
+    function lock() {
+        setLocked(!locked)
+        console.log(!locked);
+        
     }
 
     function handleClick(e) {
@@ -134,7 +141,7 @@ function App() {
                 {renderPatchCables()}
                 {renderRingoObjects()}
             </div>
-            <Toolbar />
+            <Toolbar lockFn={lock} locked={locked}/>
         </div>)
 }
 
