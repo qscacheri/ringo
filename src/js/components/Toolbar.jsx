@@ -18,8 +18,8 @@ function Toolbar() {
                     <h1>Ringo</h1>
                 </div>
                 <div className="Controls">
-                    <button className="ToolbarButton" onClick={() => {createObject(OBJECT_TYPES.EMPTY)}}>New Object</button>
-                    <button className="ToolbarButton" onClick={() => {createObject(OBJECT_TYPES.MESSAGE)}}>New Message</button>
+                    <button className="ToolbarButton NewObject" onClick={() => {createObject(OBJECT_TYPES.EMPTY)}}>New Object</button>
+                    <button className="ToolbarButton NewMessage" onClick={() => {createObject(OBJECT_TYPES.MESSAGE)}}>New Message</button>
                 </div>
             </div>
         )

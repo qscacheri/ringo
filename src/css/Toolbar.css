@@ -37,3 +37,18 @@
     padding: 0;
     height: 100%;
 }
+
+.ToolbarButton {
+    background: black;
+    color: white;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.ToolbarButton.NewObject {
+    border: magenta 1px solid;
+}
+
+.ToolbarButton.NewMessage {
+    border: aqua 1px solid;
+}
