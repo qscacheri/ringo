@@ -11,6 +11,13 @@ import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import About from "./About";
 
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
@@ -21,7 +28,7 @@ function App() {
 
     useEffect(() => {
         ProcessorTree.newObjectCallback = (newObjectID) => {
-            
+
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
@@ -31,7 +38,7 @@ function App() {
 
     function handleKeyDown(e) {
         console.log(e);
-        
+
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
             ProcessorTree.addObject();
@@ -130,18 +137,32 @@ function App() {
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
-        console.log(PatchCableManager.patchCables[i].getPosition('OUT').y)
+            console.log(PatchCableManager.patchCables[i].getPosition('OUT').y)
         }
         return patchCables
     }
 
     return (
         <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
-            <div className='WorkSpace'>
-                {renderPatchCables()}
-                {renderRingoObjects()}
-            </div>
-            <Toolbar lockFn={lock} locked={locked}/>
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <div>
+                            <div className='WorkSpace'>
+                                {renderPatchCables()}
+                                {renderRingoObjects()}
+                            </div>
+                            <Toolbar workspace={true}/>
+                        </div>
+                    </Route>
+                    <Route exact path="/about">
+                        <div>
+                        <About />
+                        <Toolbar workspace={false}/>
+                        </div>
+                    </Route>
+                </Switch>
+            </Router>
         </div>)
 }
 
