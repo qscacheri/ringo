@@ -6,7 +6,7 @@ import ProcessorTree from '../../utils/ProcessorTree';
 class ThreeShapeObject extends RingoObject {
     constructor(processor) {
         super(processor)
-        this.numInlets = 3
+        this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.THREE
         this.hasDSP = true
@@ -32,15 +32,10 @@ class ThreeShapeObject extends RingoObject {
     }
 
     receiveData(inlet, data) {
-        debugger
         switch (inlet) {
             case 0:
-                this.parseData(data, 'position')
+                this.parseMessage(data)
                 return
-            case 1:
-                this.parseData(data, 'rotation')
-                return
-
         }
     }
 
@@ -48,6 +43,39 @@ class ThreeShapeObject extends RingoObject {
         super.addReceiver(outletIndex, inletIndex, inputID)
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
+
+    parseMessage(data) {
+        console.log(data);
+        
+        let splitData = data.split(' ');
+        console.log(splitData);
+        
+        if (splitData[0] === 'color') {
+            const r = parseFloat(splitData[1]);
+            const g = parseFloat(splitData[2]);
+            const b = parseFloat(splitData[3]);
+            console.log(r, g, b);
+            this.shape.material.color.setRGB(r, g, b);
+        }
+
+        else if (splitData[0] === 'position') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.position.x = x;
+            this.shape.position.y = y;
+            this.shape.position.z = z;
+        }
+
+        else if (splitData[0] === 'rotation') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.rotation.x = x;
+            this.shape.rotation.y = y;
+            this.shape.rotation.z = z;
+        }
+    }   
 
     parseData(data, shapeAttribute) {
         if (typeof (data) === 'number') {
