@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 
 
 function Toolbar({ lockFn, locked, workspace}) {
-
-    console.log(workspace);
     
     const createObject = (type) => {
         Processor.addObject(type)

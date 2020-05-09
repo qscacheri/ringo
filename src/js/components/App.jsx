@@ -37,8 +37,6 @@ function App() {
     }, [])
 
     function handleKeyDown(e) {
-        console.log(e);
-
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
             ProcessorTree.addObject();
@@ -121,8 +119,6 @@ function App() {
     }
 
     const renderPatchCables = () => {
-        console.log(window.pageYOffset)
-
         const patchCables = []
         for (let i in PatchCableManager.patchCables) {
             if (i == PatchCableManager.activeCableID)
@@ -137,7 +133,6 @@ function App() {
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
-            console.log(PatchCableManager.patchCables[i].getPosition('OUT').y)
         }
         return patchCables
     }
