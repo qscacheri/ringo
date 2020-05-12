@@ -16,7 +16,7 @@ function Toolbar({ lockFn, locked, workspace}) {
     return (
         <div className="Toolbar">
             <div className="Header">
-                <h1>Ringo</h1>
+                <h1 className="Title">Ringo</h1>
             </div>
             <div className="Controls">
                 <div>

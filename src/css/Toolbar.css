@@ -20,16 +20,18 @@
     height: 75%;
     border-bottom: solid 1px white;    
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
-.Toolbar h1 {
-    margin: autoinput;
+.Title {
+    display: flex;
+    text-align: center;
+    padding: 0;
+    margin: 0;
     color: white;
-    margin: auto;
-    margin-right: 0;
-    margin-left: 0;
     font-family: 'Bungee Hairline', cursive;
-    font-size: 4em;
+    font-size: 5vh;
 
 }
 
