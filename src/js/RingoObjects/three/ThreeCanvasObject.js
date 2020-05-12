@@ -52,7 +52,7 @@ class ThreeCanvasObject extends RingoObject {
         
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         this.receivers[outletIndex][inputID] = inletIndex
     }
     

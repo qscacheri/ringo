@@ -39,22 +39,18 @@ class ThreeShapeObject extends RingoObject {
         }
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
-        super.addReceiver(outletIndex, inletIndex, inputID)
+    connect(outletIndex, inletIndex, inputID) {
+        super.connect(outletIndex, inletIndex, inputID)
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
 
-    parseMessage(data) {
-        console.log(data);
-        
+    parseMessage(data) {        
         let splitData = data.split(' ');
-        console.log(splitData);
         
         if (splitData[0] === 'color') {
             const r = parseFloat(splitData[1]);
             const g = parseFloat(splitData[2]);
             const b = parseFloat(splitData[3]);
-            console.log(r, g, b);
             this.shape.material.color.setRGB(r, g, b);
         }
 

@@ -14,7 +14,7 @@ class RingoObject {
 
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         let newPair = new OutletInletPair(outletIndex, inletIndex)
         let alreadyPresent = false
         for (let i = 0; i < this.receivers.length; i++) {
@@ -48,6 +48,10 @@ class RingoObject {
         const array = new Array(numOutlets)
         for (let i = 0; i < numOutlets; i++) array[i] = {}
         return array
+    }
+
+    isConnectedTo(id) {
+        
     }
 }
 

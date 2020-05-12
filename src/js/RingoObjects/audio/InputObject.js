@@ -23,9 +23,12 @@ class InputObject extends RingoAudioObject {
         }
     }
 
-    updateAttributes(newAttributes) {                
+    processData(data) {
+        if (data === 'open')
+            this.audioNode.open()
+        else if (data === 'close')
+            this.audioNode.close()
     }
-
 }
 
 export default InputObject

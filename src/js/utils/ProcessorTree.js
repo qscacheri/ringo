@@ -41,7 +41,7 @@ class ProcessorTreeClass {
     }
 
     connectObjects(outputObject, inputObject) {        
-        this.objects[outputObject.id].addReceiver(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
+        this.objects[outputObject.id].connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
     }
 
     // Three functions

@@ -13,9 +13,7 @@ class MessageObject extends RingoObject {
         this.receivers = []
     }
 
-    receiveData(inlet, data) {
-        console.log(data);
-        
+    receiveData(inlet, data) {        
         if (this.wildCards.length > 0) {
             if (inlet < this.wildCards.length) {
                 this.wildCards[inlet] = data
@@ -46,8 +44,6 @@ class MessageObject extends RingoObject {
             
             wildCardText = wildCardText.replace(wildCard, this.wildCards[i - 1])    
         }
-        // debugger
-        console.log(wildCardText);
         
         return wildCardText
 

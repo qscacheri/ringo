@@ -16,8 +16,6 @@ class PatchCableManagerClass {
             this.userGrabbedPatchCable = false
             return
         }
-        console.log(ioletInfo.ref.getBoundingClientRect());
-
 
         if (this.userGrabbedPatchCable == false) this.newPatchCable(ioletInfo)
         else this.checkCableCompatiblity(ioletInfo)

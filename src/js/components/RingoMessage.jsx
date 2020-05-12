@@ -13,7 +13,6 @@ function RingoMessage(props) {
 
     useEffect(() => {
         ProcessorTree.registerMessageCallback(props.id, (newValue) => {
-            console.log('message value changed');
             setTextValue(newValue)
         })
     }, [])

@@ -27,7 +27,7 @@ class NumberObject extends RingoObject {
         if (newAttributes[1]) this.attributes.value = parseFloat(newAttributes[1])
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         this.receivers[outletIndex][inputID] = inletIndex
     }
 }
