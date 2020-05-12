@@ -1,6 +1,7 @@
 import * as Tone from 'tone'
 import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';
+import PatchCableManager from './PatchCableManager'
 
 class ProcessorTreeClass {
     constructor() {        
@@ -8,6 +9,7 @@ class ProcessorTreeClass {
         Tone.setContext(this.context)
         this.objects = {}
         this.newObjectCallback = null
+        this.selectedObject = -1
     }
 
     addObject(type = OBJECT_TYPES.EMPTY) {
@@ -47,6 +49,28 @@ class ProcessorTreeClass {
     // Three functions
     initializeThree(id, width, height, callback) {
         return this.objects[id].initializeThree(width, height, callback)
+    }
+
+    setSelected(newSelected) {
+        this.selectedObject = newSelected
+    }
+
+    deleteSelected() {
+        // take care of patch cables coming out of outlets
+        console.log('deleting object: ', this.selectedObject);
+        
+        // take care of objects/patch cables conneted to inlets
+        for (let i in this.objects) {
+            console.log(this.objects[i]);
+            
+            if (this.objects[i].isOutletConnectedTo(this.selectedObject)) {
+                // delete this.objects[i].receivers[]
+            }
+        }
+
+        delete this.objects[this.selectedObject]
+        PatchCableManager.updateDeleted(this.selectedObject)
+        this.selectedObject = -1
     }
 
 }

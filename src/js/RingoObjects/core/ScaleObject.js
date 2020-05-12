@@ -17,9 +17,7 @@ class ScaleObject extends RingoObject {
 
     scaleValue(input, inputMin, inputMax, outputMin, outputMax) {
         const scaledVal = ((input - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
-        debugger
         this.sendData(scaledVal)
-
     }
 
     receiveData(inlet, data) {

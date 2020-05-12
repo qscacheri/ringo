@@ -18,11 +18,12 @@ function RingoObject(props) {
 
     function handleDrag(e, data) {
         setIsDrag(true);
-        PatchCableManager.update(props.id)
     }
 
 
     function handleClick(e) {
+        ProcessorTree.setSelected(props.id)
+
         if (isDrag == false) {
             console.log("Clicked on object with id:", props.id);
             // this.setState({ inputDisabled: false });

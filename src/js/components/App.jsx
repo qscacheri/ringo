@@ -24,6 +24,7 @@ function App() {
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
+    const [selected, setSelected] = useState(-1)
     let myRef = useRef(null)
 
     useEffect(() => {
@@ -50,8 +51,8 @@ function App() {
 
         // DELETE OBJECT
         if (e.keyCode == 8) {
-            const deletedObjectID = ProcessorTree.deleteSelected()
-            PatchCableManager.objectDeleted(deletedObjectID)
+            ProcessorTree.deleteSelected()
+            // PatchCableManager.objectDeleted(deletedObjectID)
         }
     }
 
@@ -68,8 +69,9 @@ function App() {
         
     }
 
-    function handleClick(e) {
+    function handleClick() {
         PatchCableManager.handleClick(null)
+        ProcessorTree.setSelected(-1)
     }
 
     const renderRingoObjects = () => {

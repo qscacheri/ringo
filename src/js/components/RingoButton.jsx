@@ -13,6 +13,7 @@ function RingoButton(props) {
     
     const [isDrag, setIsDrag] = useState(0);
     function handleClick(e) {
+        ProcessorTree.setSelected(props.id)
 
         // props.selectNewObject({ id: props.id });
         // props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: props.id })

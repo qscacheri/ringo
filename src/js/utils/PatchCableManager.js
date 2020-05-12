@@ -21,12 +21,16 @@ class PatchCableManagerClass {
         else this.checkCableCompatiblity(ioletInfo)
     }
 
-    update(id) {
+    updateDeleted(id) {
+        let numDeleted = 0
         for (let i in this.patchCables) {
             if (this.patchCables[i].isConnectedToObject(id)) {
-
+                delete this.patchCables[i]
+                numDeleted++
             }
         }
+        console.log('Deleted ', numDeleted, ' patch cables');
+        
     }
 
     newPatchCable(ioletInfo) {
@@ -69,7 +73,7 @@ class PatchCableManagerClass {
 
 export function PatchCable(id) {
     this.isConnectedToObject = function (id) {
-        if (this.outObject.id === id || this.inObject.id === id) return true
+        if (this.outObject.id == id || this.inObject.id == id) return true
         return false
     }
 

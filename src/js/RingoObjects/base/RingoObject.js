@@ -30,6 +30,11 @@ class RingoObject {
     sendData(data) {
         for (let i = 0; i < this.receivers.length; i++) {
             let currentID = this.receivers[i].id
+            if (!this.processor.objects[currentID]) {
+                this.receivers.splice(i, 1)
+                continue;
+            }   
+            
             // iterate through all outlet/inlet combinations
             for (let j = 0; j < this.receivers[i].outletInletPairs.length; j++) {
                 let currentOutlet = this.receivers[i].outletInletPairs[j].outlet
@@ -50,8 +55,13 @@ class RingoObject {
         return array
     }
 
-    isConnectedTo(id) {
+    isOutletConnectedTo(id) {
         
+        // connected to outlet
+        for (let i = 0; i < this.receivers.length; i++) {            
+            if (id == this.receivers[i].id) return true
+        }
+        return false
     }
 }
 
