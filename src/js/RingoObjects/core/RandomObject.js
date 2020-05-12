@@ -29,7 +29,7 @@ class RandomObject extends RingoObject {
     }
 
     processData() {
-        const randVal = this.attributes.min + Math.random() * (this.attributes.min - this.attributes.max)
+        const randVal = this.attributes.min + Math.random() * (this.attributes.max - this.attributes.min)
         this.sendData(randVal)
     }
 
