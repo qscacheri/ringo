@@ -1,5 +1,6 @@
 const OBJECT_TYPES =
 {
+    // Core
     EMPTY: 'EMPTY',
     INVALID: 'INVALID',
     BUTTON: 'BUTTON',
@@ -7,12 +8,13 @@ const OBJECT_TYPES =
     RANDOM: 'RANDOM',
     METRO: 'METRO',
     PRINT: 'PRINT',
-    PEAKAMP: 'PEAKAMP',
     SCALE: 'SCALE',
     MESSAGE: 'MESSAGE',
     M2F: 'M2F',
     ADD: '+',
-    // Tone Objects
+    CLUSTER: 'CLUSTER',
+    
+    // Audio Objects
     INPUT: '~INPUT',
     OSC: '~OSC',
     GAIN: '~GAIN',

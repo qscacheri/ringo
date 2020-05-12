@@ -32,11 +32,8 @@ class ThreeShapeObject extends RingoObject {
     }
 
     receiveData(inlet, data) {
-        switch (inlet) {
-            case 0:
-                this.parseMessage(data)
-                return
-        }
+        this.parseMessage(data)
+        return
     }
 
     addReceiver(outletIndex, inletIndex, inputID) {
@@ -44,9 +41,7 @@ class ThreeShapeObject extends RingoObject {
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
 
-    parseMessage(data) {
-        console.log(data);
-        
+    parseMessage(data) {        
         let splitData = data.split(' ');
         console.log(splitData);
         
