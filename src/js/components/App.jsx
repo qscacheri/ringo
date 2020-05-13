@@ -49,7 +49,7 @@ function App() {
         }
 
         else if (e.key == 'm' || e.key == 'M') {
-            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE);
+            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y);
             return;
         }
 
