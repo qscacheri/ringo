@@ -28,8 +28,9 @@ function RingoMessage(props) {
 
 
     function handleClick(e) {      
+        ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
-  
+        
         ProcessorTree.triggerMessage(props.id)
         e.stopPropagation();
         setIsDrag(false);

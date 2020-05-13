@@ -12,6 +12,13 @@ class ProcessorTreeClass {
         this.selectedObject = -1
     }
 
+    resume() {        
+        if (this.context.state !== 'running') {
+            this.context.resume()
+            console.log('resumed context');
+        }
+    }
+
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         const objectID = new Date().getTime()
         this.objects[objectID] = createObject(this, type)

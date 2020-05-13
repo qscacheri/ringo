@@ -22,6 +22,7 @@ function RingoObject(props) {
 
 
     function handleClick(e) {
+        ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
 
         if (isDrag == false) {

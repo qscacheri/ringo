@@ -14,6 +14,7 @@ function RingoButton(props) {
     const [isDrag, setIsDrag] = useState(0);
     const [isDown, setIsDown] = useState(false)
     function handleClick(e) {
+        ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
 
         // props.selectNewObject({ id: props.id });
