@@ -44,7 +44,7 @@ function App() {
     function handleKeyDown(e) {
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-            ProcessorTree.addObject();
+            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
             return;
         }
 
@@ -56,7 +56,6 @@ function App() {
         // DELETE OBJECT
         if (e.keyCode == 8) {
             ProcessorTree.deleteSelected()
-            // PatchCableManager.objectDeleted(deletedObjectID)
         }
     }
 
@@ -93,7 +92,7 @@ function App() {
                     objects.push(<RingoButton
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
@@ -103,7 +102,7 @@ function App() {
                     objects.push(<RingoMessage
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
@@ -113,7 +112,7 @@ function App() {
                     objects.push(<RingoThree
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
@@ -124,7 +123,7 @@ function App() {
                     objects.push(<RingoObject
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}

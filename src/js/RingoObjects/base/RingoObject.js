@@ -10,7 +10,6 @@ class RingoObject {
         this.hasDSP = false
         this.outletDescriptions = []
         this.inletDescriptions = []
-
     }
 
     updateAttributes(attributeName, value) {

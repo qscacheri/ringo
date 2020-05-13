@@ -12,10 +12,12 @@ class ProcessorTreeClass {
         this.selectedObject = -1
     }
 
-    addObject(type = OBJECT_TYPES.EMPTY) {
+    addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         const objectID = new Date().getTime()
         this.objects[objectID] = createObject(this, type)
-
+        this.objects[objectID].position.x = x
+        this.objects[objectID].position.y = y
+        
         if (this.newObjectCallback) this.newObjectCallback()
 
     }
@@ -23,10 +25,12 @@ class ProcessorTreeClass {
     updateObject(id, objectText) {
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
+        const position = this.objects[id].position
+
         if (type != this.objects[id].type) {
             this.objects[id] = createObject(this, type)
         }
-
+        this.objects[id].position = position
         this.objects[id].updateAttributes(splitText)
     }
 
