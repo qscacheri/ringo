@@ -12,6 +12,8 @@ class RandomObject extends RingoObject {
         this.type = OBJECT_TYPES.RANDOM
         this.hasDSP = true
         this.receivers = []
+        this.outletDescriptions = ['random value']
+        this.inletDescriptions = ['triggers random value', 'min value', 'max value']
     }
 
     receiveData(inlet, data) {

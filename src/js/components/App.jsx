@@ -11,11 +11,11 @@ import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
+import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
 import About from "./About";
 
@@ -24,7 +24,12 @@ function App() {
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
-    const [selected, setSelected] = useState(-1)
+    const [infoPopup, setInfoPopup] = useState({
+        visible: false,
+        position: {x: 0, y: 0},
+        text: ""
+    })
+
     let myRef = useRef(null)
 
     useEffect(() => {
@@ -74,6 +79,15 @@ function App() {
         ProcessorTree.setSelected(-1)
     }
 
+    function updateShowInfo(visible, position, id, ioletType, index) {
+        console.log(ioletType, index);
+        
+        const object = ProcessorTree.objects[id]
+        const type = (object.type).toLowerCase()
+        const description = object.getIOLetDescription(ioletType, index)         
+        setInfoPopup({ visible, position, text: type + ": " + description})
+    }
+
     const renderRingoObjects = () => {
         const objects = []
         for (let i in ProcessorTree.objects) {
@@ -85,6 +99,7 @@ function App() {
                         position={{ x: 100, y: 100 }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
                     />)
                     break;
                 case OBJECT_TYPES.MESSAGE:
@@ -94,6 +109,7 @@ function App() {
                         position={{ x: 100, y: 100 }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
                     />)
                     break;
                 case OBJECT_TYPES.THREE_CANVAS:
@@ -103,6 +119,7 @@ function App() {
                         position={{ x: 100, y: 100 }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
                     />)
                     break;
 
@@ -113,6 +130,7 @@ function App() {
                         position={{ x: 100, y: 100 }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
                     />)
                     break;
             }
@@ -148,6 +166,11 @@ function App() {
                             <div className='WorkSpace'>
                                 {renderPatchCables()}
                                 {renderRingoObjects()}
+                                {
+                                infoPopup.visible ? <IOLetDescriptionPopup 
+                                position={infoPopup.position} 
+                                text={infoPopup.text}/> : null
+                                }
                             </div>
                             <Toolbar workspace={true}/>
                         </div>

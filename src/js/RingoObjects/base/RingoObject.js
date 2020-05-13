@@ -8,6 +8,9 @@ class RingoObject {
         this.position = { x: 0, y: 0 }
         this.type = 'EMPTY'
         this.hasDSP = false
+        this.outletDescriptions = []
+        this.inletDescriptions = []
+
     }
 
     updateAttributes(attributeName, value) {
@@ -62,6 +65,13 @@ class RingoObject {
             if (id == this.receivers[i].id) return true
         }
         return false
+    }
+
+    getIOLetDescription(type, index) {
+        if (type === 'OUT')
+            return this.outletDescriptions[index]
+        else 
+            return this.inletDescriptions[index]
     }
 }
 
