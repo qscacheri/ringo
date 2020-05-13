@@ -14,9 +14,8 @@ function IOLet(props) {
     let callback = useRef(null)
     const [showInfo, setShowInfo] = useState(false)
 
-    function handleClick(event) {
+    function handleClick() {
         var boundingRect = myRef.current.getBoundingClientRect();
-
         const ioletInfo = {
             objectID: parseInt(props.parentId),
             ioletIndex: props.ioletIndex,

@@ -136,11 +136,11 @@ function App() {
 
     const renderPatchCables = () => {
         const patchCables = []
-        for (let i in PatchCableManager.patchCables) {
+        for (let i in PatchCableManager.patchCables) {            
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
+                    pos1={PatchCableManager.patchCables[i].getActivePosition()}
                     pos2={mousePosition}
                 />)
             else

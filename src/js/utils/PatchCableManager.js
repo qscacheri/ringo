@@ -30,7 +30,7 @@ class PatchCableManagerClass {
             }
         }
         console.log('Deleted ', numDeleted, ' patch cables');
-        
+
     }
 
     newPatchCable(ioletInfo) {
@@ -82,6 +82,21 @@ export function PatchCable(id) {
             this.outObject = data
         else
             this.inObject = data
+    }
+
+    this.getActivePosition = function () {
+        let boundingRect
+        if (this.outObject.ref)
+            boundingRect = this.outObject.ref.getBoundingClientRect();
+
+        else
+            boundingRect = this.inObject.ref.getBoundingClientRect();
+
+        return {
+            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+        }
+        
     }
 
     this.getPosition = function (type) {
