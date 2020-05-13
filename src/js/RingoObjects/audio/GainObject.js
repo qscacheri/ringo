@@ -13,6 +13,8 @@ class GainObject extends RingoAudioObject {
         this.type = OBJECT_TYPES.GAIN
         this.audioNode = new Gain()
         this.receivers = this.createReceiverArray(this.numOutlets)
+        this.inletDescriptions = ['audio input', 'gain value']
+        this.outletDescriptions = ['audio output']
     }
 
     sendData(data) {

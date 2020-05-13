@@ -29,6 +29,9 @@ class ThreeShapeObject extends RingoObject {
             },
             color: ''
         }
+        this.outletDescriptions = ['shape output']
+        this.inletDescriptions = ['set shape attributes']
+
     }
 
     receiveData(inlet, data) {

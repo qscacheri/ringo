@@ -34,7 +34,6 @@ function IOLet(props) {
 
     const handleMouseEnter = (e) => {
         callback.current = setTimeout(() => {
-            console.log('showing info');
             setShowInfo(true)
             const boundingRect = myRef.current.getBoundingClientRect()
             const offset = props.connectionType === 'IN' ? -25 : 20

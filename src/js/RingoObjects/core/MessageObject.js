@@ -11,6 +11,9 @@ class MessageObject extends RingoObject {
         this.wildCards = []
         this.data = ''
         this.receivers = []
+        this.inletDescriptions = ['trigger message', 'set message content']
+        this.outletDescriptions = ['message text']
+
     }
 
     receiveData(inlet, data) {        

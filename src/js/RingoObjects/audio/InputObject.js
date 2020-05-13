@@ -14,6 +14,9 @@ class InputObject extends RingoAudioObject {
         this.audioNode = new UserMedia()
         this.audioNode.open()
         this.receivers = this.createReceiverArray(this.numOutlets)
+        this.inletDescriptions = ['audio input', 'open / close']
+        this.outletDescriptions = ['audio output']
+
     }
     
     receiveData(inlet, data) {

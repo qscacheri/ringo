@@ -14,6 +14,8 @@ class Metro extends RingoObject {
         this.metroFunction = setInterval(() => {
             this.sendData('BANG')
         }, this.attributes.rate)
+        this.inletDescriptions = ['start/stop', 'rate']
+        this.outletDescriptions = ['bang']
     }
 
     receiveData(inlet, data) {

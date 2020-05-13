@@ -13,7 +13,7 @@ class RandomObject extends RingoObject {
         this.hasDSP = true
         this.receivers = []
         this.outletDescriptions = ['random value']
-        this.inletDescriptions = ['triggers random value', 'min value', 'max value']
+        this.inletDescriptions = ['triggers random value', 'set min value', 'set max value']
     }
 
     receiveData(inlet, data) {

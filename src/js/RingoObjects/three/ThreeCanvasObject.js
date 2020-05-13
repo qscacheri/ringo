@@ -11,7 +11,8 @@ class ThreeCanvasObject extends RingoObject {
         this.hasDSP = true
         this.shapes = {}
         this.animate = this.animate.bind(this)
-        
+        this.inletDescriptions = ['shapes']
+
     }
 
     animate() {

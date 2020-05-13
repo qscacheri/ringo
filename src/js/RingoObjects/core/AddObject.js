@@ -12,6 +12,8 @@ class AddObject extends RingoObject {
         }
         this.storedVal = 0
         this.type = OBJECT_TYPES.ADD
+        this.inletDescriptions = ['number 1', 'number 2']
+        this.outletDescriptions = ['sum of both numbers or running sum if attribute set']
     }
 
     receiveData(inlet, data) {

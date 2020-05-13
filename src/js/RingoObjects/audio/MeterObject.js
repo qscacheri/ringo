@@ -12,6 +12,9 @@ class MeterObject extends RingoObject {
         setInterval(() => this.sendData(this.audioNode.getLevel()), 1)
         this.hasDSP = true
         this.sendData = this.sendData.bind(this)
+        this.inletDescriptions = ['audio input', 'poll rate in ms']
+        this.outletDescriptions = ['audio signal level']
+
     }
 }
 

@@ -11,6 +11,7 @@ class DacObject extends RingoAudioObject {
         this.audioNode = new Gain()
         this.audioNode.toMaster()
         this.hasDSP = true
+        this.inletDescriptions = ['audio input']
     }
 
     receiveData(inlet, data) {

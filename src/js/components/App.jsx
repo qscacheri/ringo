@@ -38,7 +38,6 @@ function App() {
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
-        console.log(window.mm);
 
     }, [])
 
@@ -79,9 +78,7 @@ function App() {
         ProcessorTree.setSelected(-1)
     }
 
-    function updateShowInfo(visible, position, id, ioletType, index) {
-        console.log(ioletType, index);
-        
+    function updateShowInfo(visible, position, id, ioletType, index) {        
         const object = ProcessorTree.objects[id]
         const type = (object.type).toLowerCase()
         const description = object.getIOLetDescription(ioletType, index)         
