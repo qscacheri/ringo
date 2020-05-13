@@ -33,12 +33,12 @@ function RingoThree(props) {
 
 
     function handleClick(e) {
+        ProcessorTree.setSelected(props.id)
         if (isDrag == false) {
             console.log("Clicked on object with id:", props.id);
             // this.setState({ inputDisabled: false });
             setInputDisabled(false);
             // this.ref.current.focus();
-            ref.current.focus();
         }
         e.stopPropagation();
         setIsDrag(false);
