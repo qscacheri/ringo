@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 function Toolbar({ lockFn, locked, workspace}) {
     
     const createObject = (type) => {
-        Processor.addObject(type)
+        Processor.addObject(type, 200, 200);
     }
 
     return (
