@@ -6,6 +6,7 @@ class PatchCableManagerClass {
         this.userGrabbedPatchCable = false
         this.activeCableID = -1
         this.onChange = null
+        this.selectedCable = -1
     }
 
     handleClick(ioletInfo) {

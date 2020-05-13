@@ -38,6 +38,7 @@ function App() {
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
+        window.manager = PatchCableManager
 
     }, [])
 
@@ -140,12 +141,14 @@ function App() {
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
+                    id={PatchCableManager.patchCables[i].id}
                     pos1={PatchCableManager.patchCables[i].getActivePosition()}
                     pos2={mousePosition}
                 />)
             else
                 patchCables.push(<PatchCable
                     key={i}
+                    id={PatchCableManager.patchCables[i].id}
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
