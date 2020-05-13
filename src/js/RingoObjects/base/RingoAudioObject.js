@@ -6,6 +6,10 @@ class RingoAudioObject extends RingoObject {
         const receiverObject = this.processor.objects[inputID]
         this.audioNode.connect(receiverObject.audioNode)
     }
+
+    disconnect() {
+        this.audioNode.disconnect()
+    }
 }
 
 export default RingoAudioObject

@@ -4,7 +4,7 @@ import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
 
 class ProcessorTreeClass {
-    constructor() {        
+    constructor() {
         this.context = new AudioContext();
         Tone.setContext(this.context)
         this.objects = {}
@@ -17,7 +17,7 @@ class ProcessorTreeClass {
         this.objects[objectID] = createObject(this, type)
         this.objects[objectID].position.x = x
         this.objects[objectID].position.y = y
-        
+
         if (this.newObjectCallback) this.newObjectCallback()
 
     }
@@ -46,7 +46,7 @@ class ProcessorTreeClass {
         this.objects[id].callback = callback
     }
 
-    connectObjects(outputObject, inputObject) {        
+    connectObjects(outputObject, inputObject) {
         this.objects[outputObject.id].connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
     }
 
@@ -62,16 +62,19 @@ class ProcessorTreeClass {
     deleteSelected() {
         // take care of patch cables coming out of outlets
         console.log('deleting object: ', this.selectedObject);
-        
+
         // take care of objects/patch cables conneted to inlets
         for (let i in this.objects) {
             console.log(this.objects[i]);
-            
+
             if (this.objects[i].isOutletConnectedTo(this.selectedObject)) {
-                // delete this.objects[i].receivers[]
+                if (this.objects[i].disconnect)
+                    this.objects[i].disconnect()
             }
         }
 
+        if (this.objects[this.selectedObject].disconnect)
+            this.objects[this.selectedObject].disconnect()
         delete this.objects[this.selectedObject]
         PatchCableManager.updateDeleted(this.selectedObject)
         this.selectedObject = -1
