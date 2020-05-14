@@ -11,6 +11,8 @@ import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
+import RingoSlider from './RingoSlider'
+
 import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import {
     BrowserRouter as Router,
@@ -38,6 +40,11 @@ function App() {
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
+        ProcessorTree.updateLock = (isLocked) => {
+            console.log("lock status: ", isLocked);
+            
+            setLocked(isLocked)
+        }
 
     }, [])
 
@@ -50,6 +57,16 @@ function App() {
 
         else if (e.key == 'm' || e.key == 'M') {
             ProcessorTree.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y);
+            return;
+        }
+
+        else if (e.key == 's' || e.key == 'S') {
+            ProcessorTree.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y);
+            return;
+        }
+
+        else if (e.key == 'l' || e.key == 'L') {
+            ProcessorTree.toggleLock()
             return;
         }
 
@@ -96,6 +113,7 @@ function App() {
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
                 case OBJECT_TYPES.MESSAGE:
@@ -106,6 +124,7 @@ function App() {
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
                 case OBJECT_TYPES.THREE_CANVAS:
@@ -116,9 +135,21 @@ function App() {
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
-
+                    case OBJECT_TYPES.SLIDER:
+                        objects.push(<RingoSlider
+                            key={i}
+                            id={i}
+                            position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
+                            numInlets={ProcessorTree.objects[i].numInlets}
+                            numOutlets={ProcessorTree.objects[i].numOutlets}
+                            updateShowInfo={updateShowInfo}
+                            isLocked={locked}
+                        />)
+                        break;
+    
                 default:
                     objects.push(<RingoObject
                         key={i}
@@ -127,6 +158,7 @@ function App() {
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
             }
@@ -168,13 +200,13 @@ function App() {
                                 text={infoPopup.text}/> : null
                                 }
                             </div>
-                            <Toolbar workspace={true}/>
+                            <Toolbar workspace={true} locked={locked}/>
                         </div>
                     </Route>
                     <Route exact path="/about">
                         <div>
                         <About />
-                        <Toolbar workspace={false}/>
+                        <Toolbar workspace={false} locked={locked}/>
                         </div>
                     </Route>
                 </Switch>

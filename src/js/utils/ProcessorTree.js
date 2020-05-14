@@ -10,6 +10,8 @@ class ProcessorTreeClass {
         this.objects = {}
         this.newObjectCallback = null
         this.selectedObject = -1
+        this.locked = false
+        this.updateLock = null
     }
 
     resume() {        
@@ -17,6 +19,11 @@ class ProcessorTreeClass {
             this.context.resume()
             console.log('resumed context');
         }
+    }
+
+    toggleLock() {
+        this.locked = !this.locked
+        this.updateLock(this.locked)
     }
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {

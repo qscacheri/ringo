@@ -45,7 +45,7 @@ function RingoThree(props) {
     }
 
     return (
-        <Draggable bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+        <Draggable disabled={props.isLocked} bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoThree" onClick={handleClick}>
                 <IOLetStrip className='Inlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <div className='ThreeCanvas' ref={myRef}></div>

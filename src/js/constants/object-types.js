@@ -12,6 +12,8 @@ const OBJECT_TYPES =
     MESSAGE: 'MESSAGE',
     M2F: 'M2F',
     ADD: '+',
+    SLIDER: 'SLIDER',
+
     // Tone Objects
     INPUT: '~INPUT',
     OSC: '~OSC',

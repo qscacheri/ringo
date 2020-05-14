@@ -25,7 +25,7 @@ function RingoButton(props) {
 
     }
 
-    return (<Draggable bounds='parent' enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+    return (<Draggable disabled={props.isLocked} bounds='parent' enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
         <div className="RingoButton">
         <IOLetStrip className='Inlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
             <svg className='Shape'>

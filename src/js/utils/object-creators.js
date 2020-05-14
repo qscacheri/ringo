@@ -14,6 +14,7 @@ import M2FObject from '../RingoObjects/core/M2FObject'
 import InputObject from '../RingoObjects/audio/InputObject'
 import ScaleObject from '../RingoObjects/core/ScaleObject'
 import AddObject from '../RingoObjects/core/AddObject'
+import SliderObject from '../RingoObjects/core/SliderObject'
 import ThreeCanvasObject from '../RingoObjects/three/ThreeCanvasObject'
 import ThreeShapeObject from '../RingoObjects/three/ThreeShapeObject'
 
@@ -51,6 +52,9 @@ const createObject = (processorTree, type) => {
             return new AddObject(processorTree)
         case OBJECT_TYPES.THREE_CANVAS:
             return new ThreeCanvasObject(processorTree)
+        case OBJECT_TYPES.SLIDER:
+            return new SliderObject(processorTree)
+
         case OBJECT_TYPES.THREE_SHAPE:
             return new ThreeShapeObject(processorTree)
         default:

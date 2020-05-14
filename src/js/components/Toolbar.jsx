@@ -5,12 +5,17 @@ import OBJECT_TYPES from '../constants/object-types';
 import '../../css/Toolbar.css';
 import Processor from "../utils/ProcessorTree";
 import { Link } from "react-router-dom";
+import ProcessorTree from "../utils/ProcessorTree";
 
 
-function Toolbar({ lockFn, locked, workspace}) {
+function Toolbar({ locked, workspace}) {
     
     const createObject = (type) => {
         Processor.addObject(type, 200, 200);
+    }
+
+    const handleLock = () => {
+        ProcessorTree.toggleLock()
     }
 
     return (
@@ -24,7 +29,7 @@ function Toolbar({ lockFn, locked, workspace}) {
                     {workspace ? <button className="ToolbarButton NewMessage" onClick={() => { createObject(OBJECT_TYPES.MESSAGE) }}>New Message</button>: null}
                 </div>
                 <div>
-                    <button className="ToolbarButton" onClick={lockFn}>{ locked ? "Unlock" : "Lock" }</button>
+                    <button className="ToolbarButton" onClick={handleLock}>{ locked ? "Unlock" : "Lock" }</button>
                     <Link to='/about' className="ToolbarButton">About</Link>
 
                 </div>

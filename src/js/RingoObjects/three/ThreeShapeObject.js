@@ -8,7 +8,7 @@ class ThreeShapeObject extends RingoObject {
         super(processor)
         this.numInlets = 1
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.THREE
+        this.type = OBJECT_TYPES.THREE_SHAPE
         this.hasDSP = true
         this.receivers = this.createReceiverArray(this.numOutlets)
         const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -73,6 +73,15 @@ class ThreeShapeObject extends RingoObject {
             this.shape.rotation.x = x;
             this.shape.rotation.y = y;
             this.shape.rotation.z = z;
+        }
+
+        else if (splitData[0] === 'scale') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.scale.x = x;
+            this.shape.scale.y = y;
+            this.shape.scale.z = z;
         }
     }   
 
