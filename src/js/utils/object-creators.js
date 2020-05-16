@@ -18,47 +18,49 @@ import SliderObject from '../RingoObjects/core/SliderObject'
 import ThreeCanvasObject from '../RingoObjects/three/ThreeCanvasObject'
 import ThreeShapeObject from '../RingoObjects/three/ThreeShapeObject'
 
-const createObject = (processorTree, type) => {
+const createObject = (processorTree, type, position) => {
+    console.log('creator: ', position);
+    
     switch (type) {
         case OBJECT_TYPES.EMPTY:
-            return new RingoObject(processorTree)
+            return new RingoObject(processorTree, position)
         case OBJECT_TYPES.MESSAGE:
-            return new MessageObject(processorTree)
+            return new MessageObject(processorTree, position)
         case OBJECT_TYPES.RANDOM:
-            return new RandomObject(processorTree)
+            return new RandomObject(processorTree, position)
         case OBJECT_TYPES.PRINT:
-            return new PrintObject(processorTree)
+            return new PrintObject(processorTree, position)
         case OBJECT_TYPES.SCALE:
-            return new ScaleObject(processorTree)
+            return new ScaleObject(processorTree, position)
         case OBJECT_TYPES.NUMBER:
-            return new NumberObject(processorTree)
+            return new NumberObject(processorTree, position)
         case OBJECT_TYPES.BUTTON:
-            return new ButtonObject(processorTree)
+            return new ButtonObject(processorTree, position)
         case OBJECT_TYPES.OSC:
-            return new OscillatorObject(processorTree)
+            return new OscillatorObject(processorTree, position)
         case OBJECT_TYPES.INPUT:
-            return new InputObject(processorTree)
+            return new InputObject(processorTree, position)
         case OBJECT_TYPES.DAC:
-            return new DacObject(processorTree)
+            return new DacObject(processorTree, position)
         case OBJECT_TYPES.METER:
-            return new MeterObject(processorTree)
+            return new MeterObject(processorTree, position)
         case OBJECT_TYPES.METRO:
-            return new MetroObject(processorTree)
+            return new MetroObject(processorTree, position)
         case OBJECT_TYPES.GAIN:
-            return new GainObject(processorTree)
+            return new GainObject(processorTree, position)
         case OBJECT_TYPES.M2F:
-            return new M2FObject(processorTree)
+            return new M2FObject(processorTree, position)
         case OBJECT_TYPES.ADD:
-            return new AddObject(processorTree)
+            return new AddObject(processorTree, position)
         case OBJECT_TYPES.THREE_CANVAS:
-            return new ThreeCanvasObject(processorTree)
+            return new ThreeCanvasObject(processorTree, position)
         case OBJECT_TYPES.SLIDER:
-            return new SliderObject(processorTree)
+            return new SliderObject(processorTree, position)
 
         case OBJECT_TYPES.THREE_SHAPE:
-            return new ThreeShapeObject(processorTree)
+            return new ThreeShapeObject(processorTree, position)
         default:
-            return new RingoObject(processorTree)
+            return new RingoObject(processorTree, position)
     }
 }
 

@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { Gain } from 'tone'
 
 class SignalMultiplyObject extends RingoAudioObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 2
         this.numOutlets = 1
         this.attributes = {

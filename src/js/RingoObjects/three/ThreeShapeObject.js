@@ -4,8 +4,8 @@ import * as THREE from "three";
 import ProcessorTree from '../../utils/ProcessorTree';
 
 class ThreeShapeObject extends RingoObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.THREE_SHAPE

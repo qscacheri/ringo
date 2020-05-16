@@ -2,6 +2,7 @@ import * as Tone from 'tone'
 import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
+import { SrcAlphaSaturateFactor } from 'three';
 
 class ProcessorTreeClass {
     constructor() {
@@ -28,25 +29,33 @@ class ProcessorTreeClass {
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         const objectID = new Date().getTime()
-        this.objects[objectID] = createObject(this, type)
-        this.objects[objectID].position.x = x
-        this.objects[objectID].position.y = y
-
+        this.objects[objectID] = createObject(this, type, {x, y})
+        
         if (this.newObjectCallback) this.newObjectCallback()
 
     }
 
+    jsonToObject(id, object) {
+        const type = object.type
+        console.log(object.position);
+        
+        this.objects[id] = createObject(this, type, object.position)
+        this.updateObject(id, object.text)
+    }
+    
     updateObject(id, objectText) {
+        console.log(objectText);
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
         const position = this.objects[id].position
-
+        console.log(position);
+        
         if (type != this.objects[id].type) {
-            this.objects[id] = createObject(this, type)
+            this.objects[id] = createObject(this, type, position)
         }
-        this.objects[id].position = position
         this.objects[id].updateAttributes(splitText)
 
+        this.objects[id].text = objectText
         this.save()
     }
 
@@ -100,16 +109,34 @@ class ProcessorTreeClass {
 
     save(file=null) {
         console.log('saving...');
-        
+        let patch = {
+            objects: {}
+        }
         if (!file) {
             for (let i in this.objects) {
-                console.log(this.objects[i].toJSON())
+                patch.objects[i] = this.objects[i].toJSON()
             }
         }
 
         else {
 
+        }        
+        return patch
+    }
+
+    load(state) {
+        this.objects = {}
+        for (let id in state.objects) {
+            console.log(state.objects[id]);
+            this.jsonToObject(id, state.objects[id])
+            
+            if (this.newObjectCallback) this.newObjectCallback(id)
         }
+
+        console.log(this.objects);
+    }
+
+    deleteAll() {
 
     }
 

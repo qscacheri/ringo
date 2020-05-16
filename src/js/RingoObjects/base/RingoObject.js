@@ -1,5 +1,5 @@
 class RingoObject {
-    constructor(processor) {
+    constructor(processor, position) {
         this.processor = processor
         this.numInlets = 1
         this.numOutlets = 1
@@ -10,6 +10,10 @@ class RingoObject {
         this.hasDSP = false
         this.outletDescriptions = []
         this.inletDescriptions = []
+        this.text = ""
+        this.position = position
+        console.log(position);
+        
     }
 
     updateAttributes(attributeName, value) {
@@ -66,7 +70,7 @@ class RingoObject {
         return {
             type: this.type, 
             receivers,
-            text: this.attributes,
+            text: this.text,
             position: this.position
         }
     }
@@ -111,6 +115,10 @@ export const Receiver = function (id, outletInletPair) {
         this.outletInletPairs.map(pair => {
             pairs.push(pair.toJSON())
         })
+        return {
+            id: this.id,
+            pairs
+        }
     }
 }
 

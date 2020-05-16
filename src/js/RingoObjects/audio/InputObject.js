@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { UserMedia } from 'tone'
 
 class InputObject extends RingoAudioObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
         this.attributes = {

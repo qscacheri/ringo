@@ -1,8 +1,8 @@
 import RingoObject from '../base/RingoObject'
 
 class PrintObject extends RingoObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 1
         this.numOutlets = 0
         this.type = 'PRINT'

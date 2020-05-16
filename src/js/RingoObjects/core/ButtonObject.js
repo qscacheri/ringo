@@ -1,8 +1,8 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class ButtonObject extends RingoObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.BUTTON

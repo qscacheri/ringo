@@ -71,74 +71,66 @@ class PatchCableManagerClass {
     }
 }
 
-export function PatchCable(id) {
-    this.isConnectedToObject = function (id) {
-        if (this.outObject.id == id || this.inObject.id == id) return true
-        return false
-    }
-
-    this.updateObject = function (data, type) {
-        if (type === 'OUT')
-            this.outObject = data
-        else
-            this.inObject = data
-    }
-
-    this.getActivePosition = function () {
-        let boundingRect
-        if (this.outObject.ref)
-            boundingRect = this.outObject.ref.getBoundingClientRect();
-
-        else
-            boundingRect = this.inObject.ref.getBoundingClientRect();
-
-        return {
-            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+export class PatchCable {
+    constructor(id) {
+        this.id = id
+        this.outObject = {
+            id: '',
+            ioletIndex: 0,
+            pos: {
+                x: 0,
+                y: 0,
+            },
+            ref: null
         }
-        
-    }
-
-    this.getPosition = function (type) {
-        if (type === 'OUT') {
-            const boundingRect = this.outObject.ref.getBoundingClientRect();
+        this.inObject = {
+            id: '',
+            ioletIndex: 0,
+            pos: {
+                x: 0,
+                y: 0,
+            },
+            ref: null
+        }
+        this.isConnectedToObject = function (id) {
+            if (this.outObject.id == id || this.inObject.id == id)
+                return true
+            return false
+        }
+        this.updateObject = function (data, type) {
+            if (type === 'OUT')
+                this.outObject = data
+            else
+                this.inObject = data
+        }
+        this.getActivePosition = function () {
+            let boundingRect
+            if (this.outObject.ref)
+                boundingRect = this.outObject.ref.getBoundingClientRect()
+            else
+                boundingRect = this.inObject.ref.getBoundingClientRect()
             return {
                 x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
                 y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
             }
         }
-
-        else {
-            const boundingRect = this.inObject.ref.getBoundingClientRect();
-            return {
-                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+        this.getPosition = function (type) {
+            if (type === 'OUT') {
+                const boundingRect = this.outObject.ref.getBoundingClientRect()
+                return {
+                    x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+                    y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+                }
+            }
+            else {
+                const boundingRect = this.inObject.ref.getBoundingClientRect()
+                return {
+                    x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+                    y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+                }
             }
         }
-
     }
-
-    this.id = id
-    this.outObject = {
-        id: '',
-        ioletIndex: 0,
-        pos: {
-            x: 0,
-            y: 0,
-        },
-        ref: null
-    }
-
-    this.inObject = {
-        id: '',
-        ioletIndex: 0,
-        pos: {
-            x: 0,
-            y: 0,
-        },
-        ref: null
-    }
-
 }
 
 export default new PatchCableManagerClass()

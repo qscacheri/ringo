@@ -36,7 +36,7 @@ function App() {
 
     useEffect(() => {
         ProcessorTree.newObjectCallback = (newObjectID) => {
-
+            
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
@@ -44,6 +44,13 @@ function App() {
             console.log("lock status: ", isLocked);
             
             setLocked(isLocked)
+        }
+
+        let state = localStorage.getItem('session')
+        if (state) {
+            state = JSON.parse(state)
+            console.log(state);
+            ProcessorTree.load(state)
         }
 
     }, [])
@@ -69,6 +76,13 @@ function App() {
             ProcessorTree.toggleLock()
             return;
         }
+
+        else if (e.key == 'p' || e.key == 'P') {
+            const state = ProcessorTree.save()
+            localStorage.setItem('session', JSON.stringify(state));
+            return;
+        }
+
 
         // DELETE OBJECT
         if (e.keyCode == 8) {

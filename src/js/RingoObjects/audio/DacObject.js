@@ -3,8 +3,8 @@ import { Gain } from 'tone'
 import RingoAudioObject from '../base/RingoAudioObject'
 
 class DacObject extends RingoAudioObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 1
         this.numOutlets = 0
         this.type = OBJECT_TYPES.DAC

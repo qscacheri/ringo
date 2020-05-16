@@ -3,8 +3,8 @@ import { Oscillator } from 'tone'
 import RingoAudioObject from '../base/RingoAudioObject'
 
 class OscillatorObject extends RingoAudioObject {
-    constructor(processor) {
-        super(processor)
+    constructor(processor, position) {
+        super(processor, position)
         this.numInlets = 3
         this.numOutlets = 1
         this.attributes = {
