@@ -46,6 +46,8 @@ class ProcessorTreeClass {
         }
         this.objects[id].position = position
         this.objects[id].updateAttributes(splitText)
+
+        this.save()
     }
 
     updateMessage(id, text) {
@@ -92,6 +94,23 @@ class ProcessorTreeClass {
         delete this.objects[this.selectedObject]
         PatchCableManager.updateDeleted(this.selectedObject)
         this.selectedObject = -1
+
+        this.save()
+    }
+
+    save(file=null) {
+        console.log('saving...');
+        
+        if (!file) {
+            for (let i in this.objects) {
+                console.log(this.objects[i].toJSON())
+            }
+        }
+
+        else {
+
+        }
+
     }
 
 }
