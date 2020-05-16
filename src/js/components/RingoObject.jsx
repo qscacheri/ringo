@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoObject.css';
 import { IOLetType } from './IOLet'
@@ -11,6 +11,11 @@ function RingoObject(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
+
+    useEffect(() => {
+        setTextValue(ProcessorTree.objects[props.id].text)
+    }, [])
+
     function handleChange(e) {
         setTextValue(event.target.value);
     }

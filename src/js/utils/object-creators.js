@@ -18,9 +18,7 @@ import SliderObject from '../RingoObjects/core/SliderObject'
 import ThreeCanvasObject from '../RingoObjects/three/ThreeCanvasObject'
 import ThreeShapeObject from '../RingoObjects/three/ThreeShapeObject'
 
-const createObject = (processorTree, type, position) => {
-    console.log('creator: ', position);
-    
+const createObject = (processorTree, type, position) => {    
     switch (type) {
         case OBJECT_TYPES.EMPTY:
             return new RingoObject(processorTree, position)

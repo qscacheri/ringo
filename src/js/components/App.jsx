@@ -40,16 +40,13 @@ function App() {
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
-        ProcessorTree.updateLock = (isLocked) => {
-            console.log("lock status: ", isLocked);
-            
+        ProcessorTree.updateLock = (isLocked) => {            
             setLocked(isLocked)
         }
 
         let state = localStorage.getItem('session')
         if (state) {
             state = JSON.parse(state)
-            console.log(state);
             ProcessorTree.load(state)
         }
 
@@ -98,9 +95,7 @@ function App() {
     }
 
     function lock() {
-        setLocked(!locked)
-        console.log(!locked);
-        
+        setLocked(!locked)        
     }
 
     function handleClick() {

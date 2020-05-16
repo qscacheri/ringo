@@ -3,6 +3,7 @@ import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
 import { SrcAlphaSaturateFactor } from 'three';
+import { Receiver } from '../RingoObjects/base/RingoObject';
 
 class ProcessorTreeClass {
     constructor() {
@@ -36,19 +37,19 @@ class ProcessorTreeClass {
     }
 
     jsonToObject(id, object) {
-        const type = object.type
-        console.log(object.position);
-        
+        const type = object.type        
         this.objects[id] = createObject(this, type, object.position)
+        for (let i = 0; i < object.receivers.length; i++)
+        {
+            this.objects[id].receivers.push(new Receiver(object.receivers[i]))
+        }
         this.updateObject(id, object.text)
     }
     
     updateObject(id, objectText) {
-        console.log(objectText);
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
         const position = this.objects[id].position
-        console.log(position);
         
         if (type != this.objects[id].type) {
             this.objects[id] = createObject(this, type, position)
@@ -90,8 +91,6 @@ class ProcessorTreeClass {
 
         // take care of objects/patch cables conneted to inlets
         for (let i in this.objects) {
-            console.log(this.objects[i]);
-
             if (this.objects[i].isOutletConnectedTo(this.selectedObject)) {
                 if (this.objects[i].disconnect)
                     this.objects[i].disconnect()
@@ -120,20 +119,19 @@ class ProcessorTreeClass {
 
         else {
 
-        }        
+        }     
+        console.log(patch)   
         return patch
     }
 
     load(state) {
         this.objects = {}
         for (let id in state.objects) {
-            console.log(state.objects[id]);
             this.jsonToObject(id, state.objects[id])
             
             if (this.newObjectCallback) this.newObjectCallback(id)
         }
 
-        console.log(this.objects);
     }
 
     deleteAll() {

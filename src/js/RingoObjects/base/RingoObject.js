@@ -11,9 +11,7 @@ class RingoObject {
         this.outletDescriptions = []
         this.inletDescriptions = []
         this.text = ""
-        this.position = position
-        console.log(position);
-        
+        this.position = position        
     }
 
     updateAttributes(attributeName, value) {
@@ -96,21 +94,32 @@ export class OutletInletPair {
     constructor(outlet, inlet) {
         this.outlet = outlet
         this.inlet = inlet
-        this.toJSON = () => {
-            return {
-                outlet: this.outlet,
-                inlet: this.inlet
-            }
+    }
+
+    toJSON() {
+        return {
+            outlet: this.outlet,
+            inlet: this.inlet
         }
     }
+
 }
 
-export const Receiver = function (id, outletInletPair) {
-    this.id = id
-    this.outletInletPairs = []
-    this.outletInletPairs.push(outletInletPair)
+export class Receiver {
+    constructor(id, outletInletPair) {     
+        this.outletInletPairs = []
+  
+        if (id.id) {
+            this.fromJSON(id) // actually the json since no multiple constructors
+        }
 
-    this.toJSON = () => {
+        else {
+            this.id = id
+            this.outletInletPairs.push(outletInletPair)    
+        }  
+    }
+
+    toJSON () {
         const pairs = []
         this.outletInletPairs.map(pair => {
             pairs.push(pair.toJSON())
@@ -119,6 +128,13 @@ export const Receiver = function (id, outletInletPair) {
             id: this.id,
             pairs
         }
+    }
+
+    fromJSON (receiver) {
+        this.id = receiver.id
+        receiver.pairs.map(pair => {
+            this.outletInletPairs.push(new OutletInletPair(pair.outlet, pair.inlet))
+        })
     }
 }
 
