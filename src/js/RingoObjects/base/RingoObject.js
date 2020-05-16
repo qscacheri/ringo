@@ -49,11 +49,33 @@ class RingoObject {
         for (let i = 0; i < numOutlets; i++) array[i] = {}
         return array
     }
+
+    toJSON() {
+        const receivers = []
+        this.receivers.map(receiver => {
+            receivers.push(receiver.toJSON())
+        })
+
+        return {
+            type: this.type, 
+            receivers,
+            text: this.attributes,
+            position: this.position
+        }
+    }
 }
 
-export const OutletInletPair = function (outlet, inlet) {
-    this.outlet = outlet
-    this.inlet = inlet
+export class OutletInletPair {
+    constructor(outlet, inlet) {
+        this.outlet = outlet
+        this.inlet = inlet
+        this.toJSON = () => {
+            return {
+                outlet: this.outlet,
+                inlet: this.inlet
+            }
+        }
+    }
 }
 
 
@@ -61,6 +83,13 @@ export const Receiver = function (id, outletInletPair) {
     this.id = id
     this.outletInletPairs = []
     this.outletInletPairs.push(outletInletPair)
+
+    this.toJSON = () => {
+        const pairs = []
+        this.outletInletPairs.map(pair => {
+            pairs.push(pair.toJSON())
+        })
+    }
 }
 
 export default RingoObject
