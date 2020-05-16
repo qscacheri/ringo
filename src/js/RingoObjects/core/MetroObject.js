@@ -9,11 +9,13 @@ class Metro extends RingoObject {
             start: true,
             rate: 1000
         }
-        this.type = OBJECT_TYPES.NUMBER
+        this.type = OBJECT_TYPES.METRO
         this.sendData = this.sendData.bind(this)
         this.metroFunction = setInterval(() => {
             this.sendData('BANG')
         }, this.attributes.rate)
+        this.inletDescriptions = ['start/stop', 'rate']
+        this.outletDescriptions = ['bang']
     }
 
     receiveData(inlet, data) {

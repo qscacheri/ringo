@@ -8,7 +8,7 @@ function IOLetStrip(props)
     var iolets = [];
     let type = props.connectionType;
     for (let i = 0; i < props.numIOLets; i++) {
-        iolets.push(<IOLet key={props.id + ":" + {type} + "" + i} ioletIndex={i} parentId={props.id} connectionType={type}></IOLet>)
+        iolets.push(<IOLet updateShowInfo={props.updateShowInfo} key={props.id + ":" + {type} + "" + i} ioletIndex={i} parentId={props.id} connectionType={type}></IOLet>)
     }
 
     return (

@@ -9,6 +9,9 @@ class NumberObject extends RingoObject {
             value: 0
         }
         this.type = OBJECT_TYPES.NUMBER
+        this.inletDescriptions = ['trigger', 'set number value']
+        this.outletDescriptions = ['number value']
+
     }
 
     receiveData(inlet, data) {

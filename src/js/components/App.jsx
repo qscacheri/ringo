@@ -11,42 +11,68 @@ import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
+import RingoSlider from './RingoSlider'
+
+import IOLetDescriptionPopup from './IOletDescriptionPopup'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+} from "react-router-dom";
+import About from "./About";
 
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
+    const [infoPopup, setInfoPopup] = useState({
+        visible: false,
+        position: {x: 0, y: 0},
+        text: ""
+    })
+
     let myRef = useRef(null)
 
     useEffect(() => {
         ProcessorTree.newObjectCallback = (newObjectID) => {
-            
+
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
-        console.log(window.mm);
+        ProcessorTree.updateLock = (isLocked) => {
+            console.log("lock status: ", isLocked);
+            
+            setLocked(isLocked)
+        }
 
     }, [])
 
     function handleKeyDown(e) {
-        console.log(e);
-        
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-            ProcessorTree.addObject();
+            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
             return;
         }
 
         else if (e.key == 'm' || e.key == 'M') {
-            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE);
+            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y);
+            return;
+        }
+
+        else if (e.key == 's' || e.key == 'S') {
+            ProcessorTree.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y);
+            return;
+        }
+
+        else if (e.key == 'l' || e.key == 'L') {
+            ProcessorTree.toggleLock()
             return;
         }
 
         // DELETE OBJECT
         if (e.keyCode == 8) {
-            const deletedObjectID = ProcessorTree.deleteSelected()
-            PatchCableManager.objectDeleted(deletedObjectID)
+            ProcessorTree.deleteSelected()
         }
     }
 
@@ -63,8 +89,16 @@ function App() {
         
     }
 
-    function handleClick(e) {
+    function handleClick() {
         PatchCableManager.handleClick(null)
+        ProcessorTree.setSelected(-1)
+    }
+
+    function updateShowInfo(visible, position, id, ioletType, index) {        
+        const object = ProcessorTree.objects[id]
+        const type = (object.type).toLowerCase()
+        const description = object.getIOLetDescription(ioletType, index)         
+        setInfoPopup({ visible, position, text: type + ": " + description})
     }
 
     const renderRingoObjects = () => {
@@ -75,37 +109,56 @@ function App() {
                     objects.push(<RingoButton
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
                 case OBJECT_TYPES.MESSAGE:
                     objects.push(<RingoMessage
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
                 case OBJECT_TYPES.THREE_CANVAS:
                     objects.push(<RingoThree
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
-
+                    case OBJECT_TYPES.SLIDER:
+                        objects.push(<RingoSlider
+                            key={i}
+                            id={i}
+                            position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
+                            numInlets={ProcessorTree.objects[i].numInlets}
+                            numOutlets={ProcessorTree.objects[i].numOutlets}
+                            updateShowInfo={updateShowInfo}
+                            isLocked={locked}
+                        />)
+                        break;
+    
                 default:
                     objects.push(<RingoObject
                         key={i}
                         id={i}
-                        position={{ x: 100, y: 100 }}
+                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
                         numInlets={ProcessorTree.objects[i].numInlets}
                         numOutlets={ProcessorTree.objects[i].numOutlets}
+                        updateShowInfo={updateShowInfo}
+                        isLocked={locked}
                     />)
                     break;
             }
@@ -114,14 +167,12 @@ function App() {
     }
 
     const renderPatchCables = () => {
-        console.log(window.pageYOffset)
-
         const patchCables = []
-        for (let i in PatchCableManager.patchCables) {
+        for (let i in PatchCableManager.patchCables) {            
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
+                    pos1={PatchCableManager.patchCables[i].getActivePosition()}
                     pos2={mousePosition}
                 />)
             else
@@ -130,18 +181,36 @@ function App() {
                     pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
                     pos2={PatchCableManager.patchCables[i].getPosition('IN')}
                 />)
-        console.log(PatchCableManager.patchCables[i].getPosition('OUT').y)
         }
         return patchCables
     }
 
     return (
         <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
-            <div className='WorkSpace'>
-                {renderPatchCables()}
-                {renderRingoObjects()}
-            </div>
-            <Toolbar lockFn={lock} locked={locked}/>
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <div>
+                            <div className='WorkSpace'>
+                                {renderPatchCables()}
+                                {renderRingoObjects()}
+                                {
+                                infoPopup.visible ? <IOLetDescriptionPopup 
+                                position={infoPopup.position} 
+                                text={infoPopup.text}/> : null
+                                }
+                            </div>
+                            <Toolbar workspace={true} locked={locked}/>
+                        </div>
+                    </Route>
+                    <Route exact path="/about">
+                        <div>
+                        <About />
+                        <Toolbar workspace={false} locked={locked}/>
+                        </div>
+                    </Route>
+                </Switch>
+            </Router>
         </div>)
 }
 

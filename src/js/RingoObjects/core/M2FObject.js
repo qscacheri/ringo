@@ -8,6 +8,9 @@ class NumberObject extends RingoObject {
         this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.M2F
+        this.inletDescriptions = ['midi note number']
+        this.outletDescriptions = ['frequency']
+
     }
 
     receiveData(inlet, data) {
@@ -27,7 +30,7 @@ class NumberObject extends RingoObject {
         if (newAttributes[1]) this.attributes.value = parseFloat(newAttributes[1])
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         this.receivers[outletIndex][inputID] = inletIndex
     }
 }

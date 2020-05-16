@@ -6,6 +6,8 @@ class ButtonObject extends RingoObject {
         this.numInlets = 1
         this.numOutlets = 1
         this.type = OBJECT_TYPES.BUTTON
+        this.inletDescriptions = ['trigger button press']
+        this.outletDescriptions = ['bang']
     }
 
     receiveData(inlet, data) {

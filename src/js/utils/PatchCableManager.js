@@ -16,19 +16,21 @@ class PatchCableManagerClass {
             this.userGrabbedPatchCable = false
             return
         }
-        console.log(ioletInfo.ref.getBoundingClientRect());
-
 
         if (this.userGrabbedPatchCable == false) this.newPatchCable(ioletInfo)
         else this.checkCableCompatiblity(ioletInfo)
     }
 
-    update(id) {
+    updateDeleted(id) {
+        let numDeleted = 0
         for (let i in this.patchCables) {
             if (this.patchCables[i].isConnectedToObject(id)) {
-
+                delete this.patchCables[i]
+                numDeleted++
             }
         }
+        console.log('Deleted ', numDeleted, ' patch cables');
+
     }
 
     newPatchCable(ioletInfo) {
@@ -71,7 +73,7 @@ class PatchCableManagerClass {
 
 export function PatchCable(id) {
     this.isConnectedToObject = function (id) {
-        if (this.outObject.id === id || this.inObject.id === id) return true
+        if (this.outObject.id == id || this.inObject.id == id) return true
         return false
     }
 
@@ -80,6 +82,21 @@ export function PatchCable(id) {
             this.outObject = data
         else
             this.inObject = data
+    }
+
+    this.getActivePosition = function () {
+        let boundingRect
+        if (this.outObject.ref)
+            boundingRect = this.outObject.ref.getBoundingClientRect();
+
+        else
+            boundingRect = this.inObject.ref.getBoundingClientRect();
+
+        return {
+            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+        }
+        
     }
 
     this.getPosition = function (type) {

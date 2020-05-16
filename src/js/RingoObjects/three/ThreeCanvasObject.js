@@ -11,7 +11,8 @@ class ThreeCanvasObject extends RingoObject {
         this.hasDSP = true
         this.shapes = {}
         this.animate = this.animate.bind(this)
-        
+        this.inletDescriptions = ['shapes']
+
     }
 
     animate() {
@@ -52,7 +53,7 @@ class ThreeCanvasObject extends RingoObject {
         
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         this.receivers[outletIndex][inputID] = inletIndex
     }
     

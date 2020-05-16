@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import '../../css/IOLet.css';
 import PatchCableManger from '../../js/utils/PatchCableManager'
+import IOLetDescriptionPopup from "./IOletDescriptionPopup";
 
 export const IOLetType =
 {
@@ -10,10 +11,11 @@ export const IOLetType =
 
 function IOLet(props) {
     let myRef = useRef(null)
+    let callback = useRef(null)
+    const [showInfo, setShowInfo] = useState(false)
 
-    function handleClick(event) {
+    function handleClick() {
         var boundingRect = myRef.current.getBoundingClientRect();
-
         const ioletInfo = {
             objectID: parseInt(props.parentId),
             ioletIndex: props.ioletIndex,
@@ -29,10 +31,27 @@ function IOLet(props) {
 
     }
 
+    const handleMouseEnter = (e) => {
+        callback.current = setTimeout(() => {
+            setShowInfo(true)
+            const boundingRect = myRef.current.getBoundingClientRect()
+            const offset = props.connectionType === 'IN' ? -25 : 20
+            props.updateShowInfo(true, {x: boundingRect.x, y:boundingRect.y + offset}, props.parentId, props.connectionType, props.ioletIndex)
+        }, 600);
+        
+    }
+
+    const handleMouseExit = (e) => {        
+        clearTimeout(callback.current) 
+        setShowInfo(false)
+        props.updateShowInfo(false, {x: 0, y:0}, props.parentId, props.connectionType, props.ioletIndex)
+    }
+
+
     return (
-        <svg className="IOLet" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" >
-            <circle ref={myRef} onClick={handleClick} cx="50" cy="50" r="40" stroke="white" strokeWidth="10"/>
-        </svg>
+            <svg className="IOLet" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseExit} viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" >
+                <circle ref={myRef} onClick={handleClick} cx="50" cy="50" r="40" stroke="white" strokeWidth="10"/>
+            </svg>
     );
 
 }

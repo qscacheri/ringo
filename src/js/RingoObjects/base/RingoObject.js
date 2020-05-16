@@ -8,13 +8,15 @@ class RingoObject {
         this.position = { x: 0, y: 0 }
         this.type = 'EMPTY'
         this.hasDSP = false
+        this.outletDescriptions = []
+        this.inletDescriptions = []
     }
 
     updateAttributes(attributeName, value) {
 
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
+    connect(outletIndex, inletIndex, inputID) {
         let newPair = new OutletInletPair(outletIndex, inletIndex)
         let alreadyPresent = false
         for (let i = 0; i < this.receivers.length; i++) {
@@ -30,6 +32,11 @@ class RingoObject {
     sendData(data) {
         for (let i = 0; i < this.receivers.length; i++) {
             let currentID = this.receivers[i].id
+            if (!this.processor.objects[currentID]) {
+                this.receivers.splice(i, 1)
+                continue;
+            }   
+            
             // iterate through all outlet/inlet combinations
             for (let j = 0; j < this.receivers[i].outletInletPairs.length; j++) {
                 let currentOutlet = this.receivers[i].outletInletPairs[j].outlet
@@ -50,32 +57,26 @@ class RingoObject {
         return array
     }
 
-    toJSON() {
-        const receivers = []
-        this.receivers.map(receiver => {
-            receivers.push(receiver.toJSON())
-        })
-
-        return {
-            type: this.type, 
-            receivers,
-            text: this.attributes,
-            position: this.position
+    isOutletConnectedTo(id) {
+        
+        // connected to outlet
+        for (let i = 0; i < this.receivers.length; i++) {            
+            if (id == this.receivers[i].id) return true
         }
+        return false
+    }
+
+    getIOLetDescription(type, index) {
+        if (type === 'OUT')
+            return this.outletDescriptions[index]
+        else 
+            return this.inletDescriptions[index]
     }
 }
 
-export class OutletInletPair {
-    constructor(outlet, inlet) {
-        this.outlet = outlet
-        this.inlet = inlet
-        this.toJSON = () => {
-            return {
-                outlet: this.outlet,
-                inlet: this.inlet
-            }
-        }
-    }
+export const OutletInletPair = function (outlet, inlet) {
+    this.outlet = outlet
+    this.inlet = inlet
 }
 
 
@@ -83,13 +84,6 @@ export const Receiver = function (id, outletInletPair) {
     this.id = id
     this.outletInletPairs = []
     this.outletInletPairs.push(outletInletPair)
-
-    this.toJSON = () => {
-        const pairs = []
-        this.outletInletPairs.map(pair => {
-            pairs.push(pair.toJSON())
-        })
-    }
 }
 
 export default RingoObject

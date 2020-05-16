@@ -14,32 +14,11 @@ function RingoThree(props) {
     useEffect(() => {
         const width = myRef.current.getBoundingClientRect().width
         const height = myRef.current.getBoundingClientRect().height
-
-        // var scene = new THREE.Scene();
-        // var camera = new THREE.PerspectiveCamera( 75, width/height, 0.1, 1000 );
-        // var renderer = new THREE.WebGLRenderer();
-        // renderer.setSize( width, height );
-        // myRef.current.appendChild( renderer.domElement);
-        // var geometry = new THREE.BoxGeometry( 2, 2, 2 );
-        // var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-        // var cube = new THREE.Mesh( geometry, material );
-        // console.log(cube);
-        // scene.add( cube );
-        // camera.position.z = 5;
-        // var animate = function () {
-        //   requestAnimationFrame( animate );
-        //   cube.rotation.x += 0.01;
-        //   cube.rotation.y += 0.01;
-        //   renderer.render( scene, camera );
-        // };
-        // animate();
-        // // === THREE.JS EXAMPLE CODE END ===
-        // console.log(cube);
         ProcessorTree.initializeThree(props.id, width, height, (renderer) => {
             console.log("three has been initialized");
             myRef.current.appendChild(renderer.domElement);
         })
-        
+
 
     }, [])
 
@@ -54,23 +33,23 @@ function RingoThree(props) {
 
 
     function handleClick(e) {
+        ProcessorTree.setSelected(props.id)
         if (isDrag == false) {
             console.log("Clicked on object with id:", props.id);
             // this.setState({ inputDisabled: false });
             setInputDisabled(false);
             // this.ref.current.focus();
-            ref.current.focus();
         }
         e.stopPropagation();
         setIsDrag(false);
     }
 
     return (
-        <Draggable bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+        <Draggable disabled={props.isLocked} bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoThree" onClick={handleClick}>
-                <IOLetStrip className='Inlets' id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
-                    <div className='ThreeCanvas' ref={myRef}></div>
-                <IOLetStrip className='Outlets' id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
+                <IOLetStrip className='Inlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <div className='ThreeCanvas' ref={myRef}></div>
+                <IOLetStrip className='Outlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
             </div>
         </Draggable>
     )

@@ -1,10 +1,14 @@
 import RingoObject from "./RingoObject";
 
 class RingoAudioObject extends RingoObject {
-    addReceiver(outletIndex, inletIndex, inputID) {
-        super.addReceiver(outletIndex, inletIndex, inputID)
+    connect(outletIndex, inletIndex, inputID) {
+        super.connect(outletIndex, inletIndex, inputID)
         const receiverObject = this.processor.objects[inputID]
         this.audioNode.connect(receiverObject.audioNode)
+    }
+
+    disconnect() {
+        this.audioNode.disconnect()
     }
 }
 

@@ -13,13 +13,14 @@ class ScaleObject extends RingoObject {
         }
         this.type = OBJECT_TYPES.SCALE
         this.hasDSP = true
+        this.inletDescriptions = ['trigger value', 'set input min', 'set input max', 'set output min', 'set output max']
+        this.outletDescriptions = ['scaled value']
+
     }
 
     scaleValue(input, inputMin, inputMax, outputMin, outputMax) {
         const scaledVal = ((input - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
-        debugger
         this.sendData(scaledVal)
-
     }
 
     receiveData(inlet, data) {

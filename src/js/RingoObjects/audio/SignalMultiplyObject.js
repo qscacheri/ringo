@@ -2,7 +2,7 @@ import RingoAudioObject from '../base/RingoAudioObject'
 import OBJECT_TYPES from '../../constants/object-types'
 import { Gain } from 'tone'
 
-class GainObject extends RingoAudioObject {
+class SignalMultiplyObject extends RingoAudioObject {
     constructor(processor) {
         super(processor)
         this.numInlets = 2
@@ -15,12 +15,6 @@ class GainObject extends RingoAudioObject {
         this.receivers = this.createReceiverArray(this.numOutlets)
         this.inletDescriptions = ['audio input', 'gain value']
         this.outletDescriptions = ['audio output']
-    }
-
-    sendData(data) {
-        this.receivers.forEach(receiver => {
-
-        });
     }
 
     receiveData(inlet, data) {
@@ -40,4 +34,4 @@ class GainObject extends RingoAudioObject {
     }
 }
 
-export default GainObject
+export default SignalMultiplyObject

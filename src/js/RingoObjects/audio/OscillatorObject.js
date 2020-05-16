@@ -15,6 +15,9 @@ class OscillatorObject extends RingoAudioObject {
         this.audioNode = new Oscillator()
         this.audioNode.start()
         this.receivers = this.createReceiverArray(this.numOutlets)
+        this.inletDescriptions = ['audio input', 'frequency value']
+        this.outletDescriptions = ['audio output']
+
     }
 
     sendData(data) {
@@ -50,8 +53,8 @@ class OscillatorObject extends RingoAudioObject {
             this.audioNode.frequency.type = this.attributes.type
         }
     }
-    addReceiver(outletIndex, inletIndex, inputID) {
-        super.addReceiver(outletIndex, inletIndex, inputID)
+    connect(outletIndex, inletIndex, inputID) {
+        super.connect(outletIndex, inletIndex, inputID)
         this.audioNode.start()
     }
 }

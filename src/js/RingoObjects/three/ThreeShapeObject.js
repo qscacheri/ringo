@@ -6,9 +6,9 @@ import ProcessorTree from '../../utils/ProcessorTree';
 class ThreeShapeObject extends RingoObject {
     constructor(processor) {
         super(processor)
-        this.numInlets = 3
+        this.numInlets = 1
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.THREE
+        this.type = OBJECT_TYPES.THREE_SHAPE
         this.hasDSP = true
         this.receivers = this.createReceiverArray(this.numOutlets)
         const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -29,25 +29,61 @@ class ThreeShapeObject extends RingoObject {
             },
             color: ''
         }
+        this.outletDescriptions = ['shape output']
+        this.inletDescriptions = ['set shape attributes']
+
     }
 
     receiveData(inlet, data) {
-        debugger
         switch (inlet) {
             case 0:
-                this.parseData(data, 'position')
+                this.parseMessage(data)
                 return
-            case 1:
-                this.parseData(data, 'rotation')
-                return
-
         }
     }
 
-    addReceiver(outletIndex, inletIndex, inputID) {
-        super.addReceiver(outletIndex, inletIndex, inputID)
+    connect(outletIndex, inletIndex, inputID) {
+        super.connect(outletIndex, inletIndex, inputID)
         ProcessorTree.objects[inputID].addShape(this.shape)
     }
+
+    parseMessage(data) {        
+        let splitData = data.split(' ');
+        
+        if (splitData[0] === 'color') {
+            const r = parseFloat(splitData[1]);
+            const g = parseFloat(splitData[2]);
+            const b = parseFloat(splitData[3]);
+            this.shape.material.color.setRGB(r, g, b);
+        }
+
+        else if (splitData[0] === 'position') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.position.x = x;
+            this.shape.position.y = y;
+            this.shape.position.z = z;
+        }
+
+        else if (splitData[0] === 'rotation') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.rotation.x = x;
+            this.shape.rotation.y = y;
+            this.shape.rotation.z = z;
+        }
+
+        else if (splitData[0] === 'scale') {
+            const x = parseFloat(splitData[1]);
+            const y = parseFloat(splitData[2]);
+            const z = parseFloat(splitData[3]);
+            this.shape.scale.x = x;
+            this.shape.scale.y = y;
+            this.shape.scale.z = z;
+        }
+    }   
 
     parseData(data, shapeAttribute) {
         if (typeof (data) === 'number') {

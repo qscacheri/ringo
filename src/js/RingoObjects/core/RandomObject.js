@@ -12,6 +12,8 @@ class RandomObject extends RingoObject {
         this.type = OBJECT_TYPES.RANDOM
         this.hasDSP = true
         this.receivers = []
+        this.outletDescriptions = ['random value']
+        this.inletDescriptions = ['triggers random value', 'set min value', 'set max value']
     }
 
     receiveData(inlet, data) {
@@ -29,7 +31,7 @@ class RandomObject extends RingoObject {
     }
 
     processData() {
-        const randVal = this.attributes.min + Math.random() * (this.attributes.min + this.attributes.max)
+        const randVal = this.attributes.min + Math.random() * (this.attributes.max - this.attributes.min)
         this.sendData(randVal)
     }
 
