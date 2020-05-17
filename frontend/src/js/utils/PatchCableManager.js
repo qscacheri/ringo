@@ -7,6 +7,7 @@ class PatchCableManagerClass {
         this.userGrabbedPatchCable = false
         this.activeCableID = -1
         this.onChange = null
+        this.refCallbacks = []
     }
 
     handleClick(ioletInfo) {
@@ -71,6 +72,10 @@ class PatchCableManagerClass {
 
     }
 
+    addRefCallback(newCallback) {
+        this.refCallbacks.push(newCallback)
+    }
+
     updateRefs(id, type, ioletIndex, ref) {
         for (let i in this.patchCables) {
             let currentPatchCable = this.patchCables[i] 
@@ -98,6 +103,12 @@ class PatchCableManagerClass {
     loadFromJSON(json) {
         for (let i in json) {
             this.patchCables[i] = new PatchCable(json[i])            
+        }
+
+        for (let i = 0; i < this.refCallbacks.length; i++) {
+            console.log(i);
+            
+            this.refCallbacks[i]()
         }
     }
 }

@@ -40,6 +40,8 @@ function App() {
             setObjectIDs([...objectIDs, newObjectID])
         }
         window.tree = ProcessorTree
+        window.manager = PatchCableManager
+
         ProcessorTree.updateLock = (isLocked) => {            
             setLocked(isLocked)
         }
@@ -50,6 +52,10 @@ function App() {
             ProcessorTree.load(state)
         }
 
+        window.onbeforeunload = () => {
+            ProcessorTree.save()
+            return ""
+        }      
     }, [])
 
     function handleKeyDown(e) {

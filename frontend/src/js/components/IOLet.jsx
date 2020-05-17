@@ -28,12 +28,11 @@ function IOLet(props) {
         }
 
         PatchCableManger.handleClick(ioletInfo)
-
     }
 
-    useEffect(() => {        
-        PatchCableManger.updateRefs(props.parentId, props.connectionType, props.ioletIndex, myRef.current)
-    })
+    useEffect(() => {     
+            PatchCableManger.updateRefs(props.parentId, props.connectionType, props.ioletIndex, myRef.current)
+    }, [])
 
     const handleMouseEnter = (e) => {
         callback.current = setTimeout(() => {
