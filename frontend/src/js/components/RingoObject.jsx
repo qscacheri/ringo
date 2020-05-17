@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoObject.css';
 import { IOLetType } from './IOLet'
@@ -7,10 +7,11 @@ import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from "../utils/PatchCableManager";
 
 function RingoObject(props) {
-    let ref = React.createRef();
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
+    let ref = useRef(null)
+    let outletRefs = []
 
     useEffect(() => {
         setTextValue(ProcessorTree.objects[props.id].text)
@@ -52,10 +53,15 @@ function RingoObject(props) {
         return;
     }
 
+    const handleRef = (ref) => {
+        // console.log(ref);
+        
+    }
+
     return (
         <Draggable bounds='parent' disabled={props.isLocked} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoObject" onClick={handleClick}>
-                <IOLetStrip className='Inlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <IOLetStrip className='Inlets' handleRef={handleRef} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>
                     <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
                 </form>

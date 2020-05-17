@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import '../../css/IOLet.css';
 import PatchCableManger from '../../js/utils/PatchCableManager'
 import IOLetDescriptionPopup from "./IOletDescriptionPopup";
@@ -30,6 +30,10 @@ function IOLet(props) {
         PatchCableManger.handleClick(ioletInfo)
 
     }
+
+    useEffect(() => {        
+        PatchCableManger.updateRefs(props.parentId, props.connectionType, props.ioletIndex, myRef.current)
+    })
 
     const handleMouseEnter = (e) => {
         callback.current = setTimeout(() => {

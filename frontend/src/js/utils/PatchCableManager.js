@@ -1,4 +1,5 @@
 import ProcessorTree from './ProcessorTree'
+import { log } from 'three'
 
 class PatchCableManagerClass {
     constructor() {
@@ -69,68 +70,128 @@ class PatchCableManagerClass {
         }
 
     }
+
+    updateRefs(id, type, ioletIndex, ref) {
+        for (let i in this.patchCables) {
+            let currentPatchCable = this.patchCables[i] 
+            if (currentPatchCable.isConnectedToObject(id)) {
+               let ioletID = id + ':' + ioletIndex + ':' + type
+                if (currentPatchCable.outObject.ioletID === ioletID) {
+                    currentPatchCable.outObject.ref = ref
+                }
+
+                else if (currentPatchCable.inObject.ioletID === ioletID) {
+                    currentPatchCable.inObject.ref = ref
+                }
+            }
+        }
+    }
+
+    getCablesAsJSON() {
+        let patchCables = {}
+        for (let i in this.patchCables) {
+            patchCables[i] = this.patchCables[i].toJSON()
+        }
+        return patchCables
+    }
+
+    loadFromJSON(json) {
+        for (let i in json) {
+            this.patchCables[i] = new PatchCable(json[i])            
+        }
+    }
 }
 
 export class PatchCable {
     constructor(id) {
-        this.id = id
-        this.outObject = {
-            id: '',
-            ioletIndex: 0,
-            pos: {
-                x: 0,
-                y: 0,
-            },
-            ref: null
+        if (id.id)
+            this.fromJSON(id)
+        else {
+
+            this.id = id
+            this.outObject = {
+                id: '',
+                ioletID: '',
+                ioletIndex: 0,
+                pos: {
+                    x: 0,
+                    y: 0,
+                },
+                ref: null
+            }
+            this.inObject = {
+                id: '',
+                ioletID: '',
+                ioletIndex: 0,
+                pos: {
+                    x: 0,
+                    y: 0,
+                },
+                ref: null
+            }
         }
-        this.inObject = {
-            id: '',
-            ioletIndex: 0,
-            pos: {
-                x: 0,
-                y: 0,
-            },
-            ref: null
+    }
+
+    isConnectedToObject(id) {
+        if (this.outObject.id == id || this.inObject.id == id)
+            return true
+        return false
+    }
+    updateObject(data, type) {
+        if (type === 'OUT') {
+            this.outObject = data
+            this.outObject.ioletID = this.outObject.id + ':' + this.outObject.ioletIndex + ':' + 'OUT'
         }
-        this.isConnectedToObject = function (id) {
-            if (this.outObject.id == id || this.inObject.id == id)
-                return true
-            return false
+        else {
+            this.inObject = data
+            this.inObject.ioletID = this.inObject.id + ':' + this.inObject.ioletIndex + ':' + 'IN'
         }
-        this.updateObject = function (data, type) {
-            if (type === 'OUT')
-                this.outObject = data
-            else
-                this.inObject = data
+    }
+
+    getActivePosition() {
+        let boundingRect
+        if (this.outObject.ref)
+            boundingRect = this.outObject.ref.getBoundingClientRect()
+        else
+            boundingRect = this.inObject.ref.getBoundingClientRect()
+        return {
+            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
         }
-        this.getActivePosition = function () {
-            let boundingRect
-            if (this.outObject.ref)
-                boundingRect = this.outObject.ref.getBoundingClientRect()
-            else
-                boundingRect = this.inObject.ref.getBoundingClientRect()
+    }
+    getPosition(type) {
+        if (type === 'OUT') {
+            if (!this.outObject.ref) return 0
+            const boundingRect = this.outObject.ref.getBoundingClientRect()
             return {
                 x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
                 y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
             }
         }
-        this.getPosition = function (type) {
-            if (type === 'OUT') {
-                const boundingRect = this.outObject.ref.getBoundingClientRect()
-                return {
-                    x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-                    y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
-                }
-            }
-            else {
-                const boundingRect = this.inObject.ref.getBoundingClientRect()
-                return {
-                    x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-                    y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
-                }
+        else {
+            if (!this.inObject.ref) return 0
+            const boundingRect = this.inObject.ref.getBoundingClientRect()
+            return {
+                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
+                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
             }
         }
     }
+
+    toJSON() {
+        return {
+            id: this.id,
+            outObject: { ...this.outObject, ref: null },
+            inObject: { ...this.inObject, ref: null },
+        }
+    }
+
+    fromJSON(data) {
+        this.id = data.id
+        this.outObject = data.outObject
+        this.inObject = data.inObject
+    }
+
 }
 
 export default new PatchCableManagerClass()

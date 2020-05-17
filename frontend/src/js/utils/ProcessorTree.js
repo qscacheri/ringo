@@ -115,6 +115,7 @@ class ProcessorTreeClass {
             for (let i in this.objects) {
                 patch.objects[i] = this.objects[i].toJSON()
             }
+            patch.patchCables = PatchCableManager.getCablesAsJSON()
         }
 
         else {
@@ -131,6 +132,10 @@ class ProcessorTreeClass {
             
             if (this.newObjectCallback) this.newObjectCallback(id)
         }
+
+        PatchCableManager.loadFromJSON(state.patchCables)
+        
+        
 
     }
 
