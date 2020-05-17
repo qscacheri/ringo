@@ -26,7 +26,6 @@ function RingoObject(props) {
         setIsDrag(true);
     }
 
-
     function handleClick(e) {
         ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
@@ -58,8 +57,12 @@ function RingoObject(props) {
         
     }
 
+    const handleStop = (e, data) => {
+        ProcessorTree.objects[props.id].position = { x:data.x, y: data.y }
+    }
+
     return (
-        <Draggable bounds='parent' disabled={props.isLocked} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
+        <Draggable bounds='parent' disabled={props.isLocked} onStop={handleStop} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoObject" onClick={handleClick}>
                 <IOLetStrip className='Inlets' handleRef={handleRef} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
                 <form onSubmit={handleSubmit}>

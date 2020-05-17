@@ -60,6 +60,8 @@ class RingoObject {
     }
 
     toJSON() {
+        console.log(this.position);
+        
         const receivers = []
         this.receivers.map(receiver => {
             receivers.push(receiver.toJSON())
