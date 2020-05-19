@@ -4,11 +4,12 @@ import * as THREE from "three";
 import ProcessorTree from '../../utils/ProcessorTree';
 
 class ThreeShapeObject extends RingoObject {
+    static type = OBJECT_TYPES.THREE_SHAPE
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.THREE_SHAPE
         this.hasDSP = true
         this.receivers = this.createReceiverArray(this.numOutlets)
         const geometry = new THREE.BoxGeometry(1, 1, 1);

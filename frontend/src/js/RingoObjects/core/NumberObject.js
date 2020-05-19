@@ -1,6 +1,8 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class NumberObject extends RingoObject {
+    static type = OBJECT_TYPES.NUMBER
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 2
@@ -8,7 +10,6 @@ class NumberObject extends RingoObject {
         this.attributes = {
             value: 0
         }
-        this.type = OBJECT_TYPES.NUMBER
         this.inletDescriptions = ['trigger', 'set number value']
         this.outletDescriptions = ['number value']
 

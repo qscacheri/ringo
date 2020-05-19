@@ -1,6 +1,8 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class RandomObject extends RingoObject {
+    static type = OBJECT_TYPES.RANDOM
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 3
@@ -9,7 +11,6 @@ class RandomObject extends RingoObject {
             min: 0,
             max: 1
         }
-        this.type = OBJECT_TYPES.RANDOM
         this.hasDSP = true
         this.receivers = []
         this.outletDescriptions = ['random value']

@@ -70,7 +70,7 @@ class RingoObject {
         })
 
         return {
-            type: this.type, 
+            type: this.constructor.type, 
             receivers,
             text: this.text,
             position: this.position

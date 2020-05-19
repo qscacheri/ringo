@@ -1,7 +1,11 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class Metro extends RingoObject {
+    
+    static type = OBJECT_TYPES.METRO
+
     constructor(processor, position) {
+
         super(processor, position)
         this.numInlets = 2
         this.numOutlets = 1
@@ -9,7 +13,6 @@ class Metro extends RingoObject {
             start: true,
             rate: 1000
         }
-        this.type = OBJECT_TYPES.METRO
         this.sendData = this.sendData.bind(this)
         this.metroFunction = setInterval(() => {
             this.sendData('BANG')

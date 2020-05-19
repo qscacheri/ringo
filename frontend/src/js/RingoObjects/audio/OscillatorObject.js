@@ -3,6 +3,8 @@ import { Oscillator } from 'tone'
 import RingoAudioObject from '../base/RingoAudioObject'
 
 class OscillatorObject extends RingoAudioObject {
+    static type = OBJECT_TYPES.OSC
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 3
@@ -11,7 +13,6 @@ class OscillatorObject extends RingoAudioObject {
             frequency: 220,
             type: 'sine'
         }
-        this.type = OBJECT_TYPES.OSC
         this.audioNode = new Oscillator()
         this.audioNode.start()
         this.receivers = this.createReceiverArray(this.numOutlets)

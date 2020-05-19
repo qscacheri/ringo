@@ -3,6 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { UserMedia } from 'tone'
 
 class InputObject extends RingoAudioObject {
+    static type = OBJECT_TYPES.INPUT
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
@@ -10,7 +12,6 @@ class InputObject extends RingoAudioObject {
         this.attributes = {
             open: true,
         }
-        this.type = OBJECT_TYPES.INPUT
         this.audioNode = new UserMedia()
         this.audioNode.open()
         this.receivers = this.createReceiverArray(this.numOutlets)
