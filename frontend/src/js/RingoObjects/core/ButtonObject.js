@@ -1,13 +1,16 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class ButtonObject extends RingoObject {
+
+    static type = OBJECT_TYPES.BUTTON
+    static objectDescription = "Click to trigger a bang"
+    static inletDescriptions = ['trigger button press']
+    static outletDescriptions = ['bang']
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.BUTTON
-        this.inletDescriptions = ['trigger button press']
-        this.outletDescriptions = ['bang']
     }
 
     receiveData(inlet, data) {

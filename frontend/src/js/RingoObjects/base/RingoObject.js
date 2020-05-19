@@ -1,12 +1,14 @@
 class RingoObject {
+    static objectDescription = ""
+    static type = 'EMPTY'
+
     constructor(processor, position) {
         this.processor = processor
-        this.numInlets = 1
-        this.numOutlets = 1
+        this.numInlets = 0
+        this.numOutlets = 0
         this.receivers = []
         this.attributes = {}
         this.position = { x: 0, y: 0 }
-        this.type = 'EMPTY'
         this.hasDSP = false
         this.outletDescriptions = []
         this.inletDescriptions = []
