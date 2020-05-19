@@ -109,9 +109,14 @@ class ProcessorTreeClass {
             this.objects[this.selectedObject].disconnect()
         delete this.objects[this.selectedObject]
         PatchCableManager.updateDeleted(this.selectedObject)
+
+        store.dispatch({type: 'DELETE_OBJECT', payload: {id: this.selectedObject}})
+
         this.selectedObject = -1
 
         this.save()
+
+
     }
 
     save(file=null) {
