@@ -5,28 +5,36 @@ import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from "../utils/PatchCableManager";
+import store from "../redux/store/store";
 
 function RingoObject(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
+    const [dragPos, setDragPos] = useState({x: 0, y: 0})
     let ref = useRef(null)
-    let outletRefs = []
 
     useEffect(() => {
-        setTextValue(ProcessorTree.objects[props.id].text)
+        console.log(props.id);
+        
+        // setTextValue(ProcessorTree.objects[props.id].text)
     }, [])
 
-    function handleChange(e) {
-        setTextValue(event.target.value);
+    const handleChange = (e) => {
+        setTextValue(e.target.value);
     }
 
-
-    function handleDrag(e, data) {
+    const handleDrag = (e, data) => {
         setIsDrag(true);
+        setDragPos({x: data.x, y: data.y})
+        store.dispatch({type: 'OBJECT_MOVED', payload: {
+            id: props.id, 
+            x: data.x, 
+            y: data.y}
+        })
     }
 
-    function handleClick(e) {
+    const handleClick = (e) => {
         ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
         console.log(props.isLocked);
@@ -43,8 +51,7 @@ function RingoObject(props) {
         setIsDrag(false);
     }
     
-    function handleSubmit(e)
-    {
+    const handleSubmit = (e) => {
         e.preventDefault();
         console.log(textValue);
         

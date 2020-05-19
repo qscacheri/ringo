@@ -1,5 +1,5 @@
 import ProcessorTree from './ProcessorTree'
-import { log } from 'three'
+import store from '../redux/store/store'
 
 class PatchCableManagerClass {
     constructor() {
@@ -12,14 +12,19 @@ class PatchCableManagerClass {
 
     handleClick(ioletInfo) {
 
+        // user clicked nothing, delete active cable
         if (!ioletInfo) {
             delete this.patchCables[this.activeCableID]
             this.activeCableID = -1
             this.userGrabbedPatchCable = false
+            store.dispatch({type: 'PATCH_CABLE_RELEASED', payload: {}})
             return
         }
 
-        if (this.userGrabbedPatchCable == false) this.newPatchCable(ioletInfo)
+        // first click, create patch cable
+        if (this.userGrabbedPatchCable === false) this.newPatchCable(ioletInfo)
+
+        // user clicked twice, attempt new connection
         else this.checkCableCompatiblity(ioletInfo)
     }
 
@@ -53,6 +58,9 @@ class PatchCableManagerClass {
         }, ioletInfo.connectionType)
         console.log(newPatchCable);
         this.patchCables[cableID] = newPatchCable;
+
+        store.dispatch({type: 'PATCH_CABLE_GRABBED', payload: this.activeCableID})
+        
     }
 
     checkCableCompatiblity(ioletInfo) {

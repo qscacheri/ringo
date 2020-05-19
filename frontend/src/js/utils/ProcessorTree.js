@@ -4,7 +4,7 @@ import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
 import { SrcAlphaSaturateFactor } from 'three';
 import { Receiver } from '../RingoObjects/base/RingoObject';
-
+import store from '../redux/store/store'
 class ProcessorTreeClass {
     constructor() {
         this.context = new AudioContext();
@@ -34,6 +34,9 @@ class ProcessorTreeClass {
         
         if (this.newObjectCallback) this.newObjectCallback()
 
+        const numInlets = this.objects[objectID].numInlets
+        const numOutlets = this.objects[objectID].numOutlets
+        store.dispatch({type: 'NEW_OBJECT', payload: {id: objectID, position: {x, y}, type, numInlets, numOutlets}})
     }
 
     jsonToObject(id, object) {
@@ -58,6 +61,11 @@ class ProcessorTreeClass {
 
         this.objects[id].text = objectText
         this.save()
+
+        const numInlets = this.objects[id].numInlets
+        const numOutlets = this.objects[id].numOutlets
+        store.dispatch({type: 'NEW_OBJECT', payload: {id, position, type, numInlets, numOutlets}})
+
     }
 
     updateMessage(id, text) {

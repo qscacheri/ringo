@@ -20,10 +20,18 @@ import {
     Route,
 } from "react-router-dom";
 import About from "./About";
+import {connect} from 'react-redux'
 
-function App() {
-    // let mousePosition = useRef({ x: 0, y: 0 })
-    const [mousePosition, setMousePostion] = useState()
+const mapStateToProps = (state) => {
+    return ({
+        objects: state.objects, 
+        activePatchCableID: state.activePatchCableID
+    })
+}
+
+function App({objects, activePatchCableID}) {
+    let mousePosRef = useRef({x: 0, y: 0})
+    const [mousePosition, setMousePostion] = useState({x: 0, y: 0})
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
     const [infoPopup, setInfoPopup] = useState({
@@ -61,7 +69,7 @@ function App() {
     function handleKeyDown(e) {
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
+            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosRef.current.x, mousePosRef.current.y);
             return;
         }
 
@@ -94,10 +102,17 @@ function App() {
     }
 
     function handleMouseMove(e) {
-        setMousePostion({
-            x: e.pageX,
-            y: e.pageY
-        })
+            mousePosRef.current = {
+                x: e.pageX,
+                y: e.pageY
+            }
+
+        if (activePatchCableID !== -1) {
+            setMousePostion({
+                x: e.pageX,
+                y: e.pageY
+            })    
+        }
     }
 
     function lock() {
@@ -117,78 +132,49 @@ function App() {
     }
 
     const renderRingoObjects = () => {
-        const objects = []
-        for (let i in ProcessorTree.objects) {
-            switch (ProcessorTree.objects[i].type) {
+        const renderObjects = []
+        for (let i in objects) {
+            
+            let sharedProps = {
+                key: i,
+                id: i,
+                position: { x: objects[i].position.x, y: objects[i].position.y },
+                numInlets: objects[i].numInlets,
+                numOutlets: objects[i].numOutlets,
+                updateShowInfo: updateShowInfo,
+                isLocked: locked
+            }
+    
+            switch (objects[i].type) {
                 case OBJECT_TYPES.BUTTON:
-                    objects.push(<RingoButton
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
+                    renderObjects.push(<RingoButton {...sharedProps} />)
                     break;
                 case OBJECT_TYPES.MESSAGE:
-                    objects.push(<RingoMessage
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
+                    renderObjects.push(<RingoMessage {...sharedProps} />)
                     break;
                 case OBJECT_TYPES.THREE_CANVAS:
-                    objects.push(<RingoThree
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
+                    renderObjects.push(<RingoThree {...sharedProps} />)
                     break;
-                    case OBJECT_TYPES.SLIDER:
-                        objects.push(<RingoSlider
-                            key={i}
-                            id={i}
-                            position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                            numInlets={ProcessorTree.objects[i].numInlets}
-                            numOutlets={ProcessorTree.objects[i].numOutlets}
-                            updateShowInfo={updateShowInfo}
-                            isLocked={locked}
-                        />)
-                        break;
-    
+                case OBJECT_TYPES.SLIDER:
+                    renderObjects.push(<RingoSlider {...sharedProps} />)
+                    break;
                 default:
-                    objects.push(<RingoObject
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
+                    renderObjects.push(<RingoObject {...sharedProps}/>)
                     break;
             }
         }
-        return objects
+        return renderObjects
     }
 
     const renderPatchCables = () => {
         const patchCables = []
+        
         for (let i in PatchCableManager.patchCables) {            
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
                     pos1={PatchCableManager.patchCables[i].getActivePosition()}
-                    pos2={mousePosition}
+                    pos2={mousePosRef.current}
                 />)
             else
                 patchCables.push(<PatchCable
@@ -210,9 +196,9 @@ function App() {
                                 {renderPatchCables()}
                                 {renderRingoObjects()}
                                 {
-                                infoPopup.visible ? <IOLetDescriptionPopup 
-                                position={infoPopup.position} 
-                                text={infoPopup.text}/> : null
+                                    infoPopup.visible ? <IOLetDescriptionPopup 
+                                    position={infoPopup.position} 
+                                    text={infoPopup.text}/> : null
                                 }
                             </div>
                             <Toolbar workspace={true} locked={locked}/>
@@ -229,4 +215,4 @@ function App() {
         </div>)
 }
 
-export default App;
+export default connect(mapStateToProps)(App)
