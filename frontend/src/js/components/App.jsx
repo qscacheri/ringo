@@ -21,6 +21,9 @@ import {
 } from "react-router-dom";
 import About from "./About";
 
+const Context = React.createContext({objects: 'it works'})
+const Provider = Context.Provider
+
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
     const [mousePosition, setMousePostion] = useState()
@@ -201,6 +204,7 @@ function App() {
     }
 
     return (
+        <Provider>
         <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <Router>
                 <Switch>
@@ -226,7 +230,8 @@ function App() {
                     </Route>
                 </Switch>
             </Router>
-        </div>)
+        </div>
+        </Provider>)
 }
 
 export default App;
