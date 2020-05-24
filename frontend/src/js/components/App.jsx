@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import RingoObject from './RingoObject'
 import '../../css/App.css';
@@ -12,6 +12,7 @@ import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
 import RingoSlider from './RingoSlider'
+import Processor, {Context} from './Processor'
 
 import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import {
@@ -20,9 +21,6 @@ import {
     Route,
 } from "react-router-dom";
 import About from "./About";
-
-const Context = React.createContext({objects: 'it works'})
-const Provider = Context.Provider
 
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
@@ -34,6 +32,7 @@ function App() {
         position: {x: 0, y: 0},
         text: ""
     })
+    const ProcessorContext = useContext(Context)
 
     let myRef = useRef(null)
 
@@ -58,13 +57,14 @@ function App() {
         window.onbeforeunload = () => {
             ProcessorTree.save()
             return ""
-        }      
+        }              
     }, [])
 
     function handleKeyDown(e) {
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
             ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
+            ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);Object
             return;
         }
 
@@ -120,9 +120,11 @@ function App() {
     }
 
     const renderRingoObjects = () => {
+        console.log(ProcessorContext.objects);
+        
         const objects = []
-        for (let i in ProcessorTree.objects) {
-            switch (ProcessorTree.objects[i].type) {
+        for (let i in ProcessorContext.objects) {
+            switch (ProcessorContext.objects[i].type) {
                 case OBJECT_TYPES.BUTTON:
                     objects.push(<RingoButton
                         key={i}
@@ -172,9 +174,9 @@ function App() {
                     objects.push(<RingoObject
                         key={i}
                         id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
+                        position={{ x: ProcessorContext.objects[i].position.x, y: ProcessorContext.objects[i].position.y }}
+                        numInlets={ProcessorContext.objects[i].numInlets}
+                        numOutlets={ProcessorContext.objects[i].numOutlets}
                         updateShowInfo={updateShowInfo}
                         isLocked={locked}
                     />)
@@ -204,7 +206,7 @@ function App() {
     }
 
     return (
-        <Provider>
+        <Processor>
         <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <Router>
                 <Switch>
@@ -231,7 +233,7 @@ function App() {
                 </Switch>
             </Router>
         </div>
-        </Provider>)
+        </Processor>)
 }
 
 export default App;

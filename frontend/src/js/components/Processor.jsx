@@ -1,13 +1,13 @@
-import React, {component} from 'react'
+import React from 'react'
 import * as Tone from 'tone'
-import createObject from './object-creators'
+import createObject from '../utils/object-creators'
 import OBJECT_TYPES from '../constants/object-types';
-import PatchCableManager from './PatchCableManager'
+// import PatchCableManager from './PatchCableManager'
 
 const Context = React.createContext()
 const Provider = Context.Provider
 
-class Processor extends React.component {
+class Processor extends React.Component {
     constructor(props) {
         super(props)
         this.context = new AudioContext();
@@ -17,6 +17,8 @@ class Processor extends React.component {
             patchCables: {},
             locked: false
         }
+        this.addObject = this.addObject.bind(this)
+        window.state = this.state
     }
 
     resume() {        
@@ -25,19 +27,30 @@ class Processor extends React.component {
     }
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
+        
         const objectID = 'ro-' + new Date().getTime()
-        // this.objects[objectID] = createObject(this, type, {x, y})
-        this.setState({objects: {...objects, [objectID]: createObject(this, type, {x, y})}})
-        // if (this.newObjectCallback) this.newObjectCallback()
+        console.log(objectID);
+
+        this.state.objects[objectID] = createObject(this, type, {x, y})
+
+        this.setState({objects: this.state.objects}, () => console.log(this.state))        
     }
 
     render() {
+        const value = {
+            ...this.state,
+            addObject: this.addObject,
+            resume: this.resume
+        }
+
         return (
-            <Provider>
-                {props.children}
+            <Provider value={value}>
+                {this.props.children}
             </Provider>
         )
     }
 
 
 }
+export {Context}
+export default Processor

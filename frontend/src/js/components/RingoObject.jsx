@@ -5,16 +5,19 @@ import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
 import PatchCableManager from "../utils/PatchCableManager";
+import {Context} from './Processor'
 
 function RingoObject(props) {
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
     let ref = useRef(null)
-    const objects = useContext(objects)
-
+    const context = useContext(Context)
+    
     useEffect(() => {
         setTextValue(ProcessorTree.objects[props.id].text)
+        console.log(context);
+        
     }, [])
 
     function handleChange(e) {
