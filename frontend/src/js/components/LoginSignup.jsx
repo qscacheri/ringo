@@ -6,10 +6,10 @@ function Login() {
         <div className="Login">
             <h1>Login</h1>
             <form method="post">
-                <label for="username">Username</label>
+                <label htmlhtmlFor="username">Username</label>
                 <input type="text" id="username" name="username" required/>
                 <br></br><br></br>
-                <label for="pwd">Password</label>
+                <label htmlFor="pwd">Password</label>
                 <input type="password" id="pwd" name="password" required/>
                 <br></br><br></br>
             </form>
@@ -23,13 +23,13 @@ function Signup() {
         <div className="Signup">
             <h1>Sign Up</h1>
             <form method="post">
-                <label for="username">Set Username</label>
+                <label htmlFor="username">Set Username</label>
                 <input type="text" id="username" name="username" required/>
                 <br></br><br></br>
-                <label for="pwd">Set Password</label>
+                <label htmlFor="pwd">Set Password</label>
                 <input type="password" id="pwd" name="password" required/>
                 <br></br><br></br>
-                <label for="re-pwd">Re-Enter Password</label>
+                <label htmlFor="re-pwd">Re-Enter Password</label>
                 <input type="password" id="re-pwd" name="re-password" required/>
                 <br></br><br></br>
             </form>
