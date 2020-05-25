@@ -20,7 +20,7 @@ import {
     Route,
 } from "react-router-dom";
 import About from "./About";
-import Login from "./Login";
+import LoginSignup from "./LoginSignup";
 
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
@@ -222,18 +222,6 @@ function App() {
                     <Route exact path="/about">
                         <div>
                             <About />
-                            <Toolbar workspace={false} locked={locked}/>
-                        </div>
-                    </Route>
-                    <Route exact path="/login">
-                        <div>
-                            <Login />
-                            <Toolbar workspace={false} locked={locked}/>
-                        </div>
-                    </Route>
-                    <Route exact path="/signup">
-                        <div>
-                            <Signup />
                             <Toolbar workspace={false} locked={locked}/>
                         </div>
                     </Route>
