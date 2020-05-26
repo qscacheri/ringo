@@ -1,0 +1,11 @@
+.WorkSpace {
+    position: absolute;
+    top: 10vh;
+    width: 1000vw;
+    height: 1000vh;
+}
+
+.Controls {
+    width: 100vw;
+    position: fixed;
+}

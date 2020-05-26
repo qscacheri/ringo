@@ -23,17 +23,6 @@ function Toolbar({ locked, workspace}) {
             <div className="Header">
                 <h1 className="Title">Ringo</h1>
             </div>
-            <div className="Controls">
-                <div>
-                    {workspace ? <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> : null}
-                    {workspace ? <button className="ToolbarButton NewMessage" onClick={() => { createObject(OBJECT_TYPES.MESSAGE) }}>New Message</button>: null}
-                </div>
-                <div>
-                    <button className="ToolbarButton" onClick={handleLock}>{ locked ? "Unlock" : "Lock" }</button>
-                    <Link to='/about' className="ToolbarButton">About</Link>
-
-                </div>
-            </div>
         </div>
     )
 }

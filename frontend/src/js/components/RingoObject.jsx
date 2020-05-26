@@ -12,13 +12,16 @@ function RingoObject(props) {
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
     let ref = useRef(null)
-    const context = useContext(Context)
+    const ProcessorContext = useContext(Context)
     
     useEffect(() => {
-        setTextValue(ProcessorTree.objects[props.id].text)
-        console.log(context);
-        
+        // setTextValue(ProcessorTree.objects[props.id].text)        
     }, [])
+
+    useEffect(() => {
+        console.log(ProcessorContext);
+            
+    })
 
     function handleChange(e) {
         setTextValue(event.target.value);
@@ -51,7 +54,7 @@ function RingoObject(props) {
         e.preventDefault();
         console.log(textValue);
         
-        ProcessorTree.updateObject(props.id, textValue)
+        ProcessorContext.updateObject(props.id, textValue)
         return;
     }
 
@@ -61,7 +64,7 @@ function RingoObject(props) {
     }
 
     const handleStop = (e, data) => {
-        ProcessorTree.objects[props.id].position = { x:data.x, y: data.y }
+        ProcessorContext.objects[props.id].position = { x:data.x, y: data.y }
     }
 
     return (
@@ -75,8 +78,6 @@ function RingoObject(props) {
             </div>
         </Draggable>
     )
-
-
 }
 
 export default RingoObject;

@@ -21,6 +21,7 @@ import {
     Route,
 } from "react-router-dom";
 import About from "./About";
+import Workspace from "./Workspace";
 
 function App() {
     // let mousePosition = useRef({ x: 0, y: 0 })
@@ -206,21 +207,12 @@ function App() {
     }
 
     return (
-        <Processor>
         <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <Router>
                 <Switch>
                     <Route exact path="/">
                         <div>
-                            <div className='WorkSpace'>
-                                {renderPatchCables()}
-                                {renderRingoObjects()}
-                                {
-                                infoPopup.visible ? <IOLetDescriptionPopup 
-                                position={infoPopup.position} 
-                                text={infoPopup.text}/> : null
-                                }
-                            </div>
+                            <Workspace />
                             <Toolbar workspace={true} locked={locked}/>
                         </div>
                     </Route>
@@ -232,8 +224,7 @@ function App() {
                     </Route>
                 </Switch>
             </Router>
-        </div>
-        </Processor>)
+        </div>)
 }
 
 export default App;

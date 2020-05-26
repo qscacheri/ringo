@@ -18,6 +18,8 @@ class Processor extends React.Component {
             locked: false
         }
         this.addObject = this.addObject.bind(this)
+        this.updateObject = this.updateObject.bind(this)
+
         window.state = this.state
     }
 
@@ -36,11 +38,27 @@ class Processor extends React.Component {
         this.setState({objects: this.state.objects}, () => console.log(this.state))        
     }
 
+    updateObject(id, objectText) {
+        const splitText = objectText.split(' ');
+        const type = splitText[0].toUpperCase()
+        const position = this.state.objects[id].position
+        
+        if (type != this.state.objects[id].type) {
+            this.state.objects[id] = createObject(this, type, position)
+        }
+        this.state.objects[id].updateAttributes(splitText)
+
+        this.state.objects[id].text = objectText
+        this.setState({objects: this.state.objects})
+    }
+
+
     render() {
         const value = {
             ...this.state,
             addObject: this.addObject,
-            resume: this.resume
+            resume: this.resume,
+            updateObject: this.updateObject
         }
 
         return (

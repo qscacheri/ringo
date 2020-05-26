@@ -3,7 +3,6 @@ import { log } from 'three'
 
 class PatchCableManagerClass {
     constructor() {
-        this.patchCables = {}
         this.userGrabbedPatchCable = false
         this.activeCableID = -1
         this.onChange = null
@@ -37,7 +36,7 @@ class PatchCableManagerClass {
 
     newPatchCable(ioletInfo) {
         this.userGrabbedPatchCable = true
-        const cableID = new Date().getTime()
+        const cableID = 'pc-' + new Date().getTime()
         this.activeCableID = cableID
         this.activeCableType = ioletInfo.connectionType
 
