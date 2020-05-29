@@ -2,7 +2,7 @@
 const express = require('express');
 //create express server
 const app = express();
-
+const db = require('./db')
 
 const bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
@@ -10,27 +10,36 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+db.connect()
 
 //when it receives a request to go to localhost:3000
 app.get('/', (req, res) => {
     res.send('An alligator approaches!'); //send this
 });
 
-app.post('/login', (req, res) => {
-	console.log(req.body);
-	res.send("you're logging in!");
+app.post('/login', async (req, res) => {
+	const username = req.body.username
+	const password = req.body.password
+	const status = await db.login(username, password)
+	res.sendStatus(status)
 });
 
-app.post('/signup', (req, res) => {
-	console.log(req.body.username);
-	console.log(req.body.password);
-
+app.post('/signup', async (req, res) => {
+	const {username, password, passwordConfirmation, email} = req.body
+	const status = await db.signup(username, password, passwordConfirmation, email)
+	res.sendStatus(status)
 });
 
+app.get('/discover', async (req, res) => {
+
+})
+
+app.get('/my-projects', async (req, res) => {
+
+})
 
 //create a listener in this port
-app.listen(3001, () => console.log('Gator app listening on port 3001!'));
-
+app.listen(3001, () => console.log('Ringo server listening on port 3001!'));
 
 // get request is when you want something from the server
 // post request is when you are giving the server info
