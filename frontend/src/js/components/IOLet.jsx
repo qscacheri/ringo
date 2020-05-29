@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import '../../css/IOLet.css';
-import PatchCableManger from '../../js/utils/PatchCableManager'
 import IOLetDescriptionPopup from "./IOletDescriptionPopup";
+import { PatchCableContext}  from './PatchCableManager'
 
 export const IOLetType =
 {
@@ -13,11 +13,14 @@ function IOLet(props) {
     let myRef = useRef(null)
     let callback = useRef(null)
     const [showInfo, setShowInfo] = useState(false)
+    const PatchCableManger = useContext(PatchCableContext)
 
     function handleClick() {
+        console.log(myRef);
+        
         var boundingRect = myRef.current.getBoundingClientRect();
         const ioletInfo = {
-            objectID: parseInt(props.parentId),
+            objectID: props.parentId,
             ioletIndex: props.ioletIndex,
             connectionType: props.connectionType,
             position: {
@@ -27,12 +30,16 @@ function IOLet(props) {
             ref: myRef.current
         }
 
-        PatchCableManger.handleClick(ioletInfo)
+        PatchCableManger.handleClick(ioletInfo) 
     }
 
     useEffect(() => {     
             PatchCableManger.updateRefs(props.parentId, props.connectionType, props.ioletIndex, myRef.current)
     }, [])
+
+    useEffect(() => {
+        
+    })
 
     const handleMouseEnter = (e) => {
         callback.current = setTimeout(() => {

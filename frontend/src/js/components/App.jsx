@@ -109,8 +109,8 @@ function App() {
     }
 
     function handleClick() {
-        PatchCableManager.handleClick(null)
-        ProcessorTree.setSelected(-1)
+        // PatchCableManager.handleClick(null)
+        // ProcessorTree.setSelected(-1)
     }
 
     function updateShowInfo(visible, position, id, ioletType, index) {        
@@ -118,92 +118,6 @@ function App() {
         const type = (object.type).toLowerCase()
         const description = object.getIOLetDescription(ioletType, index)         
         setInfoPopup({ visible, position, text: type + ": " + description})
-    }
-
-    const renderRingoObjects = () => {
-        console.log(ProcessorContext.objects);
-        
-        const objects = []
-        for (let i in ProcessorContext.objects) {
-            switch (ProcessorContext.objects[i].type) {
-                case OBJECT_TYPES.BUTTON:
-                    objects.push(<RingoButton
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
-                    break;
-                case OBJECT_TYPES.MESSAGE:
-                    objects.push(<RingoMessage
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
-                    break;
-                case OBJECT_TYPES.THREE_CANVAS:
-                    objects.push(<RingoThree
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                        numInlets={ProcessorTree.objects[i].numInlets}
-                        numOutlets={ProcessorTree.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
-                    break;
-                    case OBJECT_TYPES.SLIDER:
-                        objects.push(<RingoSlider
-                            key={i}
-                            id={i}
-                            position={{ x: ProcessorTree.objects[i].position.x, y: ProcessorTree.objects[i].position.y }}
-                            numInlets={ProcessorTree.objects[i].numInlets}
-                            numOutlets={ProcessorTree.objects[i].numOutlets}
-                            updateShowInfo={updateShowInfo}
-                            isLocked={locked}
-                        />)
-                        break;
-    
-                default:
-                    objects.push(<RingoObject
-                        key={i}
-                        id={i}
-                        position={{ x: ProcessorContext.objects[i].position.x, y: ProcessorContext.objects[i].position.y }}
-                        numInlets={ProcessorContext.objects[i].numInlets}
-                        numOutlets={ProcessorContext.objects[i].numOutlets}
-                        updateShowInfo={updateShowInfo}
-                        isLocked={locked}
-                    />)
-                    break;
-            }
-        }
-        return objects
-    }
-
-    const renderPatchCables = () => {
-        const patchCables = []
-        for (let i in PatchCableManager.patchCables) {            
-            if (i == PatchCableManager.activeCableID)
-                patchCables.push(<PatchCable
-                    key={i}
-                    pos1={PatchCableManager.patchCables[i].getActivePosition()}
-                    pos2={mousePosition}
-                />)
-            else
-                patchCables.push(<PatchCable
-                    key={i}
-                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
-                    pos2={PatchCableManager.patchCables[i].getPosition('IN')}
-                />)
-        }
-        return patchCables
     }
 
     return (

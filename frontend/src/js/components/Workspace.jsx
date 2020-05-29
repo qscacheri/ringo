@@ -11,8 +11,11 @@ import RingoThree from './RingoThree'
 import RingoSlider from './RingoSlider'
 import Processor, { Context } from './Processor'
 import IOLetDescriptionPopup from './IOletDescriptionPopup'
+import { PatchCableContext } from './PatchCableManager'
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
+    const PatchCableManager = useContext(PatchCableContext)
+
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
@@ -65,9 +68,9 @@ function Workspace({ processor }) {
         return objects
     }
 
-    const renderPatchCables = () => {
+    const renderPatchCables = () => {        
         const patchCables = []
-        for (let i in PatchCableManager.patchCables) {
+        for (let i in PatchCableManager.patchCables) {            
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
@@ -144,7 +147,7 @@ function Workspace({ processor }) {
     }
 
     return (
-        <div className='WorkSpace'>
+        <div className='WorkSpace' onMouseMove={handleMouseMove}>
             <div className="Controls">
                 <div>
                     <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> 

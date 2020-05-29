@@ -19,7 +19,7 @@ function RingoObject(props) {
     }, [])
 
     useEffect(() => {
-        console.log(ProcessorContext);
+        // console.log(ProcessorContext);
             
     })
 
@@ -35,7 +35,6 @@ function RingoObject(props) {
     function handleClick(e) {
         ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
-        console.log(props.isLocked);
         
         if (isDrag == false) {
             console.log("Clicked on object with id:", props.id);

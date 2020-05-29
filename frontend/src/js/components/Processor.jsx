@@ -2,7 +2,7 @@ import React from 'react'
 import * as Tone from 'tone'
 import createObject from '../utils/object-creators'
 import OBJECT_TYPES from '../constants/object-types';
-// import PatchCableManager from './PatchCableManager'
+import PatchCableManager from './PatchCableManager'
 
 const Context = React.createContext()
 const Provider = Context.Provider
@@ -19,7 +19,7 @@ class Processor extends React.Component {
         }
         this.addObject = this.addObject.bind(this)
         this.updateObject = this.updateObject.bind(this)
-
+        this.connectObjects = this.connectObjects.bind(this)
         window.state = this.state
     }
 
@@ -52,6 +52,9 @@ class Processor extends React.Component {
         this.setState({objects: this.state.objects})
     }
 
+    connectObjects(outputObject, inputObject) {
+        this.state.objects[outputObject.id].connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
+    }
 
     render() {
         const value = {
@@ -63,7 +66,9 @@ class Processor extends React.Component {
 
         return (
             <Provider value={value}>
-                {this.props.children}
+                <PatchCableManager connectObjects={this.connectObjects}> 
+                    {this.props.children}
+                </PatchCableManager> 
             </Provider>
         )
     }
