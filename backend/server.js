@@ -21,6 +21,13 @@ app.post('/login', (req, res) => {
 	res.send("you're logging in!");
 });
 
+app.post('/signup', (req, res) => {
+	console.log(req.body.username);
+	console.log(req.body.password);
+
+});
+
+
 //create a listener in this port
 app.listen(3001, () => console.log('Gator app listening on port 3001!'));
 
