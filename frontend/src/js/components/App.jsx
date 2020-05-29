@@ -72,7 +72,7 @@ function App() {
         <div className="App" ref={myRef} >
             <Router>
                 <Switch>
-                    <Route exact path="/">
+                    <Route exact path="/workspace">
                         <div>
                             <Processor>
                                 <Workspace />
