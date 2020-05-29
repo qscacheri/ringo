@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoMessage.css';
 import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
+import {Context} from './Processor'
 
 function RingoMessage(props) {
     let ref = React.createRef();
     const [isDrag, setIsDrag] = useState(false);
     const [textValue, setTextValue] = useState("");
     const [inputDisabled, setInputDisabled] = useState(true);
+    const ProcessorContext = useContext(Context)
 
     useEffect(() => {
-        ProcessorTree.registerMessageCallback(props.id, (newValue) => {
-            setTextValue(newValue)
-        })
+        // ProcessorTree.registerMessageCallback(props.id, (newValue) => {
+        //     setTextValue(newValue)
+        // })
     }, [])
 
     function handleChange(e) {
@@ -26,20 +28,20 @@ function RingoMessage(props) {
         setIsDrag(true);
     }
 
-
-    function handleClick(e) {      
-        ProcessorTree.resume()
-        ProcessorTree.setSelected(props.id)
-        
-        ProcessorTree.triggerMessage(props.id)
+    function handleClick(e) {     
         e.stopPropagation();
+  
+        // ProcessorTree.resume()
+        // ProcessorTree.setSelected(props.id)
+        if (ProcessorContext.locked)
+            ProcessorContext.triggerMessage(props.id)
         setIsDrag(false);
     }
     
     function handleSubmit(e)
     {
         e.preventDefault();        
-        ProcessorTree.updateMessage(props.id, textValue)
+        ProcessorContext.updateMessage(props.id, textValue)
         return;
     }
 

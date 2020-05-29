@@ -1,25 +1,27 @@
 /* eslint-disable */
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Draggable from 'react-draggable'; // The default
 import '../../css/RingoButton.css';
 import '../../css/RingoObject.css';
 
 import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
-import ProcessorTree from '../utils/ProcessorTree'
+import {Context} from './Processor'
 
 function RingoButton(props) {
     
     const [isDrag, setIsDrag] = useState(0);
     const [isDown, setIsDown] = useState(false)
+    const ProcessorContext = useContext(Context)
+
     function handleClick(e) {
-        ProcessorTree.resume()
-        ProcessorTree.setSelected(props.id)
+        // ProcessorContext.resume()
+        // ProcessorTree.setSelected(props.id)
 
         // props.selectNewObject({ id: props.id });
         // props.sendObjectData({ value: 'BANG', outletIndex: 0, objectId: props.id })
-        ProcessorTree.objects[props.id].sendData('BANG')
+        ProcessorContext.objects[props.id].sendData('BANG')
         e.stopPropagation();
         setIsDrag(false);
 

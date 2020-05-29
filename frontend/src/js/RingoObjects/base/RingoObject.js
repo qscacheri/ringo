@@ -34,7 +34,7 @@ class RingoObject {
     sendData(data) {
         for (let i = 0; i < this.receivers.length; i++) {
             let currentID = this.receivers[i].id
-            if (!this.processor.objects[currentID]) {
+            if (!this.processor.state.objects[currentID]) {
                 this.receivers.splice(i, 1)
                 continue;
             }   
@@ -43,7 +43,7 @@ class RingoObject {
             for (let j = 0; j < this.receivers[i].outletInletPairs.length; j++) {
                 let currentOutlet = this.receivers[i].outletInletPairs[j].outlet
                 let currentInlet = this.receivers[i].outletInletPairs[j].inlet
-                this.processor.objects[currentID].receiveData(currentInlet, data)
+                this.processor.state.objects[currentID].receiveData(currentInlet, data)
             }
 
         }

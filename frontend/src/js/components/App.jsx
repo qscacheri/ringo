@@ -61,58 +61,6 @@ function App() {
         }              
     }, [])
 
-    function handleKeyDown(e) {
-        // CREATE NEW OBJECT
-        if (e.key == 'n' || e.key == 'N') {
-            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
-            ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);Object
-            return;
-        }
-
-        else if (e.key == 'm' || e.key == 'M') {
-            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y);
-            return;
-        }
-
-        else if (e.key == 's' || e.key == 'S') {
-            ProcessorTree.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y);
-            return;
-        }
-
-        else if (e.key == 'l' || e.key == 'L') {
-            ProcessorTree.toggleLock()
-            return;
-        }
-
-        else if (e.key == 'p' || e.key == 'P') {
-            const state = ProcessorTree.save()
-            localStorage.setItem('session', JSON.stringify(state));
-            return;
-        }
-
-
-        // DELETE OBJECT
-        if (e.keyCode == 8) {
-            ProcessorTree.deleteSelected()
-        }
-    }
-
-    function handleMouseMove(e) {
-        setMousePostion({
-            x: e.pageX,
-            y: e.pageY
-        })
-    }
-
-    function lock() {
-        setLocked(!locked)        
-    }
-
-    function handleClick() {
-        // PatchCableManager.handleClick(null)
-        // ProcessorTree.setSelected(-1)
-    }
-
     function updateShowInfo(visible, position, id, ioletType, index) {        
         const object = ProcessorTree.objects[id]
         const type = (object.type).toLowerCase()
@@ -121,7 +69,7 @@ function App() {
     }
 
     return (
-        <div className="App" ref={myRef} tabIndex="0" onClick={handleClick} onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+        <div className="App" ref={myRef} >
             <Router>
                 <Switch>
                     <Route exact path="/">

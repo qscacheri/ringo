@@ -36,13 +36,15 @@ function Workspace({ processor }) {
     const renderRingoObjects = () => {
         const objects = []
         for (let i in ProcessorContext.objects) {
+            let currentObject = ProcessorContext.objects[i]
             let sharedProps = {
                 key: i,
                 id: i,
                 processor,
-                position: { x: ProcessorContext.objects[i].position.x, y: ProcessorContext.objects[i].position.y },
-                numInlets: ProcessorContext.objects[i].numInlets,
-                numOutlets: ProcessorContext.objects[i].numOutlets,
+                text: currentObject.text,
+                position: { x: currentObject.position.x, y: currentObject.position.y },
+                numInlets: currentObject.numInlets,
+                numOutlets: currentObject.numOutlets,
                 updateShowInfo: updateShowInfo,
                 isLocked: locked
 
@@ -113,18 +115,17 @@ function Workspace({ processor }) {
     function handleKeyDown(e) {
         // CREATE NEW OBJECT
         if (e.key == 'n' || e.key == 'N') {
-            ProcessorTree.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y);
             ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y); Object
             return;
         }
 
         else if (e.key == 'm' || e.key == 'M') {
-            ProcessorTree.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y);
+            ProcessorContext.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y); Object
             return;
         }
 
         else if (e.key == 's' || e.key == 'S') {
-            ProcessorTree.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y);
+            ProcessorContext.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y); Object
             return;
         }
 
@@ -147,7 +148,7 @@ function Workspace({ processor }) {
     }
 
     return (
-        <div className='WorkSpace' onMouseMove={handleMouseMove}>
+        <div className='WorkSpace' tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <div className="Controls">
                 <div>
                     <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> 

@@ -15,12 +15,11 @@ function RingoObject(props) {
     const ProcessorContext = useContext(Context)
     
     useEffect(() => {
-        // setTextValue(ProcessorTree.objects[props.id].text)        
+        setTextValue(ProcessorContext.objects[props.id].text)        
     }, [])
 
     useEffect(() => {
-        // console.log(ProcessorContext);
-            
+                    
     })
 
     function handleChange(e) {

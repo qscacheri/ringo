@@ -20,12 +20,19 @@ class Processor extends React.Component {
         this.addObject = this.addObject.bind(this)
         this.updateObject = this.updateObject.bind(this)
         this.connectObjects = this.connectObjects.bind(this)
+        this.triggerMessage = this.triggerMessage.bind(this)
+        this.toggleLock = this.toggleLock.bind(this)
+
         window.state = this.state
     }
 
     resume() {        
         if (this.context.state !== 'running') 
             this.context.resume()
+    }
+
+    toggleLock() {
+        this.setState({locked: !this.state.locked})
     }
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
@@ -38,7 +45,13 @@ class Processor extends React.Component {
         this.setState({objects: this.state.objects}, () => console.log(this.state))        
     }
 
-    updateObject(id, objectText) {
+    updateObject(id, objectText, textOnly=false) {
+        if (textOnly) {
+            this.state.objects[id].text = objectText
+            this.setState({objects: this.state.objects})     
+            return
+        }
+
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
         const position = this.state.objects[id].position
@@ -56,12 +69,17 @@ class Processor extends React.Component {
         this.state.objects[outputObject.id].connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
     }
 
+    triggerMessage(id) {
+        this.objects[id].triggerMessage()
+    }
+
     render() {
         const value = {
             ...this.state,
             addObject: this.addObject,
             resume: this.resume,
-            updateObject: this.updateObject
+            updateObject: this.updateObject,
+            toggleLock: this.toggleLock
         }
 
         return (
