@@ -74,7 +74,9 @@ function App() {
                 <Switch>
                     <Route exact path="/">
                         <div>
-                            <Workspace />
+                            <Processor>
+                                <Workspace />
+                            </Processor>
                             <Toolbar workspace={true} locked={locked}/>
                         </div>
                     </Route>

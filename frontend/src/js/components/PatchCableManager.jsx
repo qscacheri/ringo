@@ -48,32 +48,38 @@ export class PatchCable {
         }
     }
 
-    getActivePosition() {
+    getActivePosition(parentRef) {        
+        const xOffset = parentRef.offsetLeft
+        const yOffset = parentRef.offsetTop
+
         let boundingRect
         if (this.outObject.ref)
             boundingRect = this.outObject.ref.getBoundingClientRect()
         else
             boundingRect = this.inObject.ref.getBoundingClientRect()
         return {
-            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+            x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2) - xOffset,
+            y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2) - yOffset
         }
     }
-    getPosition(type) {
+    getPosition(type, parentRef) { // ref is for offset of workspace on page
+        const xOffset = parentRef.offsetLeft
+        const yOffset = parentRef.offsetTop
+        
         if (type === 'OUT') {
             if (!this.outObject.ref) return 0
             const boundingRect = this.outObject.ref.getBoundingClientRect()
             return {
-                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2) - xOffset,
+                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2) - yOffset
             }
         }
         else {
             if (!this.inObject.ref) return 0
             const boundingRect = this.inObject.ref.getBoundingClientRect()
             return {
-                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2),
-                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2)
+                x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2) - xOffset,
+                y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2) - yOffset
             }
         }
     }

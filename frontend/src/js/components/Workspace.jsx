@@ -15,7 +15,6 @@ import { PatchCableContext } from './PatchCableManager'
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
     const PatchCableManager = useContext(PatchCableContext)
-
     const [mousePosition, setMousePostion] = useState()
     const [objectIDs, setObjectIDs] = useState([])
     const [locked, setLocked] = useState(false)
@@ -24,6 +23,7 @@ function Workspace({ processor }) {
         position: { x: 0, y: 0 },
         text: ""
     })
+    let ref = useRef(null)
 
     const createObject = (type) => {
         Processor.addObject(type, 200, 200);
@@ -76,14 +76,14 @@ function Workspace({ processor }) {
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getActivePosition()}
+                    pos1={PatchCableManager.patchCables[i].getActivePosition(ref.current)}
                     pos2={mousePosition}
                 />)
             else
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getPosition('OUT')}
-                    pos2={PatchCableManager.patchCables[i].getPosition('IN')}
+                    pos1={PatchCableManager.patchCables[i].getPosition('OUT', ref.current)}
+                    pos2={PatchCableManager.patchCables[i].getPosition('IN', ref.current)}
                 />)
         }
         return patchCables
@@ -98,8 +98,8 @@ function Workspace({ processor }) {
 
     function handleMouseMove(e) {
         setMousePostion({
-            x: e.pageX,
-            y: e.pageY
+            x: e.pageX - ref.current.offsetLeft,
+            y: e.pageY - ref.current.offsetTop
         })
     }
 
@@ -148,7 +148,7 @@ function Workspace({ processor }) {
     }
 
     return (
-        <div className='WorkSpace' tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+        <div className='WorkSpace' ref={ref} tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
             <div className="Controls">
                 <div>
                     <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> 
