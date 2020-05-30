@@ -1,15 +1,8 @@
 const mongoose = require('mongoose');
+const User = require('./UserSchema')
+const Patch = require('./PatchSchema')
+
 require('dotenv').config()
-
-var Schema = mongoose.Schema;
-
-const UserSchema = new Schema({
-    username: String,
-    password: String,
-    email: String
-});
-
-const User = mongoose.model('User', UserSchema)
 
 const connect = () => {
     mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true });
