@@ -3,12 +3,14 @@ const express = require('express');
 //create express server
 const app = express();
 const db = require('./db')
+const authentication = require('./authentication')
 
 const bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+
 
 db.connect()
 
@@ -21,7 +23,10 @@ app.post('/login', async (req, res) => {
 	const username = req.body.username
 	const password = req.body.password
 	const status = await db.login(username, password)
-	res.sendStatus(status)
+	if (status === 200)
+		res.send({token: authentication.generateAccessToken(username)})
+	else
+		res.sendStatus(status)
 });
 
 app.post('/signup', async (req, res) => {
@@ -34,8 +39,9 @@ app.get('/discover', async (req, res) => {
 
 })
 
-app.get('/my-projects', async (req, res) => {
-
+app.get('/my-projects', authentication.authenticateToken, async (req, res) => {
+	console.log(req.username);
+	
 })
 
 //create a listener in this port
