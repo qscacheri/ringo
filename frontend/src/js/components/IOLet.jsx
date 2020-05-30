@@ -14,32 +14,37 @@ function IOLet(props) {
     let callback = useRef(null)
     const [showInfo, setShowInfo] = useState(false)
     const PatchCableManger = useContext(PatchCableContext)
-
-    function handleClick() {
-        console.log(myRef);
+    const [position, setPosition] = useState({x: 0, y: 0})
+    const getPosition = () => {
+        const boundingRect = myRef.current.getBoundingClientRect();    
+        return {
+            x: (boundingRect.x + (boundingRect.width / 2)) - props.offsets.x,
+            y: (boundingRect.y + (boundingRect.height / 2)) - props.offsets.y
+        }
         
-        var boundingRect = myRef.current.getBoundingClientRect();
+    }
+
+    function handleClick() {        
+        var boundingRect = myRef.current.getBoundingClientRect();                
         const ioletInfo = {
             objectID: props.parentId,
             ioletIndex: props.ioletIndex,
             connectionType: props.connectionType,
-            position: {
-                x: boundingRect.x + (boundingRect.width / 2),
-                y: boundingRect.y + (boundingRect.height / 2)
-            },
-            ref: myRef.current
+            position: getPosition(),
         }
 
         PatchCableManger.handleClick(ioletInfo) 
     }
 
-    useEffect(() => {     
-            PatchCableManger.updateRefs(props.parentId, props.connectionType, props.ioletIndex, myRef.current)
-    }, [])
+    const getID = () => {
+        return props.parentId + ':' + props.ioletIndex + ':' + props.connectionType
+    }
 
     useEffect(() => {
-        
-    })
+        console.log({...props});
+        setPosition(getPosition())
+        PatchCableManger.updatePosition(getID(), getPosition())
+    }, [props.dragging])
 
     const handleMouseEnter = (e) => {
         callback.current = setTimeout(() => {

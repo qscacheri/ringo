@@ -3,6 +3,7 @@ import * as Tone from 'tone'
 import createObject from '../utils/object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
+import {Receiver} from '../RingoObjects/base/RingoObject'
 
 const Context = React.createContext()
 const Provider = Context.Provider
@@ -22,8 +23,18 @@ class Processor extends React.Component {
         this.connectObjects = this.connectObjects.bind(this)
         this.triggerMessage = this.triggerMessage.bind(this)
         this.toggleLock = this.toggleLock.bind(this)
+        this.jsonToObject = this.jsonToObject.bind(this)
+        this.save = this.save.bind(this)
+        this.load = this.load.bind(this)
 
-        window.state = this.state
+        this.patchAsJSON = null
+        window.processor = this
+        this.patchCablesAsString = ""
+
+    }
+    
+    componentDidMount() {
+        if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
     }
 
     resume() {        
@@ -63,6 +74,7 @@ class Processor extends React.Component {
 
         this.state.objects[id].text = objectText
         this.setState({objects: this.state.objects})
+        this.save()
     }
 
     connectObjects(outputObject, inputObject) {
@@ -71,6 +83,44 @@ class Processor extends React.Component {
 
     triggerMessage(id) {
         this.objects[id].triggerMessage()
+    }
+
+    // ***********************RECALL*********************
+    jsonToObject(id, object) {
+
+        const type = object.type        
+        this.state.objects[id] = createObject(this, type, object.position)
+        for (let i = 0; i < object.receivers.length; i++)
+        {
+            this.state.objects[id].receivers.push(new Receiver(object.receivers[i]))
+        }
+        this.updateObject(id, object.text)
+        this.setState({objects: this.state.objects})
+    }
+
+    save() {
+        console.log('saving...');
+        let patch = {
+            objects: {}
+        }
+            for (let i in this.state.objects) {
+                patch.objects[i] = this.state.objects[i].toJSON()
+            }
+            patch.patchCables = this.patchCablesAsString
+        
+        localStorage.setItem("patch", JSON.stringify(patch))
+    }
+
+    load(patch) {
+        patch = JSON.parse(patch)        
+        this.state.objects = {}
+        for (let id in patch.objects) {
+            console.log(id);
+            
+            this.jsonToObject(id, patch.objects[id])
+            
+            if (this.newObjectCallback) this.newObjectCallback(id)
+        }
     }
 
     render() {
@@ -84,7 +134,7 @@ class Processor extends React.Component {
 
         return (
             <Provider value={value}>
-                <PatchCableManager connectObjects={this.connectObjects}> 
+                <PatchCableManager connectObjects={this.connectObjects} updateCables={(string) => this.patchCablesAsString = string}> 
                     {this.props.children}
                 </PatchCableManager> 
             </Provider>

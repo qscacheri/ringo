@@ -4,7 +4,6 @@ import '../../css/RingoObject.css';
 import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
-import PatchCableManager from "../utils/PatchCableManager";
 import {Context} from './Processor'
 
 function RingoObject(props) {
@@ -13,7 +12,8 @@ function RingoObject(props) {
     const [inputDisabled, setInputDisabled] = useState(true);
     let ref = useRef(null)
     const ProcessorContext = useContext(Context)
-    
+    const [position, setPosition] = useState({x: 0, y: 0})
+
     useEffect(() => {
         setTextValue(ProcessorContext.objects[props.id].text)        
     }, [])
@@ -29,6 +29,7 @@ function RingoObject(props) {
 
     function handleDrag(e, data) {
         setIsDrag(true);
+        setPosition({ x:data.x, y: data.y })
     }
 
     function handleClick(e) {
@@ -50,15 +51,9 @@ function RingoObject(props) {
     function handleSubmit(e)
     {
         e.preventDefault();
-        console.log(textValue);
         
         ProcessorContext.updateObject(props.id, textValue)
         return;
-    }
-
-    const handleRef = (ref) => {
-        // console.log(ref);
-        
     }
 
     const handleStop = (e, data) => {
@@ -68,11 +63,11 @@ function RingoObject(props) {
     return (
         <Draggable bounds='parent' disabled={props.isLocked} onStop={handleStop} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoObject" onClick={handleClick}>
-                <IOLetStrip className='Inlets' handleRef={handleRef} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <IOLetStrip className='Inlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} dragging={position} />
                 <form onSubmit={handleSubmit}>
                     <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
                 </form>
-                <IOLetStrip className='Outlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
+                <IOLetStrip className='Outlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} dragging={isDrag}/>
             </div>
         </Draggable>
     )

@@ -46,9 +46,10 @@ function Workspace({ processor }) {
                 numInlets: currentObject.numInlets,
                 numOutlets: currentObject.numOutlets,
                 updateShowInfo: updateShowInfo,
-                isLocked: locked
-
+                isLocked: locked,
+                offsets: {x: ref.current.offsetLeft, y: ref.current.offsetTop}
             }
+            
             switch (ProcessorContext.objects[i].type) {
                 case OBJECT_TYPES.BUTTON:
                     objects.push(<RingoButton {...sharedProps} />)
@@ -76,14 +77,14 @@ function Workspace({ processor }) {
             if (i == PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getActivePosition(ref.current)}
+                    pos1={PatchCableManager.patchCables[i].getActivePosition(PatchCableManager.activeCableType)}
                     pos2={mousePosition}
                 />)
             else
                 patchCables.push(<PatchCable
                     key={i}
-                    pos1={PatchCableManager.patchCables[i].getPosition('OUT', ref.current)}
-                    pos2={PatchCableManager.patchCables[i].getPosition('IN', ref.current)}
+                    pos1={PatchCableManager.patchCables[i].outObject.pos}
+                    pos2={PatchCableManager.patchCables[i].inObject.pos}
                 />)
         }
         return patchCables
@@ -97,6 +98,7 @@ function Workspace({ processor }) {
     }
 
     function handleMouseMove(e) {
+        if (!PatchCableManager.activeCableID === -1) return
         setMousePostion({
             x: e.pageX - ref.current.offsetLeft,
             y: e.pageY - ref.current.offsetTop
@@ -109,7 +111,7 @@ function Workspace({ processor }) {
 
     function handleClick() {
         PatchCableManager.handleClick(null)
-        ProcessorTree.setSelected(-1)
+        // ProcessorTree.setSelected(-1)
     }
 
     function handleKeyDown(e) {

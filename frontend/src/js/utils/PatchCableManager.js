@@ -113,6 +113,7 @@ class PatchCableManagerClass {
 }
 
 export class PatchCable {
+
     constructor(id) {
         if (id.id)
             this.fromJSON(id)
@@ -147,6 +148,7 @@ export class PatchCable {
             return true
         return false
     }
+
     updateObject(data, type) {
         if (type === 'OUT') {
             this.outObject = data
