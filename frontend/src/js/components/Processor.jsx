@@ -35,8 +35,12 @@ class Processor extends React.Component {
 
     }
 
-    componentDidMount() {
+    componentDidMount() {        
         if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
+    }
+
+    componentDidUpdate() {
+        this.save()
     }
 
     updateCables(cablesAsString) {
@@ -55,15 +59,14 @@ class Processor extends React.Component {
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         const objectID = 'ro-' + new Date().getTime()
-        this.state.objects[objectID] = createObject(this, type, { x, y })
+        // this.state.objects[objectID] = createObject(this, type, { x, y })
 
-        this.setState({ objects: this.state.objects }, () => console.log(this.state))
+        this.setState({ objects: {...this.state.objects, [objectID]: createObject(this, type, { x, y })}}, () => console.log(this.state))
     }
 
     updatePosition(id, position) {
         this.state.objects[id].position = position
         this.setState({ objects: this.state.objects })
-        this.save()
     }
 
     updateObject(id, objectText, textOnly = false) {
@@ -84,7 +87,6 @@ class Processor extends React.Component {
 
         this.state.objects[id].text = objectText
         this.setState({ objects: this.state.objects })
-        this.save()
     }
 
     connectObjects(outputObject, inputObject) {
@@ -113,11 +115,15 @@ class Processor extends React.Component {
 
     save() {
         let patch = JSON.parse(localStorage.getItem('patch'))
+        if (!patch) 
+            patch = {objects: {}, patchCables: {}}
         const objects = {}
-            
+        console.log(this.state.objects);
+        
         for (let i in this.state.objects) {
             objects[i] = this.state.objects[i].toJSON()
         }
+        patch.objects = objects
         localStorage.setItem("patch", JSON.stringify(patch))
     }
 
