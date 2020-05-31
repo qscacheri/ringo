@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import RingoObject from './RingoObject'
 import '../../css/Workspace.css';
 import PatchCable from "./PatchCable";
 import RingoButton from './RingoButton'
 import ProcessorTree from '../utils/ProcessorTree'
-import PatchCableManager from '../utils/PatchCableManager'
 import RingoMessage from "./RingoMessage";
 import RingoThree from './RingoThree'
 import RingoSlider from './RingoSlider'
@@ -16,9 +15,8 @@ function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
     const PatchCableManager = useContext(PatchCableContext)
     const [mousePosition, setMousePostion] = useState()
-    const [objectIDs, setObjectIDs] = useState([])
-    const [locked, setLocked] = useState(false)
-    const [infoPopup, setInfsoPopup] = useState({
+    const [locked] = useState(false)
+    const [infoPopup, setInfoPopup] = useState({
         visible: false,
         position: { x: 0, y: 0 },
         text: ""
@@ -74,7 +72,7 @@ function Workspace({ processor }) {
     const renderPatchCables = () => {        
         const patchCables = []
         for (let i in PatchCableManager.patchCables) {            
-            if (i == PatchCableManager.activeCableID)
+            if (i === PatchCableManager.activeCableID)
                 patchCables.push(<PatchCable
                     key={i}
                     pos1={PatchCableManager.patchCables[i].getActivePosition(PatchCableManager.activeCableType)}
@@ -94,7 +92,7 @@ function Workspace({ processor }) {
         const object = ProcessorContext.objects[id]
         const type = (object.type).toLowerCase()
         const description = object.getIOLetDescription(ioletType, index)
-        // setInfoPopup({ visible, position, text: type + ": " + description })
+        setInfoPopup({ visible, position, text: type + ": " + description })
     }
 
     function handleMouseMove(e) {
@@ -105,10 +103,6 @@ function Workspace({ processor }) {
         })
     }
 
-    function lock() {
-        setLocked(!locked)
-    }
-
     function handleClick() {
         PatchCableManager.handleClick(null)
         // ProcessorTree.setSelected(-1)
@@ -116,41 +110,40 @@ function Workspace({ processor }) {
 
     function handleKeyDown(e) {
         // CREATE NEW OBJECT
-        if (e.key == 'n' || e.key == 'N') {
-            ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y); Object
+        if (e.key === 'n' || e.key === 'N') {
+            ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y); 
             return;
         }
 
-        else if (e.key == 'm' || e.key == 'M') {
-            ProcessorContext.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y); Object
+        else if (e.key === 'm' || e.key === 'M') {
+            ProcessorContext.addObject(OBJECT_TYPES.MESSAGE, mousePosition.x, mousePosition.y); 
             return;
         }
 
-        else if (e.key == 's' || e.key == 'S') {
-            ProcessorContext.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y); Object
+        else if (e.key === 's' || e.key === 'S') {
+            ProcessorContext.addObject(OBJECT_TYPES.SLIDER, mousePosition.x, mousePosition.y); 
             return;
         }
 
-        else if (e.key == 'l' || e.key == 'L') {
-            ProcessorTree.toggleLock()
+        else if (e.key === 'l' || e.key === 'L') {
+            ProcessorContext.toggleLock()
             return;
         }
 
-        else if (e.key == 'p' || e.key == 'P') {
+        else if (e.key === 'p' || e.key === 'P') {
             const state = ProcessorTree.save()
             localStorage.setItem('session', JSON.stringify(state));
             return;
         }
 
-
         // DELETE OBJECT
-        if (e.keyCode == 8) {
+        if (e.keyCode === 8) {
             ProcessorTree.deleteSelected()
         }
     }
 
     return (
-        <div className='WorkSpace' ref={ref} tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown}>
+        <div className='WorkSpace' ref={ref} tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown} onClick={handleClick}>
             <div className="Controls">
                 <div>
                     <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> 

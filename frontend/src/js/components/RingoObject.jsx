@@ -36,7 +36,7 @@ function RingoObject(props) {
         ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
         
-        if (isDrag == false) {
+        if (isDrag === false) {
             console.log("Clicked on object with id:", props.id);
             // this.setState({ inputDisabled: false });
             setInputDisabled(false);
@@ -57,7 +57,7 @@ function RingoObject(props) {
     }
 
     const handleStop = (e, data) => {
-        ProcessorContext.objects[props.id].position = { x:data.x, y: data.y }
+        ProcessorContext.updatePosition(props.id, { x:data.x, y: data.y })
     }
 
     return (

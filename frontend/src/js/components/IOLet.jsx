@@ -41,7 +41,6 @@ function IOLet(props) {
     }
 
     useEffect(() => {
-        console.log({...props});
         setPosition(getPosition())
         PatchCableManger.updatePosition(getID(), getPosition())
     }, [props.dragging])

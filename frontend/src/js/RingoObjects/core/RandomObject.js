@@ -27,6 +27,9 @@ class RandomObject extends RingoObject {
             case 2:
                 this.attributes.max = data
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
+
         }
     }
 

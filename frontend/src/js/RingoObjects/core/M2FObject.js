@@ -18,6 +18,8 @@ class NumberObject extends RingoObject {
             case 0:
                 this.convertToFreq(data)
                 return;
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 

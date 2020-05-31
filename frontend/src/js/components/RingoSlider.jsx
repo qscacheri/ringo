@@ -4,14 +4,12 @@ import '../../css/RingoSlider.css';
 import { IOLetType } from './IOLet'
 import IOLetStrip from './IOLetStrip'
 import ProcessorTree from '../utils/ProcessorTree'
-import PatchCableManager from "../utils/PatchCableManager";
 
 function RingoSlider(props) {
-    let ref = React.createRef();
-    const [isDrag, setIsDrag] = useState(false);
+    const [position, setPosition] = useState({x: 0, y: 0})
 
     function handleDrag(e, data) {
-        setIsDrag(true);
+        setPosition({ x:data.x, y: data.y })
     }
 
     function handleClick(e) {
@@ -28,11 +26,11 @@ function RingoSlider(props) {
     return (
         <Draggable disabled={props.isLocked} bounds='parent' onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoSlider" onClick={handleClick}>
-                <IOLetStrip className='Inlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} />
+                <IOLetStrip className='Inlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numInlets} connectionType={IOLetType.In} dragging={position} />
                 <div className="SliderContainer">
                     <input className="Slider" type='range' min="0" max="1" step=".01" onChange={handleChange}></input>
                 </div>
-                <IOLetStrip className='Outlets' updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
+                <IOLetStrip className='Outlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} />
             </div>
         </Draggable>
     )

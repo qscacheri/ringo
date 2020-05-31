@@ -22,7 +22,7 @@ class InputObject extends RingoAudioObject {
     receiveData(inlet, data) {
         switch (inlet) {
             default: 
-                return
+                throw(new Error('INVALID INLET'))
         }
     }
 

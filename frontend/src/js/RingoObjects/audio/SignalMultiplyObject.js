@@ -23,6 +23,9 @@ class SignalMultiplyObject extends RingoAudioObject {
                 this.attributes.gain = parseFloat(data)
                 this.audioNode.gain.value = this.attributes.gain
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
+
         }
     }
 

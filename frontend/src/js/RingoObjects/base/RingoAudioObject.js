@@ -3,7 +3,7 @@ import RingoObject from "./RingoObject";
 class RingoAudioObject extends RingoObject {
     connect(outletIndex, inletIndex, inputID) {
         super.connect(outletIndex, inletIndex, inputID)
-        const receiverObject = this.processor.objects[inputID]
+        const receiverObject = this.processor.state.objects[inputID]
         this.audioNode.connect(receiverObject.audioNode)
     }
 

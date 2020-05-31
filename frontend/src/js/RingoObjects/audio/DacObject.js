@@ -25,6 +25,8 @@ class DacObject extends RingoAudioObject {
             case 2:
                 this.attributes.max = data
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 }

@@ -3,7 +3,7 @@ import * as Tone from 'tone'
 import createObject from '../utils/object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
-import {Receiver} from '../RingoObjects/base/RingoObject'
+import Receiver from '../utils/Receiver'
 
 const Context = React.createContext()
 const Provider = Context.Provider
@@ -15,7 +15,6 @@ class Processor extends React.Component {
         Tone.setContext(this.context)
         this.state = {
             objects: {},
-            patchCables: {},
             locked: false
         }
         this.addObject = this.addObject.bind(this)
@@ -24,56 +23,67 @@ class Processor extends React.Component {
         this.triggerMessage = this.triggerMessage.bind(this)
         this.toggleLock = this.toggleLock.bind(this)
         this.jsonToObject = this.jsonToObject.bind(this)
+        this.initializeThree = this.initializeThree.bind(this)
         this.save = this.save.bind(this)
         this.load = this.load.bind(this)
+        this.updateCables = this.updateCables.bind(this)
+        this.updatePosition = this.updatePosition.bind(this)
 
         this.patchAsJSON = null
         window.processor = this
         this.patchCablesAsString = ""
 
     }
-    
+
     componentDidMount() {
         if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
     }
 
-    resume() {        
-        if (this.context.state !== 'running') 
+    updateCables(cablesAsString) {
+
+        this.patchCablesAsString = cablesAsString
+    }
+
+    resume() {
+        if (this.context.state !== 'running')
             this.context.resume()
     }
 
     toggleLock() {
-        this.setState({locked: !this.state.locked})
+        this.setState({ locked: !this.state.locked })
     }
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
-        
         const objectID = 'ro-' + new Date().getTime()
-        console.log(objectID);
+        this.state.objects[objectID] = createObject(this, type, { x, y })
 
-        this.state.objects[objectID] = createObject(this, type, {x, y})
-
-        this.setState({objects: this.state.objects}, () => console.log(this.state))        
+        this.setState({ objects: this.state.objects }, () => console.log(this.state))
     }
 
-    updateObject(id, objectText, textOnly=false) {
+    updatePosition(id, position) {
+        this.state.objects[id].position = position
+        this.setState({ objects: this.state.objects })
+        this.save()
+    }
+
+    updateObject(id, objectText, textOnly = false) {
         if (textOnly) {
             this.state.objects[id].text = objectText
-            this.setState({objects: this.state.objects})     
+            this.setState({ objects: this.state.objects })
             return
         }
 
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
         const position = this.state.objects[id].position
-        
+
         if (type != this.state.objects[id].type) {
             this.state.objects[id] = createObject(this, type, position)
         }
         this.state.objects[id].updateAttributes(splitText)
 
         this.state.objects[id].text = objectText
-        this.setState({objects: this.state.objects})
+        this.setState({ objects: this.state.objects })
         this.save()
     }
 
@@ -85,41 +95,38 @@ class Processor extends React.Component {
         this.objects[id].triggerMessage()
     }
 
+    initializeThree(id, width, height, callback) {
+        return this.state.objects[id].initializeThree(width, height, callback)
+    }
+
     // ***********************RECALL*********************
     jsonToObject(id, object) {
 
-        const type = object.type        
+        const type = object.type
         this.state.objects[id] = createObject(this, type, object.position)
-        for (let i = 0; i < object.receivers.length; i++)
-        {
+        for (let i = 0; i < object.receivers.length; i++) {
             this.state.objects[id].receivers.push(new Receiver(object.receivers[i]))
         }
         this.updateObject(id, object.text)
-        this.setState({objects: this.state.objects})
+        this.setState({ objects: this.state.objects })
     }
 
     save() {
-        console.log('saving...');
-        let patch = {
-            objects: {}
+        let patch = JSON.parse(localStorage.getItem('patch'))
+        const objects = {}
+            
+        for (let i in this.state.objects) {
+            objects[i] = this.state.objects[i].toJSON()
         }
-            for (let i in this.state.objects) {
-                patch.objects[i] = this.state.objects[i].toJSON()
-            }
-            patch.patchCables = this.patchCablesAsString
-        
         localStorage.setItem("patch", JSON.stringify(patch))
     }
 
     load(patch) {
-        patch = JSON.parse(patch)        
+        console.log('loading objects...');
+        patch = JSON.parse(patch)
         this.state.objects = {}
         for (let id in patch.objects) {
-            console.log(id);
-            
             this.jsonToObject(id, patch.objects[id])
-            
-            if (this.newObjectCallback) this.newObjectCallback(id)
         }
     }
 
@@ -129,19 +136,21 @@ class Processor extends React.Component {
             addObject: this.addObject,
             resume: this.resume,
             updateObject: this.updateObject,
-            toggleLock: this.toggleLock
+            updatePosition: this.updatePosition,
+            toggleLock: this.toggleLock,
+            initializeThree: this.initializeThree
         }
 
         return (
             <Provider value={value}>
-                <PatchCableManager connectObjects={this.connectObjects} updateCables={(string) => this.patchCablesAsString = string}> 
+                <PatchCableManager connectObjects={this.connectObjects} updateCables={this.updateCables}>
                     {this.props.children}
-                </PatchCableManager> 
+                </PatchCableManager>
             </Provider>
         )
     }
 
 
 }
-export {Context}
+export { Context }
 export default Processor

@@ -14,7 +14,6 @@ class OscillatorObject extends RingoAudioObject {
         this.type = OBJECT_TYPES.OSC
         this.audioNode = new Oscillator()
         this.audioNode.start()
-        this.receivers = this.createReceiverArray(this.numOutlets)
         this.inletDescriptions = ['audio input', 'frequency value']
         this.outletDescriptions = ['audio output']
 
@@ -39,6 +38,9 @@ class OscillatorObject extends RingoAudioObject {
                 this.attributes.type = data
                 this.audioNode.type = this.attributes.type
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
+
         }
     }
 

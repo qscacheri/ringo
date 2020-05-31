@@ -8,11 +8,10 @@ class ScaleObject extends RingoObject {
         this.attributes = {
             inputMin: 0,
             inputMax: 1,
-            inputMin: 0,
-            inputMax: 1
+            outputMin: 0,
+            outputMax: 1
         }
         this.type = OBJECT_TYPES.SCALE
-        this.hasDSP = true
         this.inletDescriptions = ['trigger value', 'set input min', 'set input max', 'set output min', 'set output max']
         this.outletDescriptions = ['scaled value']
 
@@ -40,6 +39,8 @@ class ScaleObject extends RingoObject {
             case 4:
                 this.attributes.outputMax = parseFloat(data)
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 

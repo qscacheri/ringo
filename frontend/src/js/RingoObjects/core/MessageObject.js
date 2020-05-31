@@ -1,4 +1,4 @@
-import RingoObject, { Receiver, OutletInletPair } from '../base/RingoObject'
+import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class MessageObject extends RingoObject {
     constructor(processor, position) {
@@ -34,6 +34,8 @@ class MessageObject extends RingoObject {
                 case 1:
                     this.data = data
                     this.callback(data)
+                    return
+                default: 
                     return
             }
         }

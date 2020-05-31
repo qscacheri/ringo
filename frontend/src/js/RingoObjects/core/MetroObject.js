@@ -27,6 +27,8 @@ class Metro extends RingoObject {
             case 1:
                 this.attributes.rate = data
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 

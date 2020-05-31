@@ -65,16 +65,8 @@ export class PatchCable {
             return this.outObject.pos
         else 
             return this.inObject.pos
-        // let boundingRect
-        // if (this.outObject.ref)
-        //     boundingRect = this.outObject.ref.getBoundingClientRect()
-        // else
-        //     boundingRect = this.inObject.ref.getBoundingClientRect()
-        // return {
-        //     x: window.pageXOffset + boundingRect.x + (boundingRect.width / 2) - xOffset,
-        //     y: window.pageYOffset + boundingRect.y + (boundingRect.height / 2) - yOffset
-        // }
     }
+
     getPosition(type, parentRef) { // ref is for offset of workspace on page
         const xOffset = parentRef.offsetLeft
         const yOffset = parentRef.offsetTop
@@ -115,9 +107,7 @@ export class PatchCable {
 
 class PatchCableManager extends React.Component {
 
-    constructor(props) {
-        console.log(props);
-        
+    constructor(props) {        
         super(props)
         this.state = {
             activeCableID: -1,
@@ -130,9 +120,20 @@ class PatchCableManager extends React.Component {
         this.updateRefs = this.updateRefs.bind(this)
         this.checkCableCompatiblity = this.checkCableCompatiblity.bind(this)
         this.updatePosition = this.updatePosition.bind(this)
-
-        if (localStorage.getItem('patch')) this.loadFromJSON(JSON.parse(localStorage.getItem('patch')))
     }
+
+    componentDidMount() {
+        if (localStorage.getItem('patch')) {
+            this.loadFromJSON(JSON.parse(localStorage.getItem('patch')).patchCables)
+        }
+    }
+
+    saveCables() {
+        const patch = JSON.parse(localStorage.getItem('patch'))
+        patch.patchCables = this.getCablesAsJSON()
+        localStorage.setItem('patch', JSON.stringify(patch))
+        console.log(patch)
+    }  
 
     updatePosition(ioletID, pos) {
         const type = ioletID.split(':')[2]
@@ -144,8 +145,6 @@ class PatchCableManager extends React.Component {
         }
         else {
             for (let i in this.state.patchCables) {
-                // console.log(this.state.patchCables[i].inObject.ioletID);
-                // console.log(ioletID);
                 if (this.state.patchCables[i].inObject.ioletID === ioletID) {
                     this.state.patchCables[i].inObject.pos = pos
                 }
@@ -158,7 +157,6 @@ class PatchCableManager extends React.Component {
         if (!ioletInfo)  {
             delete this.state.patchCables[this.state.activeCableID]
             this.setState({patchCables: this.state.patchCables, activeCableID: -1})
-            this.props.updateCables(JSON.stringify(this.getCablesAsJSON()))
             return   
         }
         
@@ -182,7 +180,6 @@ class PatchCableManager extends React.Component {
         }, ioletInfo.connectionType)
         this.state.patchCables[cableID] = newPatchCable;
         this.setState({patchCables: this.state.patchCables})
-        this.props.updateCables(JSON.stringify(this.getCablesAsJSON()))
     }
 
     checkCableCompatiblity(ioletInfo) {
@@ -197,7 +194,7 @@ class PatchCableManager extends React.Component {
             this.props.connectObjects(this.state.patchCables[this.state.activeCableID].outObject, this.state.patchCables[this.state.activeCableID].inObject)
             this.setState({activeCableID: -1})
         }
-        this.props.updateCables(JSON.stringify(this.getCablesAsJSON()))
+        this.saveCables()
     }
 
     updateRefs(id, type, ioletIndex, ref) {
@@ -218,9 +215,12 @@ class PatchCableManager extends React.Component {
 
     getCablesAsJSON() {
         let patchCables = {}
-        for (let i in this.state.patchCables) {
-            patchCables[i] = this.state.patchCables[i].toJSON()
-        }
+        console.log(patchCables);
+        
+        for (let i in this.state.patchCables) {     
+                   
+            patchCables[i] = this.state.patchCables[i].toJSON()            
+        }        
         return patchCables
     }
 
@@ -228,12 +228,6 @@ class PatchCableManager extends React.Component {
         for (let i in json) {
             this.state.patchCables[i] = new PatchCable(json[i])            
         }
-
-        // for (let i = 0; i < this.refCallbacks.length; i++) {
-        //     console.log(i);
-            
-        //     this.refCallbacks[i]()
-        // }
     }
 
     render() {

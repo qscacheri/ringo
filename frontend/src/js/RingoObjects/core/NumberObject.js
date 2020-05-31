@@ -22,6 +22,8 @@ class NumberObject extends RingoObject {
             case 1:
                 this.attributes.value = parseFloat(data)
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 

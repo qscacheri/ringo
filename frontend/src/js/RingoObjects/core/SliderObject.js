@@ -19,6 +19,8 @@ class SliderObject extends RingoObject {
             case 1:
                 if (parseFloat(data)) this.value = data
                 return
+            default: 
+                throw(new Error('INVALID INLET'))
         }
     }
 

@@ -1,3 +1,6 @@
+import Receiver, { OutletInletPair } from '../../utils/Receiver'
+console.log(Receiver.toJSON);
+
 class RingoObject {
     constructor(processor, position) {
         this.processor = processor
@@ -41,7 +44,6 @@ class RingoObject {
             
             // iterate through all outlet/inlet combinations
             for (let j = 0; j < this.receivers[i].outletInletPairs.length; j++) {
-                let currentOutlet = this.receivers[i].outletInletPairs[j].outlet
                 let currentInlet = this.receivers[i].outletInletPairs[j].inlet
                 this.processor.state.objects[currentID].receiveData(currentInlet, data)
             }
@@ -59,9 +61,7 @@ class RingoObject {
         return array
     }
 
-    toJSON() {
-        console.log(this.position);
-        
+    toJSON() {        
         const receivers = []
         this.receivers.map(receiver => {
             receivers.push(receiver.toJSON())
@@ -79,7 +79,7 @@ class RingoObject {
         
         // connected to outlet
         for (let i = 0; i < this.receivers.length; i++) {            
-            if (id == this.receivers[i].id) return true
+            if (id === this.receivers[i].id) return true
         }
         return false
     }
@@ -89,54 +89,6 @@ class RingoObject {
             return this.outletDescriptions[index]
         else 
             return this.inletDescriptions[index]
-    }
-}
-
-export class OutletInletPair {
-    constructor(outlet, inlet) {
-        this.outlet = outlet
-        this.inlet = inlet
-    }
-
-    toJSON() {
-        return {
-            outlet: this.outlet,
-            inlet: this.inlet
-        }
-    }
-
-}
-
-export class Receiver {
-    constructor(id, outletInletPair) {     
-        this.outletInletPairs = []
-  
-        if (id.id) {
-            this.fromJSON(id) // actually the json since no multiple constructors
-        }
-
-        else {
-            this.id = id
-            this.outletInletPairs.push(outletInletPair)    
-        }  
-    }
-
-    toJSON () {
-        const pairs = []
-        this.outletInletPairs.map(pair => {
-            pairs.push(pair.toJSON())
-        })
-        return {
-            id: this.id,
-            pairs
-        }
-    }
-
-    fromJSON (receiver) {
-        this.id = receiver.id
-        receiver.pairs.map(pair => {
-            this.outletInletPairs.push(new OutletInletPair(pair.outlet, pair.inlet))
-        })
     }
 }
 
