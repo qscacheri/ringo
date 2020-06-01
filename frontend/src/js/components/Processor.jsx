@@ -40,6 +40,8 @@ class Processor extends React.Component {
     }
 
     componentDidUpdate() {
+        console.log(this.state.objects);
+        
         this.save()
     }
 
@@ -59,14 +61,16 @@ class Processor extends React.Component {
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         const objectID = 'ro-' + new Date().getTime()
-        // this.state.objects[objectID] = createObject(this, type, { x, y })
-
         this.setState({ objects: {...this.state.objects, [objectID]: createObject(this, type, { x, y })}}, () => console.log(this.state))
     }
 
     updatePosition(id, position) {
-        this.state.objects[id].position = position
-        this.setState({ objects: this.state.objects })
+        // this.state.objects[id].position = position
+        const object = this.state.objects[id]
+        object.position =        position
+        this.setState({ 
+            objects: {...this.state.objects, [id]: object}
+        })
     }
 
     updateObject(id, objectText, textOnly = false) {
@@ -121,6 +125,8 @@ class Processor extends React.Component {
         console.log(this.state.objects);
         
         for (let i in this.state.objects) {
+            console.log(this.state.objects[i]);
+            
             objects[i] = this.state.objects[i].toJSON()
         }
         patch.objects = objects

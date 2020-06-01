@@ -140,7 +140,7 @@ function Workspace({ processor }) {
         if (e.keyCode === 8) {
             ProcessorTree.deleteSelected()
         }
-    }
+    }    
 
     return (
         <div className='WorkSpace' ref={ref} tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown} onClick={handleClick}>

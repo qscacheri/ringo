@@ -18,8 +18,8 @@ function IOLet(props) {
     const getPosition = () => {
         const boundingRect = myRef.current.getBoundingClientRect();    
         return {
-            x: (boundingRect.x + (boundingRect.width / 2)) - props.offsets.x,
-            y: (boundingRect.y + (boundingRect.height / 2)) - props.offsets.y
+            x: window.scrollX + (boundingRect.x + (boundingRect.width / 2)) - props.offsets.x,
+            y: window.scrollY + (boundingRect.y + (boundingRect.height / 2)) - props.offsets.y
         }
         
     }
