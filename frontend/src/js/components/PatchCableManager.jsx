@@ -137,20 +137,25 @@ class PatchCableManager extends React.Component {
 
     updatePosition(ioletID, pos) {
         const type = ioletID.split(':')[2]
+        let object
         if (type === 'OUT') {
             for (let i in this.state.patchCables) {
-                if (this.state.patchCables[i].outObject.ioletID === ioletID) 
-                    this.state.patchCables[i].outObject.pos = pos
+                if (this.state.patchCables[i].outObject.ioletID === ioletID) {
+                    object = this.state.patchCables[i]
+                    object.pos = pos
+                    this.setState({patchCables: {...this.state.patchCables, [i]: object}})
+                }
             }    
         }
         else {
             for (let i in this.state.patchCables) {
                 if (this.state.patchCables[i].inObject.ioletID === ioletID) {
-                    this.state.patchCables[i].inObject.pos = pos
+                    object = this.state.patchCables[i]
+                    object.pos = pos
+                    this.setState({patchCables: {...this.state.patchCables, [i]: object}})
                 }
             }    
         }
-        this.setState({patchCables: this.state.patchCables})
     }
 
     handleClick (ioletInfo) {     
@@ -178,8 +183,9 @@ class PatchCableManager extends React.Component {
                 y: ioletInfo.position.y
             }
         }, ioletInfo.connectionType)
-        this.state.patchCables[cableID] = newPatchCable;
-        this.setState({patchCables: this.state.patchCables})
+        // this.state.patchCables[cableID] = newPatchCable;
+
+        this.setState({patchCables: {...this.state.patchCables, [cableID]: newPatchCable}})
     }
 
     checkCableCompatiblity(ioletInfo) {

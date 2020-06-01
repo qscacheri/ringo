@@ -32,6 +32,7 @@ class Receiver {
         const pairs = []
         this.outletInletPairs.map(pair => {
             pairs.push(pair.toJSON())
+            return 0
         })
         return {
             id: this.id,
@@ -43,6 +44,7 @@ class Receiver {
         this.id = receiver.id
         receiver.pairs.map(pair => {
             this.outletInletPairs.push(new OutletInletPair(pair.outlet, pair.inlet))
+            return 0
         })
     }
 }

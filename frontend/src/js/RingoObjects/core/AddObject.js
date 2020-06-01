@@ -36,7 +36,7 @@ class AddObject extends RingoObject {
 
     updateAttributes(newAttributes) {
         if (newAttributes[1]) this.attributes.num2 = parseFloat(newAttributes[1])
-        if (newAttributes[2]) this.attributes.store = parseInt(newAttributes[2])
+        if (newAttributes[2]) this.attributes.store = parseInt(newAttributes[2], 10)
     }
     
 }

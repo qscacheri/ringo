@@ -1,3 +1,4 @@
+/* eslint-disable */
 import ProcessorTree from './ProcessorTree'
 import { log } from 'three'
 

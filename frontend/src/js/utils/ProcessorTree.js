@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as Tone from 'tone'
 import createObject from './object-creators'
 import OBJECT_TYPES from '../constants/object-types';

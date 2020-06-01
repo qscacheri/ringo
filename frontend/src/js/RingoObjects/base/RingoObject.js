@@ -1,6 +1,4 @@
 import Receiver, { OutletInletPair } from '../../utils/Receiver'
-console.log(Receiver.toJSON);
-
 class RingoObject {
     constructor(processor, position) {
         this.processor = processor
@@ -65,6 +63,7 @@ class RingoObject {
         const receivers = []
         this.receivers.map(receiver => {
             receivers.push(receiver.toJSON())
+            return 0
         })
 
         return {

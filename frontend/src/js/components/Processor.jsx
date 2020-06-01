@@ -28,6 +28,7 @@ class Processor extends React.Component {
         this.load = this.load.bind(this)
         this.updateCables = this.updateCables.bind(this)
         this.updatePosition = this.updatePosition.bind(this)
+        this.updateStateObject = this.updateStateObject.bind(this)
 
         this.patchAsJSON = null
         window.processor = this
@@ -35,13 +36,19 @@ class Processor extends React.Component {
 
     }
 
+    updateStateObject(id, propertyPairs) {
+        const object = this.state.objects[id]
+        for (let i = 0; i < propertyPairs.length; i++) {
+            object[propertyPairs[i].property] = propertyPairs[i].value
+        }
+        this.setState({objects: {...this.state.objects, [id]: object}}, ()=>console.log(this.state.objects))
+    }
+
     componentDidMount() {        
         if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
     }
 
     componentDidUpdate() {
-        console.log(this.state.objects);
-        
         this.save()
     }
 
@@ -66,31 +73,36 @@ class Processor extends React.Component {
 
     updatePosition(id, position) {
         // this.state.objects[id].position = position
-        const object = this.state.objects[id]
-        object.position =        position
-        this.setState({ 
-            objects: {...this.state.objects, [id]: object}
-        })
+        // const object = this.state.objects[id]
+        // object.position =position
+        // this.setState({ 
+        //     objects: {...this.state.objects, [id]: object}
+        // })
+        this.updateStateObject(id, [{property:'position', value: position}])
     }
 
     updateObject(id, objectText, textOnly = false) {
         if (textOnly) {
-            this.state.objects[id].text = objectText
-            this.setState({ objects: this.state.objects })
+            // this.state.objects[id].text = objectText
+            // this.setState({ objects: this.state.objects })
+            this.updateStateObject(id, [{text: objectText}])
             return
         }
 
         const splitText = objectText.split(' ');
         const type = splitText[0].toUpperCase()
         const position = this.state.objects[id].position
-
-        if (type != this.state.objects[id].type) {
-            this.state.objects[id] = createObject(this, type, position)
+        let object
+        if (type !== this.state.objects[id].type) {
+            object = createObject(this, type, position)
         }
-        this.state.objects[id].updateAttributes(splitText)
+        else 
+            object = this.state.objects[id]
+        
+        object.updateAttributes(splitText)
 
-        this.state.objects[id].text = objectText
-        this.setState({ objects: this.state.objects })
+        object.text = objectText
+        this.setState({ objects: {...this.state.objects, [id]: object} })
     }
 
     connectObjects(outputObject, inputObject) {
@@ -109,12 +121,14 @@ class Processor extends React.Component {
     jsonToObject(id, object) {
 
         const type = object.type
-        this.state.objects[id] = createObject(this, type, object.position)
+        const newObject = createObject(this, type, object.position)
+        // newObject = createObject(this, type, object.position)
         for (let i = 0; i < object.receivers.length; i++) {
-            this.state.objects[id].receivers.push(new Receiver(object.receivers[i]))
+            newObject.receivers.push(new Receiver(object.receivers[i]))
         }
-        this.updateObject(id, object.text)
-        this.setState({ objects: this.state.objects })
+        this.setState({ objects: {...this.state.objects, [id]: newObject}}, 
+            () => this.updateObject(id, object.text)
+        )
     }
 
     save() {
@@ -122,11 +136,7 @@ class Processor extends React.Component {
         if (!patch) 
             patch = {objects: {}, patchCables: {}}
         const objects = {}
-        console.log(this.state.objects);
-        
         for (let i in this.state.objects) {
-            console.log(this.state.objects[i]);
-            
             objects[i] = this.state.objects[i].toJSON()
         }
         patch.objects = objects
@@ -136,10 +146,10 @@ class Processor extends React.Component {
     load(patch) {
         console.log('loading objects...');
         patch = JSON.parse(patch)
-        this.state.objects = {}
         for (let id in patch.objects) {
             this.jsonToObject(id, patch.objects[id])
         }
+
     }
 
     render() {

@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import '../../css/IOLet.css';
-import IOLetDescriptionPopup from "./IOletDescriptionPopup";
-import { PatchCableContext}  from './PatchCableManager'
+import { PatchCableContext }  from './PatchCableManager'
 
 export const IOLetType =
 {
