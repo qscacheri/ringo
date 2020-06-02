@@ -3,11 +3,13 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { Frequency } from 'tone'
 
 class NumberObject extends RingoObject {
+    
+    static type = OBJECT_TYPES.M2F
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.M2F
         this.inletDescriptions = ['midi note number']
         this.outletDescriptions = ['frequency']
 

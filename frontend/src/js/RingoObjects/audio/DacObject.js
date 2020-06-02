@@ -3,11 +3,12 @@ import { Gain } from 'tone'
 import RingoAudioObject from '../base/RingoAudioObject'
 
 class DacObject extends RingoAudioObject {
+    static type = OBJECT_TYPES.DAC
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
         this.numOutlets = 0
-        this.type = OBJECT_TYPES.DAC
         this.audioNode = new Gain()
         this.audioNode.toMaster()
         this.hasDSP = true

@@ -3,11 +3,12 @@ import OBJECT_TYPES from '../../constants/object-types'
 import * as THREE from "three";
 
 class ThreeCanvasObject extends RingoObject {
+    static type = OBJECT_TYPES.THREE_CANVAS
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 1
         this.numOutlets = 0
-        this.type = OBJECT_TYPES.THREE_CANVAS
         this.hasDSP = true
         this.shapes = {}
         this.animate = this.animate.bind(this)

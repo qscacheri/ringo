@@ -1,6 +1,8 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class ScaleObject extends RingoObject {
+    static type = OBJECT_TYPES.SCALE
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 5
@@ -11,7 +13,6 @@ class ScaleObject extends RingoObject {
             outputMin: 0,
             outputMax: 1
         }
-        this.type = OBJECT_TYPES.SCALE
         this.inletDescriptions = ['trigger value', 'set input min', 'set input max', 'set output min', 'set output max']
         this.outletDescriptions = ['scaled value']
 

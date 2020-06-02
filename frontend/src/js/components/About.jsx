@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/About.css"
-function About() {
+import RingoObjects from '../utils/RingoObjects'
+import ObjectDescription from './ObjectDescription'
+function About() {    
 
+    const [objects, setObjects] = useState([])
     const coreObjects = ['+', 'Button', 'M2F(Midi to freq)', 'Metro', 'Number', 'Random', 'Scale']
     const audioObjects = ['~Dac', '~Gain', '~Input', '~Meter', '~Osc'];
     const threeObjects = ['Three.shape', 'Three.canvas']
 
-    const getCoreObjects = () => {
-        const objects = [];
-        for (let i = 0; i < coreObjects.length; i++) {
-            objects.push(<li key={i}>{ coreObjects[i] }</li>)
+    useEffect(() => {
+        const sortedObjects = []
+        for (let i in RingoObjects) {
+            sortedObjects.push(RingoObjects[i])
         }
-        return objects;
-    }
+
+        sortedObjects.sort((a, b) => (a.type > b.type) ? 1 : -1)
+        console.log(sortedObjects);
+        
+        setObjects(sortedObjects)
+    }, []) 
+
+    const getCoreObjects = () => {
+        const renderObjects = [];
+        // for (let i = 0; i < coreObjects.length; i++) {
+        //     objects.push(<li key={i}>{ coreObjects[i] }</li>)
+        // }
+        objects.map((object, i) => {            
+            renderObjects.push(<ObjectDescription key={i} name={object.type} description={ object.objectDescription} />)
+        })
+        
+
+        return renderObjects;
+    }  
 
     const getAudioObjects = () => {
         const objects = [];

@@ -1,11 +1,12 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class MessageObject extends RingoObject {
+    static type = OBJECT_TYPES.MESSAGE
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 2
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.MESSAGE
         this.receivers = this.createReceiverArray(this.numOutlets)
         this.callback = null
         this.wildCards = []

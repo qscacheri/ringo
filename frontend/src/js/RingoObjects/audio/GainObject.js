@@ -3,6 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { Gain } from 'tone'
 
 class GainObject extends RingoAudioObject {
+    static type = OBJECT_TYPES.GAIN
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 2
@@ -10,7 +12,6 @@ class GainObject extends RingoAudioObject {
         this.attributes = {
             gain: 1
         }
-        this.type = OBJECT_TYPES.GAIN
         this.audioNode = new Gain()
         this.receivers = this.createReceiverArray(this.numOutlets)
         this.inletDescriptions = ['audio input', 'gain value']

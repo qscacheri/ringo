@@ -3,11 +3,12 @@ import OBJECT_TYPES from '../../constants/object-types'
 import { Meter } from 'tone'
 
 class MeterObject extends RingoObject {
+    static type = OBJECT_TYPES.METER
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 2
         this.numOutlets = 1
-        this.type = OBJECT_TYPES.METER
         this.audioNode = new Meter()
         setInterval(() => this.sendData(this.audioNode.getLevel()), 1)
         this.hasDSP = true

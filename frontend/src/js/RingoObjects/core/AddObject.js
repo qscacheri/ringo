@@ -1,6 +1,15 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 class AddObject extends RingoObject {
+    
+    static objectDescription = 
+    "Outputs the sum of inlet 1 and inlet 2. \
+    Optional First argument specifies number to add. \
+    Optional second argument \ stores sum and creates running sum, ignores the number in inlet 1"
+    static type = OBJECT_TYPES.ADD
+    static inletDescriptions = ['number 1', 'number 2']
+    static outletDescriptions = ['sum of both numbers or running sum if attribute set']
+
     constructor(processor, position) {
         super(processor, position)
         this.numInlets = 2
@@ -11,9 +20,6 @@ class AddObject extends RingoObject {
             store: 0,
         }
         this.storedVal = 0
-        this.type = OBJECT_TYPES.ADD
-        this.inletDescriptions = ['number 1', 'number 2']
-        this.outletDescriptions = ['sum of both numbers or running sum if attribute set']
     }
 
     receiveData(inlet, data) {
