@@ -58,6 +58,7 @@ function RingoObject(props) {
 
     const handleStop = (e, data) => {
         ProcessorContext.updatePosition(props.id, { x:data.x, y: data.y })
+        setPosition({ x:data.x, y: data.y })
     }
 
     return (

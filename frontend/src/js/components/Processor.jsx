@@ -41,7 +41,7 @@ class Processor extends React.Component {
         for (let i = 0; i < propertyPairs.length; i++) {
             object[propertyPairs[i].property] = propertyPairs[i].value
         }
-        this.setState({objects: {...this.state.objects, [id]: object}}, ()=>console.log(this.state.objects))
+        this.setState({objects: {...this.state.objects, [id]: object}})
     }
 
     componentDidMount() {        

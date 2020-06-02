@@ -48,7 +48,7 @@ function Workspace({ processor }) {
                 offsets: {x: ref.current.offsetLeft, y: ref.current.offsetTop}
             }
             
-            switch (ProcessorContext.objects[i].type) {
+            switch (ProcessorContext.objects[i].getType()) {
                 case OBJECT_TYPES.BUTTON:
                     objects.push(<RingoButton {...sharedProps} />)
                     break;

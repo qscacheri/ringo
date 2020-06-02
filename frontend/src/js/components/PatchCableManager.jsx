@@ -142,7 +142,7 @@ class PatchCableManager extends React.Component {
             for (let i in this.state.patchCables) {
                 if (this.state.patchCables[i].outObject.ioletID === ioletID) {
                     object = this.state.patchCables[i]
-                    object.pos = pos
+                    object.outObject.pos = pos
                     this.setState({patchCables: {...this.state.patchCables, [i]: object}})
                 }
             }    
@@ -151,7 +151,7 @@ class PatchCableManager extends React.Component {
             for (let i in this.state.patchCables) {
                 if (this.state.patchCables[i].inObject.ioletID === ioletID) {
                     object = this.state.patchCables[i]
-                    object.pos = pos
+                    object.inObject.pos = pos
                     this.setState({patchCables: {...this.state.patchCables, [i]: object}})
                 }
             }    

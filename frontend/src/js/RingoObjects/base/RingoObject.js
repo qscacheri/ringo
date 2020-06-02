@@ -22,6 +22,10 @@ class RingoObject {
 
     }
 
+    getType() {
+        return this.constructor.type
+    }
+
     connect(outletIndex, inletIndex, inputID) {
         let newPair = new OutletInletPair(outletIndex, inletIndex)
         let alreadyPresent = false
