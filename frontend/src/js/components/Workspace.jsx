@@ -110,6 +110,7 @@ function Workspace({ processor }) {
     }
 
     function handleClick() {
+        ProcessorContext.resume()
         setHasFocus(true)
         PatchCableManager.handleClick(null)
         // ProcessorTree.setSelected(-1)

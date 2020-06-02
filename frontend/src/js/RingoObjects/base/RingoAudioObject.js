@@ -10,6 +10,12 @@ class RingoAudioObject extends RingoObject {
     disconnect() {
         this.audioNode.disconnect()
     }
+
+    resume() {
+        console.log("started");
+        
+        if (this.audioNode.start) this.audioNode.start()
+    }
 }
 
 export default RingoAudioObject
