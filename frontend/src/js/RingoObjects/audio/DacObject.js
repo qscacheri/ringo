@@ -5,8 +5,8 @@ import RingoAudioObject from '../base/RingoAudioObject'
 class DacObject extends RingoAudioObject {
     static type = OBJECT_TYPES.DAC
 
-    constructor(processor, position) {
-        super(processor, position)
+    constructor(processor, position, attributes) {
+        super(processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 0
         this.audioNode = new Gain()

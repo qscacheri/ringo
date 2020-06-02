@@ -1,9 +1,9 @@
 import React from 'react'
 import * as Tone from 'tone'
-import createObject from '../utils/object-creators'
 import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
 import Receiver from '../utils/Receiver'
+import createRingoObject from '../utils/RingoObjects';
 
 const Context = React.createContext()
 const Provider = Context.Provider
@@ -33,6 +33,7 @@ class Processor extends React.Component {
         this.patchAsJSON = null
         window.processor = this
         this.patchCablesAsString = ""
+        this.loading = true
 
     }
 
@@ -46,10 +47,12 @@ class Processor extends React.Component {
 
     componentDidMount() {        
         if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
+        else this.loading = false
     }
 
     componentDidUpdate() {
-        this.save()
+        if (!this.loading)
+            this.save()
     }
 
     updateCables(cablesAsString) {
@@ -67,24 +70,17 @@ class Processor extends React.Component {
     }
 
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
+        
         const objectID = 'ro-' + new Date().getTime()
-        this.setState({ objects: {...this.state.objects, [objectID]: createObject(this, type, { x, y })}}, () => console.log(this.state))
+        this.setState({ objects: {...this.state.objects, [objectID]: createRingoObject(type, this, { x, y })}}, () => console.log(this.state))
     }
 
     updatePosition(id, position) {
-        // this.state.objects[id].position = position
-        // const object = this.state.objects[id]
-        // object.position =position
-        // this.setState({ 
-        //     objects: {...this.state.objects, [id]: object}
-        // })
         this.updateStateObject(id, [{property:'position', value: position}])
     }
 
     updateObject(id, objectText, textOnly = false) {
         if (textOnly) {
-            // this.state.objects[id].text = objectText
-            // this.setState({ objects: this.state.objects })
             this.updateStateObject(id, [{text: objectText}])
             return
         }
@@ -94,13 +90,11 @@ class Processor extends React.Component {
         const position = this.state.objects[id].position
         let object
         if (type !== this.state.objects[id].type) {
-            object = createObject(this, type, position)
+            object = createRingoObject(type, this, position, splitText)
         }
         else 
             object = this.state.objects[id]
         
-        object.updateAttributes(splitText)
-
         object.text = objectText
         this.setState({ objects: {...this.state.objects, [id]: object} })
     }
@@ -121,20 +115,18 @@ class Processor extends React.Component {
     jsonToObject(id, object) {
 
         const type = object.type
-        const newObject = createObject(this, type, object.position)
-        // newObject = createObject(this, type, object.position)
+        const newObject = createRingoObject(type, this, object.position, object.attributes)
+        newObject.text = object.text
         for (let i = 0; i < object.receivers.length; i++) {
             newObject.receivers.push(new Receiver(object.receivers[i]))
         }
-        this.setState({ objects: {...this.state.objects, [id]: newObject}}, 
-            () => this.updateObject(id, object.text)
-        )
+        this.setState({ objects: {...this.state.objects, [id]: newObject}})
     }
 
     save() {
         let patch = JSON.parse(localStorage.getItem('patch'))
-        if (!patch) 
-            patch = {objects: {}, patchCables: {}}
+        if (!patch)
+            patch = {}
         const objects = {}
         for (let i in this.state.objects) {
             objects[i] = this.state.objects[i].toJSON()
@@ -149,7 +141,7 @@ class Processor extends React.Component {
         for (let id in patch.objects) {
             this.jsonToObject(id, patch.objects[id])
         }
-
+        this.loading = false
     }
 
     render() {

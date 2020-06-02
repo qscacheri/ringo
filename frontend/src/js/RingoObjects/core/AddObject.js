@@ -10,8 +10,8 @@ class AddObject extends RingoObject {
     static inletDescriptions = ['number 1', 'number 2']
     static outletDescriptions = ['sum of both numbers or running sum if attribute set']
 
-    constructor(processor, position) {
-        super(processor, position)
+    constructor(processor, position, attributes) {
+        super(processor, position, attributes)
         this.numInlets = 2
         this.numOutlets = 1
         this.attributes = {

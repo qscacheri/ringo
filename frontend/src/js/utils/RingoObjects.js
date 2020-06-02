@@ -18,25 +18,31 @@ import SliderObject from '../RingoObjects/core/SliderObject'
 import ThreeCanvasObject from '../RingoObjects/three/ThreeCanvasObject'
 import ThreeShapeObject from '../RingoObjects/three/ThreeShapeObject'
 
-const RingoObjects = {
-    RingoObject, 
-    RandomObject,
-    PrintObject,
-    GainObject,
-    OscillatorObject,
-    DacObject,
-    MeterObject,
-    ButtonObject,
-    NumberObject,
-    MetroObject,
-    MessageObject,
-    M2FObject,
-    InputObject,
-    ScaleObject,
-    AddObject,
-    SliderObject,
-    ThreeCanvasObject,
-    ThreeShapeObject
-}
+const RingoObjects = {}
 
-export default RingoObjects
+RingoObjects[RingoObject.type] =      RingoObject
+RingoObjects[RandomObject.type] =      RandomObject
+RingoObjects[PrintObject.type]  =      PrintObject
+RingoObjects[GainObject.type]   =      GainObject
+RingoObjects[OscillatorObject.type] =  OscillatorObject
+RingoObjects[DacObject.type] =         DacObject
+RingoObjects[MeterObject.type] =       MeterObject
+RingoObjects[ButtonObject.type] =      ButtonObject
+RingoObjects[NumberObject.type] =      NumberObject
+RingoObjects[NumberObject.type] =      NumberObject
+RingoObjects[MetroObject.type] =       MetroObject
+RingoObjects[MessageObject.type] =     MessageObject
+RingoObjects[M2FObject.type] =         M2FObject
+RingoObjects[InputObject.type] =       InputObject
+RingoObjects[ScaleObject.type] =       ScaleObject
+RingoObjects[AddObject.type] =         AddObject
+RingoObjects[SliderObject.type] =      SliderObject
+RingoObjects[ThreeCanvasObject.type] = ThreeCanvasObject
+RingoObjects[ThreeShapeObject.type] =  ThreeShapeObject
+
+const createRingoObject = (type, processor, position, attributes) => {
+    if (!RingoObjects[type]) throw(new Error('The type supplied is not a valid object type'))
+    
+    else return new RingoObjects[type](processor, position, attributes)
+}
+export default createRingoObject

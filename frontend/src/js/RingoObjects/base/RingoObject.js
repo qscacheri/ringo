@@ -3,7 +3,7 @@ class RingoObject {
     static objectDescription = ""
     static type = 'EMPTY'
 
-    constructor(processor, position) {
+    constructor(processor, position, attributes) {
         this.processor = processor
         this.numInlets = 0
         this.numOutlets = 0
@@ -15,6 +15,7 @@ class RingoObject {
         this.inletDescriptions = []
         this.text = ""
         this.position = position        
+        if (attributes) this.updateAttributes(attributes)
     }
 
     updateAttributes(attributeName, value) {
@@ -72,7 +73,8 @@ class RingoObject {
             type: this.constructor.type, 
             receivers,
             text: this.text,
-            position: this.position
+            position: this.position,
+            attributes: this.attributes
         }
     }
 

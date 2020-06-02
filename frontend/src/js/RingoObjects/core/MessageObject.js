@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 class MessageObject extends RingoObject {
     static type = OBJECT_TYPES.MESSAGE
 
-    constructor(processor, position) {
-        super(processor, position)
+    constructor(processor, position, attributes) {
+        super(processor, position, attributes)
         this.numInlets = 2
         this.numOutlets = 1
         this.receivers = this.createReceiverArray(this.numOutlets)

@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 class ScaleObject extends RingoObject {
     static type = OBJECT_TYPES.SCALE
 
-    constructor(processor, position) {
-        super(processor, position)
+    constructor(processor, position, attributes) {
+        super(processor, position, attributes)
         this.numInlets = 5
         this.numOutlets = 1
         this.attributes = {
