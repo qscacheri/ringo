@@ -1,4 +1,3 @@
-import OBJECT_TYPES from '../constants/object-types'
 import RingoObject from '../RingoObjects/base/RingoObject';
 import RandomObject from '../RingoObjects/core/RandomObject'
 import PrintObject from '../RingoObjects/core/PrintObject';

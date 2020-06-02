@@ -14,6 +14,7 @@ class Processor extends React.Component {
         this.context = new AudioContext();
         Tone.setContext(this.context)
         this.state = {
+            loading: false,
             objects: {},
             locked: false
         }
@@ -33,8 +34,6 @@ class Processor extends React.Component {
         this.patchAsJSON = null
         window.processor = this
         this.patchCablesAsString = ""
-        this.loading = true
-
     }
 
     updateStateObject(id, propertyPairs) {
@@ -47,11 +46,11 @@ class Processor extends React.Component {
 
     componentDidMount() {        
         if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
-        else this.loading = false
+        else this.setState({loading: false})
     }
 
     componentDidUpdate() {
-        if (!this.loading)
+        if (!this.state.loading)
             this.save()
     }
 
@@ -100,7 +99,9 @@ class Processor extends React.Component {
     }
 
     connectObjects(outputObject, inputObject) {
-        this.state.objects[outputObject.id].connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
+        const objectWithNewReceiver = this.state.objects[outputObject.id]
+        objectWithNewReceiver.connect(outputObject.ioletIndex, inputObject.ioletIndex, inputObject.id)
+        this.setState({objects: {...this.state.objects, [outputObject.id]: objectWithNewReceiver}})
     }
 
     triggerMessage(id) {
@@ -120,7 +121,7 @@ class Processor extends React.Component {
         for (let i = 0; i < object.receivers.length; i++) {
             newObject.receivers.push(new Receiver(object.receivers[i]))
         }
-        this.setState({ objects: {...this.state.objects, [id]: newObject}})
+        return newObject
     }
 
     save() {
@@ -138,10 +139,12 @@ class Processor extends React.Component {
     load(patch) {
         console.log('loading objects...');
         patch = JSON.parse(patch)
+        const objects = {}
         for (let id in patch.objects) {
-            this.jsonToObject(id, patch.objects[id])
+            let newObject = this.jsonToObject(id, patch.objects[id])
+            objects[id] = newObject
         }
-        this.loading = false
+        this.setState({objects})
     }
 
     render() {
