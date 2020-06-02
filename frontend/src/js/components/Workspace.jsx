@@ -11,11 +11,13 @@ import RingoSlider from './RingoSlider'
 import Processor, { Context } from './Processor'
 import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import { PatchCableContext } from './PatchCableManager'
+import Toolbar from "./Toolbar";
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
     const PatchCableManager = useContext(PatchCableContext)
     const [mousePosition, setMousePostion] = useState()
     const [locked] = useState(false)
+    const [hasFocus, setHasFocus] = useState(true)
     const [infoPopup, setInfoPopup] = useState({
         visible: false,
         position: { x: 0, y: 0 },
@@ -108,11 +110,13 @@ function Workspace({ processor }) {
     }
 
     function handleClick() {
+        setHasFocus(true)
         PatchCableManager.handleClick(null)
         // ProcessorTree.setSelected(-1)
     }
 
     function handleKeyDown(e) {
+        if (!hasFocus) return
         // CREATE NEW OBJECT
         if (e.key === 'n' || e.key === 'N') {
             ProcessorContext.addObject(OBJECT_TYPES.EMPTY, mousePosition.x, mousePosition.y); 
@@ -148,16 +152,7 @@ function Workspace({ processor }) {
 
     return (
         <div className='WorkSpace' ref={ref} tabIndex="0" onMouseMove={handleMouseMove} onKeyDown={handleKeyDown} onClick={handleClick}>
-            <div className="Controls">
-                <div>
-                    <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button> 
-                    <button className="ToolbarButton NewMessage" onClick={() => { createObject(OBJECT_TYPES.MESSAGE) }}>New Message</button> 
-                </div>
-                <div>   
-                    <button className="ToolbarButton" onClick={handleLock}>{locked ? "Unlock" : "Lock"}</button>
-                </div>
-            </div>
-
+            <Toolbar createObject={createObject} takeFocus={() => setHasFocus(false)}/>
             {renderPatchCables()}
             {renderRingoObjects()}
             {infoPopup.visible ? <IOLetDescriptionPopup

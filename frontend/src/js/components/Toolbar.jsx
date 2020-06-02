@@ -1,30 +1,46 @@
-/* eslint-disable */
+import React, { useState, useContext, useEffect } from 'react'
+import '../../css/Toolbar.css'
+import OBJECT_TYPES from '../constants/object-types'
+import { Context } from './Processor'
 
-import React from "react";
-import OBJECT_TYPES from '../constants/object-types';
-import '../../css/Toolbar.css';
-import Processor from "../utils/ProcessorTree";
-import { Link } from "react-router-dom";
-import ProcessorTree from "../utils/ProcessorTree";
-
-
-function Toolbar({ locked, workspace}) {
+function Toolbar({ createObject, takeFocus}) {
+    const ProcessorContext = useContext(Context)
+    const [patchName, setPatchName] = useState('')
     
-    const createObject = (type) => {
-        Processor.addObject(type, 200, 200);
+    useEffect(() => {
+        setPatchName(ProcessorContext.patchName)
+    }, [])
+
+    const handleChange = (e) => {
+        setPatchName(e.target.value)
+        takeFocus()
     }
 
-    const handleLock = () => {
-        ProcessorTree.toggleLock()
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        ProcessorContext.setPatchName(patchName)
+    }
+
+    const handleClick = (e) => {
+        e.stopPropagation()    
+        takeFocus()
     }
 
     return (
         <div className="Toolbar">
-            <div className="Header">
-                <h1 className="Title">Ringo</h1>
+            <div className="patchNameContainer">
+                <div className="patchNameLabel">Patch Name:</div>
+                <form className="patchName" onSubmit={handleSubmit} onClick={handleClick}>
+                    <input type="text" value={patchName} onChange={handleChange}></input>
+                </form>
+            </div>
+            <div className="Controls">
+                    <button className="ToolbarButton NewObject" onClick={() => { createObject(OBJECT_TYPES.EMPTY) }}>New Object</button>
+                    <button className="ToolbarButton NewMessage" onClick={() => { createObject(OBJECT_TYPES.MESSAGE) }}>New Message</button>
+                    <button className="ToolbarButton" onClick={() => console.log('lock')}>{true ? "Unlock" : "Lock"}</button>
             </div>
         </div>
     )
 }
 
-export default Toolbar;
+export default Toolbar

@@ -1,5 +1,4 @@
 .RingoObject {
-    z-index: 100;
     display: flex;
     position: absolute;
     flex-direction: column;

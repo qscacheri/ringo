@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "../../css/App.css";
-import Toolbar from "./Toolbar";
+import Header from "./Header";
 import {
   BrowserRouter as Router,
   Switch,
@@ -50,7 +50,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      <Toolbar />
+      <Header />
     </div>
   );
 }

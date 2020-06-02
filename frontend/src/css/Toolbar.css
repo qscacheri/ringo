@@ -1,55 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap');
-
-.Toolbar{
+.Toolbar {
+    width: 100vw;
+    height: 8vh;
     position: fixed;
-    left: 0;
-    top: 0;
     display: flex;
-    flex-direction: column;
+    top: 10vh;
+    flex-direction: row;
     justify-content: space-between;
-    width: 100%;
-    height: 10vh;
-    margin: 0;
-    padding: 0;
     z-index: 100;
+    outline: none;
+    max-width:100%;  /* added */
+    background-color: black;
+}
+.patchNameContainer {
+    margin: auto 0 auto;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    font-size: 2vh;
 }
 
-.Header {
-    background: linear-gradient(107deg, rgba(0,0,0,1) 0%, rgba(121,9,71,1) 47%, rgba(0,255,239,1) 100%);
-    width: 100%;
-    height: 100%;
-    border-bottom: solid 1px white;    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.Title {
-    display: flex;
-    text-align: center;
-    padding: 0;
-    margin: 0;
+.patchNameLabel {
     color: white;
-    font-family: 'Bungee Hairline', cursive;
-    font-size: 5vh;
-
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 5px;
 }
-.Toolbar > button{
 
-    margin: 0;
-    padding: 0;
-    height: 100%;
+.patchName > input, .patchName > input:focus {
+    font-size: 2vh;
+    background: black;
+    border: none;
+    color: white;
+    border-color: black;
+    border-bottom: solid 1px magenta;
+    outline: none;
+}
+
+.Controls {
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .ToolbarButton {
     background: black;
     color: white;
     border-radius: 10px;
-    margin-left: 10px;
     text-decoration: none;
     font-size: 10px;
     border: solid 1px white;
     padding: 1px 7px 2px;
+    height: 50%;
+    margin: auto 10px auto;
 
 }
 

@@ -16,7 +16,8 @@ class Processor extends React.Component {
         this.state = {
             loading: false,
             objects: {},
-            locked: false
+            locked: false,
+            patchName: 'Untitled'
         }
         this.addObject = this.addObject.bind(this)
         this.updateObject = this.updateObject.bind(this)
@@ -133,18 +134,26 @@ class Processor extends React.Component {
             objects[i] = this.state.objects[i].toJSON()
         }
         patch.objects = objects
+        patch.patchName = this.state.patchName
+        console.log(patch);
+        
         localStorage.setItem("patch", JSON.stringify(patch))
     }
 
     load(patch) {
         console.log('loading objects...');
         patch = JSON.parse(patch)
+        const patchName = patch.patchName
         const objects = {}
         for (let id in patch.objects) {
             let newObject = this.jsonToObject(id, patch.objects[id])
             objects[id] = newObject
         }
-        this.setState({objects})
+        this.setState({objects, patchName})
+    }
+    
+    updatePatchName(newName) {
+        this.setState({patchName: newName})
     }
 
     render() {
@@ -155,7 +164,8 @@ class Processor extends React.Component {
             updateObject: this.updateObject,
             updatePosition: this.updatePosition,
             toggleLock: this.toggleLock,
-            initializeThree: this.initializeThree
+            initializeThree: this.initializeThree,
+            setPatchName: (newName) => this.setState({patchName: newName})
         }
 
         return (
