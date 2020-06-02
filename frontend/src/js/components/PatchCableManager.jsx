@@ -112,7 +112,8 @@ class PatchCableManager extends React.Component {
         this.state = {
             activeCableID: -1,
             activeCableType: '',
-            patchCables: {}
+            patchCables: {},
+            dimensions: {width: 0, height: 0}
         }
 
         this.handleClick = this.handleClick.bind(this)
@@ -126,6 +127,7 @@ class PatchCableManager extends React.Component {
         if (localStorage.getItem('patch')) {
             this.loadFromJSON(JSON.parse(localStorage.getItem('patch')).patchCables)
         }
+        window.addEventListener('resize', () => this.setState({dimensions: {width: window.innerWidth, height: window.innerHeight}}))
     }
 
     saveCables() {
@@ -242,7 +244,8 @@ class PatchCableManager extends React.Component {
             activeCableID: this.state.activeCableID,
             activeCableType: this.state.activeCableType,
             handleClick: this.handleClick,
-            updatePosition: this.updatePosition
+            updatePosition: this.updatePosition,
+            dimensions: this.dimensions
         }
 
         return (<PatchCableContext.Provider value={value}>

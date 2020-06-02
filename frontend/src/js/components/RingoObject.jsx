@@ -32,6 +32,11 @@ function RingoObject(props) {
         setPosition({ x:data.x, y: data.y })
     }
 
+    const handleStop = (e, data) => {
+        ProcessorContext.updatePosition(props.id, { x:data.x, y: data.y })
+        setPosition({ x:data.x, y: data.y })
+    }
+
     function handleClick(e) {
         ProcessorTree.resume()
         ProcessorTree.setSelected(props.id)
@@ -56,11 +61,6 @@ function RingoObject(props) {
         return;
     }
 
-    const handleStop = (e, data) => {
-        ProcessorContext.updatePosition(props.id, { x:data.x, y: data.y })
-        setPosition({ x:data.x, y: data.y })
-    }
-
     return (
         <Draggable bounds='parent' disabled={props.isLocked} onStop={handleStop} onDrag={handleDrag} enableUserSelectHack={false} defaultPosition={{ x: props.position.x, y: props.position.y }}>
             <div className="RingoObject" onClick={handleClick}>
@@ -68,7 +68,7 @@ function RingoObject(props) {
                 <form onSubmit={handleSubmit}>
                     <input ref={ref} autoComplete="off" onBlur={() => { setInputDisabled(true) }} disabled={inputDisabled} onKeyDown={e => e.stopPropagation()} name='type' value={textValue} type="text" onChange={handleChange}></input>
                 </form>
-                <IOLetStrip className='Outlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} dragging={isDrag}/>
+                <IOLetStrip className='Outlets' offsets={props.offsets} updateShowInfo={props.updateShowInfo} id={props.id} numIOLets={props.numOutlets} connectionType={IOLetType.Out} dragging={position}/>
             </div>
         </Draggable>
     )

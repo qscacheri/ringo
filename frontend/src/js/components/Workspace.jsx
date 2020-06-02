@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import RingoObject from './RingoObject'
 import '../../css/Workspace.css';
@@ -21,7 +21,11 @@ function Workspace({ processor }) {
         position: { x: 0, y: 0 },
         text: ""
     })
+    const [dimensions, setDimensions] = useState({width: 0, height: 0})
     let ref = useRef(null)
+
+    useEffect(() => {
+    }, [])
 
     const createObject = (type) => {
         Processor.addObject(type, 200, 200);

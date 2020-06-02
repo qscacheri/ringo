@@ -18,9 +18,7 @@ function App() {
   let myRef = useRef(null);
 
   useEffect(() => {
-    window.onbeforeunload = () => {
-      return "";
-    };
+
   }, []);
 
   return (
