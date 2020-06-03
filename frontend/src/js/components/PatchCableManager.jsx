@@ -49,6 +49,11 @@ export class PatchCable {
             return true
         return false
     }
+
+    isDuplicate() {
+
+    }
+    
     updateObject(data, type) {
         if (type === 'OUT') {
             this.outObject = data

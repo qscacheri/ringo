@@ -11,8 +11,8 @@ const Provider = Context.Provider
 class Processor extends React.Component {
     constructor(props) {
         super(props)
-        this.context = new AudioContext();
-        Tone.setContext(this.context)
+        this.audioContext = new AudioContext()
+        Tone.setContext(this.audioContext)
         this.state = {
             loading: false,
             objects: {},
@@ -31,10 +31,11 @@ class Processor extends React.Component {
         this.updateCables = this.updateCables.bind(this)
         this.updatePosition = this.updatePosition.bind(this)
         this.updateStateObject = this.updateStateObject.bind(this)
-
+        this.resume = this.resume.bind(this)
         this.patchAsJSON = null
         window.processor = this
         this.patchCablesAsString = ""
+        this.reconnectObjects = this.reconnectObjects.bind(this)
     }
 
     updateStateObject(id, propertyPairs) {
@@ -61,8 +62,15 @@ class Processor extends React.Component {
     }
 
     resume() {
-        if (this.context.state !== 'running')
-            this.context.resume()
+        console.log(this.audioContext);
+        
+        if (this.audioContext.state !== 'running') {
+            this.audioContext.resume()
+            console.log('resumed audio context');
+        }
+        for (let i in this.state.objects) {
+            if (this.state.objects[i].resume) this.state.objects[i].resume()
+        }
     }
 
     toggleLock() {
@@ -119,10 +127,27 @@ class Processor extends React.Component {
         const type = object.type
         const newObject = createRingoObject(type, this, object.position, object.attributes)
         newObject.text = object.text
-        for (let i = 0; i < object.receivers.length; i++) {
-            newObject.receivers.push(new Receiver(object.receivers[i]))
-        }
+        // for (let i = 0; i < object.receivers.length; i++) {
+        //     newObject.receivers.push(new Receiver(object.receivers[i]))
+        // }
         return newObject
+    }
+
+    reconnectObjects(json) {
+        console.log(json);
+        console.log(this.state.objects);
+
+        for (let i in this.state.objects) {
+            let object = this.state.objects[i]
+            let jsonObject = json[i]
+            for (let receiver = 0; receiver < jsonObject.receivers.length; receiver++) {
+                let currentReceiver = jsonObject.receivers[receiver]                
+                for (let pair = 0; pair < currentReceiver.pairs.length; pair++) {
+                    object.connect(currentReceiver.pairs[pair].outlet, currentReceiver.pairs[pair].inlet, currentReceiver.id)
+                }
+                this.setState({objects: {...this.state.objects, [i]: object}})
+            }
+        }
     }
 
     save() {
@@ -144,12 +169,15 @@ class Processor extends React.Component {
         console.log('loading objects...');
         patch = JSON.parse(patch)
         const patchName = patch.patchName
-        const objects = {}
+        let objects = {}
         for (let id in patch.objects) {
             let newObject = this.jsonToObject(id, patch.objects[id])
             objects[id] = newObject
         }
-        this.setState({objects, patchName})
+        // objects = this.reconnectObjects(objects, patch.objects)
+        console.log(patch.objects);
+        
+        this.setState({objects, patchName}, () => this.reconnectObjects(patch.objects))
     }
     
     updatePatchName(newName) {
@@ -165,6 +193,7 @@ class Processor extends React.Component {
             updatePosition: this.updatePosition,
             toggleLock: this.toggleLock,
             initializeThree: this.initializeThree,
+            resume: this.resume,
             setPatchName: (newName) => this.setState({patchName: newName})
         }
 
