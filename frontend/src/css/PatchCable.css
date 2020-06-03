@@ -7,6 +7,7 @@
     left: 0;
     stroke-width: 2px;
     stroke: "aqua";
+    z-index: 0;
 }
 
 .PatchCable.PatchCableLine {

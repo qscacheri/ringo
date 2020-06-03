@@ -5,4 +5,5 @@
     height: 1vh;
     flex-direction: row;
     justify-content: space-evenly;
+    background: black;
 }
