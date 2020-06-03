@@ -60,12 +60,6 @@ class RingoObject {
 
     }
 
-    createReceiverArray(numOutlets) {
-        const array = new Array(numOutlets)
-        for (let i = 0; i < numOutlets; i++) array[i] = {}
-        return array
-    }
-
     toJSON() {        
         const receivers = []
         this.receivers.map(receiver => {
