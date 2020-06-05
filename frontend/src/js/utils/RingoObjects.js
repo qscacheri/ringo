@@ -39,9 +39,9 @@ RingoObjects[SliderObject.type] =      SliderObject
 RingoObjects[ThreeCanvasObject.type] = ThreeCanvasObject
 RingoObjects[ThreeShapeObject.type] =  ThreeShapeObject
 
-const createRingoObject = (type, processor, position, attributes) => {
+const createRingoObject = (id, type, processor, position, attributes) => {
     if (!RingoObjects[type]) throw(new Error('The type supplied is not a valid object type'))
     
-    else return new RingoObjects[type](processor, position, attributes)
+    else return new RingoObjects[type](id, processor, position, attributes)
 }
 export default createRingoObject

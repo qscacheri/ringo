@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 class MessageObject extends RingoObject {
     static type = OBJECT_TYPES.MESSAGE
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 2
         this.numOutlets = 1
         this.receivers = this.createReceiverArray(this.numOutlets)
@@ -14,7 +14,7 @@ class MessageObject extends RingoObject {
         this.receivers = []
         this.inletDescriptions = ['trigger message', 'set message content']
         this.outletDescriptions = ['message text']
-
+        
     }
 
     receiveData(inlet, data) {        
@@ -34,7 +34,9 @@ class MessageObject extends RingoObject {
                     return;
                 case 1:
                     this.data = data
-                    this.callback(data)
+                    this.text = data
+                    this.processor.updateObject(this.id, data, true)
+                    // this.callback(data)
                     return
                 default: 
                     return

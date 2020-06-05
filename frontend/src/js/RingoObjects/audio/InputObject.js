@@ -5,8 +5,8 @@ import { UserMedia } from 'tone'
 class InputObject extends RingoAudioObject {
     static type = OBJECT_TYPES.INPUT
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 1
         this.attributes = {

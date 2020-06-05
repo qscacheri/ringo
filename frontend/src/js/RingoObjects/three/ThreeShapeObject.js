@@ -6,8 +6,8 @@ import ProcessorTree from '../../utils/ProcessorTree';
 class ThreeShapeObject extends RingoObject {
     static type = OBJECT_TYPES.THREE_SHAPE
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 1
         this.hasDSP = true
@@ -37,8 +37,7 @@ class ThreeShapeObject extends RingoObject {
 
     receiveData(inlet, data) {
         this.parseMessage(data)
-        return
-        
+        return 
     }
 
     connect(outletIndex, inletIndex, inputID) {

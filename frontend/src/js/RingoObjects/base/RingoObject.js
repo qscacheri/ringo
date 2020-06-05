@@ -3,7 +3,8 @@ class RingoObject {
     static objectDescription = ""
     static type = 'EMPTY'
 
-    constructor(processor, position, attributes) {
+    constructor(id, processor, position, attributes) {
+        this.id = id
         this.processor = processor
         this.numInlets = 0
         this.numOutlets = 0

@@ -16,7 +16,11 @@ function RingoMessage(props) {
         // ProcessorTree.registerMessageCallback(props.id, (newValue) => {
         //     setTextValue(newValue)
         // })
-    }, [])
+        console.log(props.text);
+        
+        if (textValue !== props.text)
+            setTextValue(props.text)
+    })
 
     function handleChange(e) {
         setTextValue(event.target.value);

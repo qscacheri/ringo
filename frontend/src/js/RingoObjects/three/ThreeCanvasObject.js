@@ -5,8 +5,8 @@ import * as THREE from "three";
 class ThreeCanvasObject extends RingoObject {
     static type = OBJECT_TYPES.THREE_CANVAS
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 0
         this.hasDSP = true

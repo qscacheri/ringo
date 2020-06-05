@@ -137,9 +137,7 @@ class PatchCableManager extends React.Component {
     }
 
     componentDidUpdate() {
-        const id = this.props.lastDeleted
-        console.log(id);
-        
+        const id = this.props.lastDeleted        
         if (id === -1 || this.lastDeleted === this.props.lastDeleted) return
 
         console.log("updating patch cables");

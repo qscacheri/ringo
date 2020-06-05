@@ -6,8 +6,8 @@ class NumberObject extends RingoObject {
     
     static type = OBJECT_TYPES.M2F
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 1
         this.inletDescriptions = ['midi note number']

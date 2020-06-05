@@ -5,8 +5,8 @@ import RingoAudioObject from '../base/RingoAudioObject'
 class OscillatorObject extends RingoAudioObject {
     static type = OBJECT_TYPES.OSC
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 3
         this.numOutlets = 1
         this.attributes = {

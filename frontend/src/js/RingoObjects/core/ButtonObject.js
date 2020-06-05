@@ -7,8 +7,8 @@ class ButtonObject extends RingoObject {
     static inletDescriptions = ['trigger button press']
     static outletDescriptions = ['bang']
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 1
     }

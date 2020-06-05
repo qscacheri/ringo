@@ -5,8 +5,8 @@ import { Meter } from 'tone'
 class MeterObject extends RingoObject {
     static type = OBJECT_TYPES.METER
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 2
         this.numOutlets = 1
         this.audioNode = new Meter()

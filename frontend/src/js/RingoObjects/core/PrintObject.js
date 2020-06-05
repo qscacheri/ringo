@@ -3,8 +3,8 @@ import RingoObject from '../base/RingoObject'
 class PrintObject extends RingoObject {
     static type = 'PRINT'
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 1
         this.numOutlets = 0
     }

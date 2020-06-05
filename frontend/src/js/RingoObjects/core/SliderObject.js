@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 class SliderObject extends RingoObject {
     static type = OBJECT_TYPES.SLIDER
     
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 2
         this.numOutlets = 1
         this.inletDescriptions = ['trigger send', 'set value']

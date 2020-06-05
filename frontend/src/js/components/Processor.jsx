@@ -46,7 +46,7 @@ class Processor extends React.Component {
         for (let i = 0; i < propertyPairs.length; i++) {
             object[propertyPairs[i].property] = propertyPairs[i].value
         }
-        this.setState({objects: {...this.state.objects, [id]: object}})
+        this.setState({objects: {...this.state.objects, [id]: object}}, ()=>console.log(this.state.objects))
     }
 
     componentDidMount() {        
@@ -83,7 +83,7 @@ class Processor extends React.Component {
     addObject(type = OBJECT_TYPES.EMPTY, x, y) {
         
         const objectID = 'ro-' + new Date().getTime()
-        this.setState({ objects: {...this.state.objects, [objectID]: createRingoObject(type, this, { x, y })}}, () => console.log(this.state))
+        this.setState({ objects: {...this.state.objects, [objectID]: createRingoObject(objectID, type, this, { x, y })}}, () => console.log(this.state))
     }
 
     deleteSelected() {
@@ -118,7 +118,7 @@ class Processor extends React.Component {
         const position = this.state.objects[id].position
         let object
         if (type !== this.state.objects[id].type) {
-            object = createRingoObject(type, this, position, splitText)
+            object = createRingoObject(id, type, this, position, splitText)
         }
         else 
             object = this.state.objects[id]
@@ -145,7 +145,7 @@ class Processor extends React.Component {
     jsonToObject(id, object) {
 
         const type = object.type
-        const newObject = createRingoObject(type, this, object.position, object.attributes)
+        const newObject = createRingoObject(id, type, this, object.position, object.attributes)
         newObject.text = object.text
         // for (let i = 0; i < object.receivers.length; i++) {
         //     newObject.receivers.push(new Receiver(object.receivers[i]))
@@ -180,8 +180,6 @@ class Processor extends React.Component {
         }
         patch.objects = objects
         patch.patchName = this.state.patchName
-        console.log(patch);
-        
         localStorage.setItem("patch", JSON.stringify(patch))
     }
 

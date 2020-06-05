@@ -3,8 +3,8 @@ import OBJECT_TYPES from '../../constants/object-types'
 class RandomObject extends RingoObject {
     static type = OBJECT_TYPES.RANDOM
 
-    constructor(processor, position, attributes) {
-        super(processor, position, attributes)
+    constructor(id, processor, position, attributes) {
+        super(id, processor, position, attributes)
         this.numInlets = 3
         this.numOutlets = 1
         this.attributes = {
