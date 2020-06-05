@@ -126,6 +126,7 @@ class PatchCableManager extends React.Component {
         this.updateRefs = this.updateRefs.bind(this)
         this.checkCableCompatiblity = this.checkCableCompatiblity.bind(this)
         this.updatePosition = this.updatePosition.bind(this)
+        this.lastDeleted = -1
     }
 
     componentDidMount() {
@@ -133,6 +134,27 @@ class PatchCableManager extends React.Component {
             this.loadFromJSON(JSON.parse(localStorage.getItem('patch')).patchCables)
         }
         window.addEventListener('resize', () => this.setState({dimensions: {width: window.innerWidth, height: window.innerHeight}}))
+    }
+
+    componentDidUpdate() {
+        const id = this.props.lastDeleted
+        console.log(id);
+        
+        if (id === -1 || this.lastDeleted === this.props.lastDeleted) return
+
+        console.log("updating patch cables");
+        
+        let numDeleted = 0
+        const copy = this.state.patchCables
+        for (let i in this.state.patchCables) {
+            if (this.state.patchCables[i].isConnectedToObject(id)) {
+                delete copy[i]
+                numDeleted++
+            }
+        }
+        console.log('Deleted ', numDeleted, ' patch cables');
+        this.setState({patchCables: copy}, () => this.saveCables())
+        this.lastDeleted = this.props.lastDeleted
     }
 
     saveCables() {

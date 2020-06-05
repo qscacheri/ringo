@@ -38,9 +38,7 @@ function RingoObject(props) {
     }
 
     function handleClick(e) {
-        ProcessorTree.resume()
-        ProcessorTree.setSelected(props.id)
-        
+        ProcessorContext.setSelectedObject(props.id)
         if (isDrag === false) {
             console.log("Clicked on object with id:", props.id);
             // this.setState({ inputDisabled: false });

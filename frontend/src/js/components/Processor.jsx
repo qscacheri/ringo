@@ -17,7 +17,8 @@ class Processor extends React.Component {
             loading: false,
             objects: {},
             locked: false,
-            patchName: 'Untitled'
+            patchName: 'Untitled',
+            selectedObject: -1
         }
         this.addObject = this.addObject.bind(this)
         this.updateObject = this.updateObject.bind(this)
@@ -36,6 +37,8 @@ class Processor extends React.Component {
         window.processor = this
         this.patchCablesAsString = ""
         this.reconnectObjects = this.reconnectObjects.bind(this)
+        this.deleteSelected = this.deleteSelected.bind(this)
+        this.lastDeletedObjectID = -1
     }
 
     updateStateObject(id, propertyPairs) {
@@ -81,6 +84,23 @@ class Processor extends React.Component {
         
         const objectID = 'ro-' + new Date().getTime()
         this.setState({ objects: {...this.state.objects, [objectID]: createRingoObject(type, this, { x, y })}}, () => console.log(this.state))
+    }
+
+    deleteSelected() {
+        const newObjects = this.state.objects
+        for (let i in this.state.objects) {
+            if (this.state.objects[i].isOutletConnectedTo(this.state.selectedObject)) {
+                if (this.state.objects[i].disconnect)
+                    this.state.objects[i].disconnect()
+            }
+        }
+
+        if (this.state.objects[this.state.selectedObject].disconnect)
+            this.state.objects[this.state.selectedObject].disconnect()
+        delete newObjects[this.state.selectedObject]
+        this.lastDeletedObjectID = this.state.selectedObject
+        this.setState({objects: newObjects, selectedObject: -1})
+        // PatchCableManager.updateDeleted(this.selectedObject)
     }
 
     updatePosition(id, position) {
@@ -194,12 +214,18 @@ class Processor extends React.Component {
             toggleLock: this.toggleLock,
             initializeThree: this.initializeThree,
             resume: this.resume,
-            setPatchName: (newName) => this.setState({patchName: newName})
+            setPatchName: (newName) => this.setState({patchName: newName}),
+            setSelectedObject: (id) => this.setState({selectedObject: id}),
+            deleteSelectedObject: this.deleteSelected
         }
 
         return (
             <Provider value={value}>
-                <PatchCableManager connectObjects={this.connectObjects} updateCables={this.updateCables}>
+                <PatchCableManager 
+                connectObjects={this.connectObjects} 
+                updateCables={this.updateCables}
+                lastDeleted={this.lastDeletedObjectID}
+                >
                     {this.props.children}
                 </PatchCableManager>
             </Provider>

@@ -147,7 +147,7 @@ function Workspace({ processor }) {
 
         // DELETE OBJECT
         if (e.keyCode === 8) {
-            ProcessorTree.deleteSelected()
+            ProcessorContext.deleteSelectedObject()
         }
     }    
 
