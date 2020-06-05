@@ -32,7 +32,10 @@ app.post('/signup', async (req, res) => {
 	
 	const {username, password, passwordConfirmation, email} = req.body
 	const status = await db.signup(username, password, passwordConfirmation, email)
-	res.sendStatus(status)
+	if (status === 200)
+		res.send({token: authentication.generateAccessToken(username)})
+	else
+		res.sendStatus(status)
 });
 
 app.get('/discover', async (req, res) => {
