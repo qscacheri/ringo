@@ -1,47 +1,26 @@
+.LoginSignup {
+    position: absolute;
+    top: 10vh;
+    width: 100%;
+    /* text-align: center; */
+}
+
 .Login, .Signup {
-    margin-top: 10%;
     width: 100%;
     color: white;
     text-align: center;
 }
 
-nav {
-    text-align: center;
-}
-
 .SignMeUp {
-    margin-right: 30%;
-    margin-left: 30%;
-    padding: 2%;
+    margin: auto 30% auto 30%;
+    color: white;
+    border: 1px solid red;
     display: flex;
-    justify-content: space-evenly;
-    color: white;
-}
-
-button {
-    padding-top: 1%;
-    padding-bottom: 1%;
-    padding-right: 3%;
-    padding-left: 3%;
-    text-align: center;
-    color: white;
-    background-color: black;
-    border: 1px solid white;
-    border-radius: 20px;
-    outline: none;
-}
-#SignupBtn {
-    padding-right: 5%;
-    padding-left: 5%;
-}
-
-button:hover {
-    color: black;
-    background-color: white;
+    justify-content: space-between;
 }
 
 .formItem {
-    margin: 0 auto;
+    margin: 1% auto;
     width: 50%;   
 }
 
@@ -59,4 +38,15 @@ button:hover {
     white-space: nowrap;
     display: inline-block;
     width: 35%;
+}
+
+.submitButton {
+    margin: 2% auto;
+    padding: 1% 2% 1% 2%;
+    /* height: 50%; */
+    background: black;
+    color: white;
+    border-radius: 10px;
+    border: solid 1px white;
+    text-decoration: none;
 }

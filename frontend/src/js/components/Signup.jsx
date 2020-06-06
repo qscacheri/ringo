@@ -3,7 +3,7 @@ const axios = require('axios')
 const serverAddress = process.env.REACT_APP_SERVER_ADDRESS
 
 const Signup = ({handleSuccess}) => {  
-    const [credentials, setCredentials] = useState({username: 'qscacheri', email: 'qs', password: '1', passwordConfirmation: '1'})
+    const [credentials, setCredentials] = useState({username: '', email: '', password: '', passwordConfirmation: ''})
     const [errorMessage, setErrorMessage] = useState('')
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -15,8 +15,6 @@ const Signup = ({handleSuccess}) => {
                 return
             }
         }).catch((err) => {
-            console.log(err);
-            
             switch(err.response.status) {
                 case 409: 
                     setErrorMessage('User already exists')
@@ -51,7 +49,7 @@ const Signup = ({handleSuccess}) => {
                     <label htmlFor="re-pwd">Re-Enter Password:</label>
                     <input type="password" id="re-pwd" name="re-password" value={credentials.passwordConfirmation} required onChange={(e)=>setCredentials({...credentials, ['passwordConfirmation']: e.target.value})}/>
                 </div>
-                <input type='submit' value="Create Account"></input>
+                <input className='submitButton' type='submit' value="Create Account"></input>
             </form>
             <h3>{errorMessage}</h3>
         </div>
