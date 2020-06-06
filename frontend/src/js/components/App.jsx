@@ -14,6 +14,7 @@ import Workspace from "./Workspace";
 import LoginSignup from "./LoginSignup";
 import Processor from './Processor'
 import h2tml2canvas from 'html2canvas'
+import MyPatches from "./MyPatches";
 
 function App() {
   let myRef = useRef(null);
@@ -42,7 +43,10 @@ function App() {
           <Route exact path="/login-signup">
             <LoginSignup />
           </Route>
-          <Route exact path="/workspace">
+          <Route exact path="/my-patches">
+            <MyPatches />
+          </Route>
+          <Route path="/project">
             <div>
               <Processor>
                 <Workspace />

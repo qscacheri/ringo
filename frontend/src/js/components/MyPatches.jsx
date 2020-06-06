@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
 import '../../css/MyPatches.css'
 import Patch from './Patch'
-
+const Axios = require('axios')
 const serverAddress = process.env.REACT_APP_SERVER_ADDRESS
-const MyPatches = () => {
+const MyPatches = ({token}) => {
     const [Patches, setPatches] = useState([])
     useEffect(() => {
         const config = {headers: { Authorization: `Bearer ${token}` }}
@@ -28,8 +27,11 @@ const MyPatches = () => {
     }
 
     return (<div className="MyPatches">
-        <div className="newPatchButton">+</div>
-        { renderPatches }
+        <h1>My Patches</h1>
+        <div className="patches">
+            <div className="newPatchButton"><div>+</div></div>
+            { renderPatches }
+        </div>
     </div>)
 }
 
