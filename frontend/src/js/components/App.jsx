@@ -14,14 +14,27 @@ import Workspace from "./Workspace";
 import LoginSignup from "./LoginSignup";
 import Processor from './Processor'
 
+export const AppContext = React.createContext()
+
 function App() {
+  const [username, setUsername] = useState(null)
+  const [token, setToken] = useState(null)
   let myRef = useRef(null);
 
   useEffect(() => {
 
   }, []);
 
+  const value = {
+    username,
+    setUsername, 
+    token, 
+    setToken,
+    test: 'test'
+  }
+
   return (
+    <AppContext.Provider value={value}>
     <div className="App" ref={myRef}>
       <Router>
         <Switch>
@@ -52,6 +65,7 @@ function App() {
       </Router>
       <Header />
     </div>
+    </AppContext.Provider>
   );
 }
 

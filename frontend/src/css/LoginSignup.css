@@ -5,11 +5,6 @@
     text-align: center;
 }
 
-label {
-    width: 10%;
-    display: inline-block;
-}
-
 nav {
     text-align: center;
 }
@@ -43,4 +38,25 @@ button {
 button:hover {
     color: black;
     background-color: white;
+}
+
+.formItem {
+    margin: 0 auto;
+    width: 50%;   
+}
+
+.formItem > input, .formItem > input:focus{
+    outline: none;
+    background: none;
+    border: none;
+    border-bottom: 1px solid magenta;
+    caret-color: white;
+    color: white;
+}
+
+.formItem > label {
+    text-align: left;
+    white-space: nowrap;
+    display: inline-block;
+    width: 35%;
 }
