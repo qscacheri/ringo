@@ -12,6 +12,8 @@ import Processor, { Context } from './Processor'
 import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import { PatchCableContext } from './PatchCableManager'
 import Toolbar from "./Toolbar";
+import h2tml2canvas from 'html2canvas'
+
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
     const PatchCableManager = useContext(PatchCableContext)
@@ -25,10 +27,25 @@ function Workspace({ processor }) {
     })
     const [dimensions, setDimensions] = useState({width: 0, height: 0})
     let ref = useRef(null)
+    const [canvas, setCanvas] = useState(false)
 
     useEffect(() => {
     }, [])
 
+    const generateThumbnail = async () => {
+            if (!ref) return
+            h2tml2canvas(ref.current).then((c) => {
+                const imgData = c.toDataURL('image/png')
+                console.log(imgData);
+                
+                setCanvas(imgData)                
+            })
+        
+    }
+
+    useEffect(() => {
+
+    })
     const createObject = (type) => {
         Processor.addObject(type, 200, 200);
     }
@@ -113,6 +130,7 @@ function Workspace({ processor }) {
         ProcessorContext.resume()
         setHasFocus(true)
         PatchCableManager.handleClick(null)
+        // generateThumbnail()
         // ProcessorTree.setSelected(-1)
     }
 

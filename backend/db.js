@@ -36,3 +36,18 @@ const signup = async (username, password, passwordConfirmation, email) => {
     
 }
 module.exports.signup = signup
+
+const newPatch = async ({username, patchID, patchName, visibility, patchData}) => {
+    Patch.create({username, patchName, visibility, patchData})
+}
+module.exports.newPatch = newPatch
+
+const updatePatch = async (patchID, patchData) => {
+
+}
+module.exports.updatePatch = updatePatch
+
+const getMyPatches = async (username) => {
+    return await Patch.find({ username })
+}
+module.exports.getMyPatches = getMyPatches

@@ -5,6 +5,7 @@
   "dependencies": {
     "chai": "^4.2.0",
     "file-system": "^2.2.2",
+    "html2canvas": "^1.0.0-rc.5",
     "js-file-download": "^0.4.9",
     "mocha": "^7.1.2",
     "p5": "^1.0.0",

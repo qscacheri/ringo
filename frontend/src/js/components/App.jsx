@@ -13,16 +13,29 @@ import About from "./About";
 import Workspace from "./Workspace";
 import LoginSignup from "./LoginSignup";
 import Processor from './Processor'
+import h2tml2canvas from 'html2canvas'
 
 function App() {
   let myRef = useRef(null);
+  const generateThumbnail = async () => {
+    if (!myRef) return
+    h2tml2canvas(myRef.current).then((c) => {
+        const imgData = c.toDataURL('image/png')
+        console.log(imgData);
+        
+        setCanvas(imgData)                
+    })
+
+}
+
+
 
   useEffect(() => {
-
+    
   }, []);
 
   return (
-    <div className="App" ref={myRef}>
+    <div className="App" ref={myRef} onClick={() => generateThumbnail()}>
       <Router>
         <Switch>
           <Route exact path="/">

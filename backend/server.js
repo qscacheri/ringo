@@ -41,7 +41,8 @@ app.get('/discover', async (req, res) => {
 
 app.get('/my-projects', authentication.authenticateToken, async (req, res) => {
 	console.log(req.username);
-	
+	const patches = await db.getMyPatches(req.username)
+	res.send(patches)
 })
 
 //create a listener in this port
