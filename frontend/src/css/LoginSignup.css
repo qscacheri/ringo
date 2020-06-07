@@ -14,9 +14,13 @@
 .SignMeUp {
     margin: auto 30% auto 30%;
     color: white;
-    border: 1px solid red;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+
+.SignMeUp > button{
+    margin: 0;
+    width: 50%;
 }
 
 .formItem {
