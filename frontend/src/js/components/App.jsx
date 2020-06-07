@@ -16,7 +16,11 @@ import Processor from './Processor'
 import h2tml2canvas from 'html2canvas'
 import MyPatches from "./MyPatches";
 
+export const AppContext = React.createContext()
+
 function App() {
+  const [username, setUsername] = useState(null)
+  const [token, setToken] = useState(null)
   let myRef = useRef(null);
   const generateThumbnail = async () => {
     if (!myRef) return
@@ -33,8 +37,17 @@ function App() {
     
   }, []);
 
+  const value = {
+    username,
+    setUsername, 
+    token, 
+    setToken,
+    test: 'test'
+  }
+
   return (
-    <div className="App" ref={myRef} onClick={() => generateThumbnail()}>
+    <AppContext.Provider value={value}>
+    <div className="App" ref={myRef}>
       <Router>
         <Switch>
           <Route exact path="/">
@@ -67,6 +80,7 @@ function App() {
       </Router>
       <Header />
     </div>
+    </AppContext.Provider>
   );
 }
 

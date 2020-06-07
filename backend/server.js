@@ -4,13 +4,11 @@ const express = require('express');
 const app = express();
 const db = require('./db')
 const authentication = require('./authentication')
-
+const cors = require('cors')
 const bodyParser = require('body-parser');
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
 app.use(bodyParser.json());
-
+app.use(cors())
 
 db.connect()
 
@@ -30,9 +28,14 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/signup', async (req, res) => {
+	console.log('USER TRYING TO SIGNUP');
+	
 	const {username, password, passwordConfirmation, email} = req.body
 	const status = await db.signup(username, password, passwordConfirmation, email)
-	res.sendStatus(status)
+	if (status === 200)
+		res.send({token: authentication.generateAccessToken(username)})
+	else
+		res.sendStatus(status)
 });
 
 app.get('/discover', async (req, res) => {
