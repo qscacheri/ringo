@@ -14,14 +14,16 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
 
 }
 
 .newPatchButton {
-    width: 20%;
-    height: 20%;
-    background: grey;
+    width: 20vh;
+    height: 20vh;
+    margin: 5vh;
+    background: none;
+    border: solid 1px aqua;
     cursor: pointer;
     text-align: center;
     display: flex;
@@ -29,7 +31,7 @@
     justify-content: space-around;
 }
 
-.newPatchButton > span{
-    font-size: 8em;
+.newPatchButton > img{
+    max-height: 30%;
     margin: 0;
 }

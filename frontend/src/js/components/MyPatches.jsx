@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 import '../../css/MyPatches.css'
 import Patch from './Patch'
-import App, {AppContext} from './App'
+import {AppContext} from './App'
+import plus from '../../../assets/plus.svg'
 const axios = require('axios')
 const MyPatches = () => {
     const [patches, setPatches] = useState([])
@@ -46,7 +47,7 @@ const MyPatches = () => {
     return (<div className="MyPatches">
         <h1>My Patches</h1>
         <div className="patches">
-            <div className="newPatchButton" onClick={handleNewPatch}><span>+</span></div>
+            <div className="newPatchButton" onClick={handleNewPatch}><img src={plus}></img></div>
             { renderPatches() }
         </div>
     </div>)

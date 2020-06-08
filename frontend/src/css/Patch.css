@@ -1,9 +1,10 @@
 .Patch {
-    width: 20%;
-    height: 20%;
+    width: 20vh;
+    height: 20vh;
     border: magenta 1px solid;
     cursor: pointer;
     text-align: center;
+    margin: 5vh;
 }
 
 .patchName {
