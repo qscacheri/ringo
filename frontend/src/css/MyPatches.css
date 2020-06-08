@@ -11,17 +11,14 @@
 .patches {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    justify-content: space-around;
 }
 
 .newPatchButton {
-    width: 20vh;
-    height: 20vh;
-    margin: 5vh;
+    width: 11vw !important;
+    height: 11vw;
     background: none;
     border: solid 1px aqua;
     cursor: pointer;
