@@ -8,7 +8,11 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors())
+
+const corsOptions = {
+	allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+}
+app.use(cors(corsOptions))
 
 db.connect()
 
@@ -27,6 +31,10 @@ app.post('/login', async (req, res) => {
 		res.sendStatus(status)
 });
 
+app.post('/validate-token', authentication.authenticateToken, async (req, res) => {
+	res.send({ username: req.username })
+})
+
 app.post('/signup', async (req, res) => {
 	console.log('USER TRYING TO SIGNUP');
 	
@@ -42,10 +50,25 @@ app.get('/discover', async (req, res) => {
 
 })
 
-app.get('/my-projects', authentication.authenticateToken, async (req, res) => {
-	console.log(req.username);
+app.get('/my-patches', authentication.authenticateToken, async (req, res) => {
 	const patches = await db.getMyPatches(req.username)
 	res.send(patches)
+})
+
+app.post('/new-patch', authentication.authenticateToken, async (req, res) => {		
+	const status = await db.newPatch(req.username)
+	res.sendStatus(status)
+})
+
+app.post('/update-patch-name', authentication.authenticateToken, async (req, res) => {		
+	const patchID = req.body.patchID
+	const newPatchName = req.body.newPatchName
+	console.log(newPatchName);
+	
+	db.updatePatchName(patchID, newPatchName)
+})
+
+app.post('/update-patch', authentication.authenticateToken, async (req, res) => {
 })
 
 //create a listener in this port

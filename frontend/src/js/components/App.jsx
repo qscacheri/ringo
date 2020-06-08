@@ -15,12 +15,17 @@ import LoginSignup from "./LoginSignup";
 import Processor from './Processor'
 import h2tml2canvas from 'html2canvas'
 import MyPatches from "./MyPatches";
+const axios = require('axios')
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS;
 
 export const AppContext = React.createContext()
+const serverAddress = process.env.REACT_APP_SERVER_ADDRESS
 
 function App() {
   const [username, setUsername] = useState(null)
   const [token, setToken] = useState(null)
+  const [loggedIn, setLoggedIn] = useState(false)
+
   let myRef = useRef(null);
   const generateThumbnail = async () => {
     if (!myRef) return
@@ -34,15 +39,28 @@ function App() {
 }
 
   useEffect(() => {
-    
-  }, []);
+    const storedToken = localStorage.getItem('token')
+    if (storedToken) {
+        const config = {headers: { Authorization: `Bearer ${storedToken}` }}
+        axios.post(`${serverAddress}/validate-token`, {}, config).then((res) => {
+            if (res.data.username) {
+                setUsername(res.username)
+                setToken(storedToken)
+                setLoggedIn(true)
+                axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+
+            }
+        }).catch((err) => console.log(err))
+    }
+}, []);
 
   const value = {
     username,
     setUsername, 
     token, 
     setToken,
-    test: 'test'
+    loggedIn,
+    setLoggedIn
   }
 
   return (
@@ -59,7 +77,7 @@ function App() {
           <Route exact path="/my-patches">
             <MyPatches />
           </Route>
-          <Route path="/project">
+          <Route path="/patch">
             <div>
               <Processor>
                 <Workspace />

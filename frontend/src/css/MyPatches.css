@@ -14,20 +14,22 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
+
 }
+
 .newPatchButton {
     width: 20%;
     height: 20%;
     background: grey;
-    display: flex;
-    justify-content: space-around;
     cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
-.newPatchButton > div{
-    display: block;
-    text-align: center;
-    margin: auto;
+.newPatchButton > span{
     font-size: 8em;
-    cursor: pointer;
+    margin: 0;
 }

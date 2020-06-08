@@ -2,18 +2,23 @@ require('dotenv').config()
 const jwt = require("jsonwebtoken");
 
 const generateAccessToken = (username) => {
-    return jwt.sign(username, process.env.TOKEN_SECRET)
+    return jwt.sign({
+        data: username, 
+        exp: Math.floor(Date.now() / 1000) + (60 * 60)
+    }, process.env.TOKEN_SECRET)
 }
 module.exports.generateAccessToken = generateAccessToken
 
 const authenticateToken = (req, res, next) => {    
-    const token = req.headers.authorization.split(' ')[1]
+    const auth = req.headers.authorization    
+    // if (!auth) throw new Error('NO AUTHORIZATION INCLUDED IN HEADER')
+    const token = auth.split(' ')[1]
     
     if (token == null) return res.sendStatus(401) // if there isn't any token
 
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, username) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, username) => {        
         if (err) return res.sendStatus(403)
-        req.username = username
+        req.username = username.data
         next() // pass the execution off to whatever request the client intended
     })
 }

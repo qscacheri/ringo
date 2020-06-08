@@ -114,7 +114,7 @@ export class Receiver {
         }
 
         else {
-            this.id = id
+    pp        this.id = id
             this.outletInletPairs.push(outletInletPair)    
         }  
     }

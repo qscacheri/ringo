@@ -38,8 +38,13 @@ const signup = async (username, password, passwordConfirmation, email) => {
 }
 module.exports.signup = signup
 
-const newPatch = async ({username, patchID, patchName, visibility, patchData}) => {
-    Patch.create({username, patchName, visibility, patchData})
+const newPatch = async (username) => {
+    let status
+    
+    const newPatch = await Patch.create({username , patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
+        status = err
+    })
+    if (newPatch) return 200
 }
 module.exports.newPatch = newPatch
 
@@ -48,7 +53,24 @@ const updatePatch = async (patchID, patchData) => {
 }
 module.exports.updatePatch = updatePatch
 
+const updatePatchName = async (patchID, newPatchName) => {
+    const patch = await Patch.findOne({_id: patchID})
+    console.log("pn:",patch.patchName);
+    
+    patch.patchName = newPatchName
+    await patch.save()
+    return 200
+}
+module.exports.updatePatchName = updatePatchName
+
 const getMyPatches = async (username) => {
-    return await Patch.find({ username })
+    console.log("retreiving patches...");
+    console.log(username);
+    
+    
+    const patches = await Patch.find({ username }).catch(err => console.log(err))
+    console.log("Patches: ",patches);
+    return patches
+    
 }
 module.exports.getMyPatches = getMyPatches

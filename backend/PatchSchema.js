@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 
 const PatchSchema = new Schema({
     username: String,
+    patchData: String,
+    patchName: String,
     visiblity: String,
-    data: String
 });
 
-module.exports = mongoose.model('Patch', PatchSchema)
+module.exports = mongoose.model('Patch', PatchSchema, 'patches')

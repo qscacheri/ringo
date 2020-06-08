@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../../css/LoginSignup.css"
 import Signup from './Signup'
 import { AppContext } from './App'
@@ -55,17 +55,20 @@ function Login({handleSuccess}) {
 
 function LoginSignup() {
     const [isLogin, setIsLogin] = useState(true)
-    const AppContextConsumer = useContext(AppContext)
+    const AppCtx = useContext(AppContext)
     const [redirectTo, setRedirectTo] = useState()
     
+    useEffect(() => {
+        if (AppCtx.loggedIn)
+            setRedirectTo('my-patches')
+    }, [AppCtx.loggedIn])
+
     const handleSuccess = (username, token) => {
-        AppContextConsumer.setUsername(username)
-        AppContextConsumer.setToken(token)
-        setRedirectTo('workspace')
+        AppCtx.setUsername(username)
+        AppCtx.setToken(token)
+        localStorage.setItem('token', token)
+        setRedirectTo('my-patches')
     }
-    
-    console.log(AppContextConsumer);
-    console.log(AppContextConsumer.test);
 
     if (redirectTo) return <Redirect to={redirectTo} />
 
