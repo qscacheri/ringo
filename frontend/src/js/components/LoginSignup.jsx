@@ -13,7 +13,7 @@ function Login({handleSuccess}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post(`${serverAddress}/login`, credentials)
+        axios.post('/login', credentials)
         .then((res) => {
             if (res.data.token) {
                 handleSuccess(credentials.username, res.data.token)
@@ -66,8 +66,9 @@ function LoginSignup() {
     const handleSuccess = (username, token) => {
         AppCtx.setUsername(username)
         AppCtx.setToken(token)
+        AppCtx.setLoggedIn(true)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         localStorage.setItem('token', token)
-        setRedirectTo('my-patches')
     }
 
     if (redirectTo) return <Redirect to={redirectTo} />

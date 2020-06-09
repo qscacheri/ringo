@@ -3,20 +3,26 @@ import '../../css/MyPatches.css'
 import Patch from './Patch'
 import {AppContext} from './App'
 import plus from '../../../assets/plus.svg'
+import { Redirect } from 'react-router-dom'
 const axios = require('axios')
 const MyPatches = () => {
     const [patches, setPatches] = useState([])
-    const AppCtx = useContext(AppContext)
-    useEffect(() => {        
-        if (!AppCtx.loggedIn) return
+    const {token, loggedIn, username} = useContext(AppContext)
+    const [redirectTo, setRedirectTo] = useState()
+    useEffect(() => {   
+        console.log("tyring patches: ", loggedIn);
+             
+        if (!loggedIn) setRedirectTo('login-signup')
         
         axios.get('/my-patches').then((res) => {
             setPatches(res.data)
             
         }).catch((err) => {
-            console.log(err)
+            if (err.response.status === 403) {
+                setRedirectTo('login-signup')
+            }
         })
-    }, [AppCtx.loggedIn])
+    }, [loggedIn, token])
 
     const handleSelection = () => {
 
@@ -43,6 +49,8 @@ const MyPatches = () => {
         })
         return renderPatches
     }
+
+    if (redirectTo) return <Redirect to={redirectTo} />
 
     return (<div className="MyPatches">
         <h1>My Patches</h1>

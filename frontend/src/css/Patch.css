@@ -4,6 +4,7 @@
     border: magenta 1px solid;
     cursor: pointer;
     text-align: center;
+    position: relative;
 }
 
 .patchName {
@@ -19,4 +20,11 @@
     margin: 0;
     padding: 0;
     width: 100%;
+}
+
+.Patch > .dots {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    max-width: 15%;
 }

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/Patch.css'
+import dots from '../../../assets/dots.svg'
+
 const axios = require('axios')
 const Patch = ({patchName, patchID, handleSelection}) => {
     const [textValue, setTextValue] = useState("")
@@ -13,6 +15,7 @@ const Patch = ({patchName, patchID, handleSelection}) => {
     }
 
     return (<div className="Patch" onClick={handleSelection}>
+        <img className="dots" src={dots}></img>
         <form onSubmit={handleSubmit}>
             <input type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)}></input>
         </form>

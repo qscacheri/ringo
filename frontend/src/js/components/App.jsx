@@ -25,6 +25,7 @@ function App() {
   const [username, setUsername] = useState(null)
   const [token, setToken] = useState(null)
   const [loggedIn, setLoggedIn] = useState(false)
+  const [initializing, setInitializing] = useState(true)
 
   let myRef = useRef(null);
   const generateThumbnail = async () => {
@@ -40,15 +41,17 @@ function App() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
-    if (storedToken) {
+    console.log(storedToken);
+    
+    if (storedToken !== null) {
         const config = {headers: { Authorization: `Bearer ${storedToken}` }}
         axios.post(`${serverAddress}/validate-token`, {}, config).then((res) => {
             if (res.data.username) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
                 setUsername(res.username)
                 setToken(storedToken)
                 setLoggedIn(true)
-                axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-
+                setInitializing(false)
             }
         }).catch((err) => console.log(err))
     }
@@ -62,6 +65,8 @@ function App() {
     loggedIn,
     setLoggedIn
   }
+
+  if (initializing) return null
 
   return (
     <AppContext.Provider value={value}>
