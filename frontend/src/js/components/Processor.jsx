@@ -4,6 +4,9 @@ import OBJECT_TYPES from '../constants/object-types';
 import PatchCableManager from './PatchCableManager'
 import Receiver from '../utils/Receiver'
 import createRingoObject from '../utils/RingoObjects';
+const axios = require('axios')
+const Url = require('url-parse');
+const queryString = require('query-string')
 
 const Context = React.createContext()
 const Provider = Context.Provider
@@ -14,11 +17,12 @@ class Processor extends React.Component {
         this.audioContext = new AudioContext()
         Tone.setContext(this.audioContext)
         this.state = {
-            loading: false,
+            loading: true,
             objects: {},
             locked: false,
             patchName: 'Untitled',
-            selectedObject: -1
+            selectedObject: -1,
+            patchID: ""
         }
         this.addObject = this.addObject.bind(this)
         this.updateObject = this.updateObject.bind(this)
@@ -50,13 +54,22 @@ class Processor extends React.Component {
     }
 
     componentDidMount() {        
-        if (localStorage.getItem('patch')) this.load(localStorage.getItem('patch'))
-        else this.setState({loading: false})
+        this.loadPatchFromServer().then((patch) => {
+            this.load(patch)
+        })
     }
 
     componentDidUpdate() {
         if (!this.state.loading)
             this.save()
+    }
+
+    async loadPatchFromServer() {
+        let { query } = new Url(window.location.href)      
+        query = queryString.parse(query)         
+        this.setState({ patchID: query.id })
+        const res = await axios.get('/patch', {params: {id: query.id}})
+        return res.data.patchData
     }
 
     updateCables(cablesAsString) {
@@ -154,9 +167,6 @@ class Processor extends React.Component {
     }
 
     reconnectObjects(json) {
-        console.log(json);
-        console.log(this.state.objects);
-
         for (let i in this.state.objects) {
             let object = this.state.objects[i]
             let jsonObject = json[i]
@@ -180,7 +190,8 @@ class Processor extends React.Component {
         }
         patch.objects = objects
         patch.patchName = this.state.patchName
-        localStorage.setItem("patch", JSON.stringify(patch))
+        const data = {id: this.state.patchID, patchData: JSON.stringify(patch)}      
+        axios.post('/update-patch', data)
     }
 
     load(patch) {
@@ -192,10 +203,9 @@ class Processor extends React.Component {
             let newObject = this.jsonToObject(id, patch.objects[id])
             objects[id] = newObject
         }
-        // objects = this.reconnectObjects(objects, patch.objects)
-        console.log(patch.objects);
-        
+        // objects = this.reconnectObjects(objects, patch.objects)        
         this.setState({objects, patchName}, () => this.reconnectObjects(patch.objects))
+        this.setState({loading: false})
     }
     
     updatePatchName(newName) {

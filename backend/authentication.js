@@ -11,13 +11,12 @@ module.exports.generateAccessToken = generateAccessToken
 
 const authenticateToken = (req, res, next) => {    
     const auth = req.headers.authorization    
-    // if (!auth) throw new Error('NO AUTHORIZATION INCLUDED IN HEADER')
     const token = auth.split(' ')[1]
     
-    if (token == null) return res.sendStatus(401) // if there isn't any token
+    if (token === null) return res.sendStatus(401) // if there isn't any token
 
     jwt.verify(token, process.env.TOKEN_SECRET, (err, username) => {        
-        if (err) return res.sendStatus(403)
+        if (err) return res.sendStatus(401)
         req.username = username.data
         next() // pass the execution off to whatever request the client intended
     })

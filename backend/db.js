@@ -41,7 +41,7 @@ module.exports.signup = signup
 const newPatch = async (username) => {
     let status
     
-    const newPatch = await Patch.create({username , patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
+    const newPatch = await Patch.create({username , patchData: "", patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
         status = err
     })
     if (newPatch) return 200
@@ -49,28 +49,28 @@ const newPatch = async (username) => {
 module.exports.newPatch = newPatch
 
 const updatePatch = async (patchID, patchData) => {
-
+    const patch = await Patch.findOne({_id: patchID})
+    patch.patchData = patchData
+    patch.save()
 }
 module.exports.updatePatch = updatePatch
 
 const updatePatchName = async (patchID, newPatchName) => {
     const patch = await Patch.findOne({_id: patchID})
-    console.log("pn:",patch.patchName);
-    
     patch.patchName = newPatchName
     await patch.save()
     return 200
 }
 module.exports.updatePatchName = updatePatchName
 
+const getPatch = async (patchID) => {
+    const patch = await Patch.findOne({_id: patchID})
+    return patch
+}
+module.exports.getPatch = getPatch
+
 const getMyPatches = async (username) => {
-    console.log("retreiving patches...");
-    console.log(username);
-    
-    
     const patches = await Patch.find({ username }).catch(err => console.log(err))
-    console.log("Patches: ",patches);
     return patches
-    
 }
 module.exports.getMyPatches = getMyPatches

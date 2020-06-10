@@ -40,12 +40,10 @@ function App() {
 }
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token')
-    console.log(storedToken);
-    
+    const storedToken = localStorage.getItem('token')    
     if (storedToken !== null) {
         const config = {headers: { Authorization: `Bearer ${storedToken}` }}
-        axios.post(`${serverAddress}/validate-token`, {}, config).then((res) => {
+        axios.post(`/validate-token`, {}, config).then((res) => {
             if (res.data.username) {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
                 setUsername(res.username)
@@ -53,7 +51,12 @@ function App() {
                 setLoggedIn(true)
                 setInitializing(false)
             }
-        }).catch((err) => console.log(err))
+        }).catch((err) => {
+          console.log('[error]', err.response);
+          setInitializing(false)
+          setLoggedIn(false)
+          return
+        })
     }
 }, []);
 

@@ -24,8 +24,8 @@ const MyPatches = () => {
         })
     }, [loggedIn, token])
 
-    const handleSelection = () => {
-
+    const handleSelection = (id) => {
+        setRedirectTo(`patch?id=${id}`)
     }
 
     const getPatches = async () => {

@@ -62,13 +62,20 @@ app.post('/new-patch', authentication.authenticateToken, async (req, res) => {
 
 app.post('/update-patch-name', authentication.authenticateToken, async (req, res) => {		
 	const patchID = req.body.patchID
-	const newPatchName = req.body.newPatchName
-	console.log(newPatchName);
-	
+	const newPatchName = req.body.newPatchName	
 	db.updatePatchName(patchID, newPatchName)
 })
 
 app.post('/update-patch', authentication.authenticateToken, async (req, res) => {
+	console.log(req.body);
+	await db.updatePatch(req.body.id, req.body.patchData)
+	res.sendStatus(200)
+
+})
+
+app.get('/patch', authentication.authenticateToken, async (req, res) => {
+	const patch = await db.getPatch(req.query.id)
+	res.send(patch)
 })
 
 //create a listener in this port

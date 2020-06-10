@@ -14,7 +14,7 @@ const Patch = ({patchName, patchID, handleSelection}) => {
         await axios.post('/update-patch-name', {patchID, newPatchName: textValue})
     }
 
-    return (<div className="Patch" onClick={handleSelection}>
+    return (<div className="Patch" onClick={() => handleSelection(patchID)}>
         <img className="dots" src={dots}></img>
         <form onSubmit={handleSubmit}>
             <input type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)}></input>

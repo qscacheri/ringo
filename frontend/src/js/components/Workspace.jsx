@@ -13,6 +13,9 @@ import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import { PatchCableContext } from './PatchCableManager'
 import Toolbar from "./Toolbar";
 import h2tml2canvas from 'html2canvas'
+const axios = require('axios')
+const Url = require('url-parse');
+const queryString = require('query-string')
 
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
@@ -29,7 +32,19 @@ function Workspace({ processor }) {
     let ref = useRef(null)
     const [canvas, setCanvas] = useState(false)
 
+    const loadPatchFromServer = () => {
+        let { query } = new Url(window.location.href)      
+        query = queryString.parse(query) 
+        axios.get('/patch', {params: {id: query.id}}).then((res) => {
+            console.log(res);
+            
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
+        loadPatchFromServer()        
     }, [])
 
     const generateThumbnail = async () => {
