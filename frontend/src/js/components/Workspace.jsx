@@ -32,19 +32,7 @@ function Workspace({ processor }) {
     let ref = useRef(null)
     const [canvas, setCanvas] = useState(false)
 
-    const loadPatchFromServer = () => {
-        let { query } = new Url(window.location.href)      
-        query = queryString.parse(query) 
-        axios.get('/patch', {params: {id: query.id}}).then((res) => {
-            console.log(res);
-            
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
-
     useEffect(() => {
-        loadPatchFromServer()        
     }, [])
 
     const generateThumbnail = async () => {
