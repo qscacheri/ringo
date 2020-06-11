@@ -6,6 +6,7 @@ jobs:
     executor:
       name: node/default
     steps:
+      - cd backend
       - checkout
       - node/with-cache:
           steps:
