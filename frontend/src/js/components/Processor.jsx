@@ -69,6 +69,8 @@ class Processor extends React.Component {
         query = queryString.parse(query)         
         this.setState({ patchID: query.id })
         const res = await axios.get('/patch', {params: {id: query.id}})
+        console.log(JSON.parse(res.data.patchData));
+        
         return res.data.patchData
     }
 
@@ -181,22 +183,25 @@ class Processor extends React.Component {
     }
 
     save() {
-        let patch = JSON.parse(localStorage.getItem('patch'))
-        if (!patch)
-            patch = {}
+        console.log("saving...");
+        
         const objects = {}
         for (let i in this.state.objects) {
             objects[i] = this.state.objects[i].toJSON()
         }
-        patch.objects = objects
-        patch.patchName = this.state.patchName
-        const data = {id: this.state.patchID, patchData: JSON.stringify(patch)}      
+        const data = {id: this.state.patchID, objects}      
         axios.post('/update-patch', data)
     }
 
     load(patch) {
-        console.log('loading objects...');
+        
         patch = JSON.parse(patch)
+        console.log(patch);
+        if (!patch) {
+            this.setState({loading: false})
+            return
+        }
+
         const patchName = patch.patchName
         let objects = {}
         for (let id in patch.objects) {

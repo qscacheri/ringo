@@ -40,7 +40,7 @@ RingoObjects[ThreeCanvasObject.type] = ThreeCanvasObject
 RingoObjects[ThreeShapeObject.type] =  ThreeShapeObject
 
 const createRingoObject = (id, type, processor, position, attributes) => {
-    if (!RingoObjects[type]) throw(new Error('The type supplied is not a valid object type'))
+    if (!RingoObjects[type]) throw(new Error('\'' + type + '\'' + ' is not a valid object type'))
     
     else return new RingoObjects[type](id, processor, position, attributes)
 }

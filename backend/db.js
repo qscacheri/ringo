@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const User = require('./UserSchema')
 const Patch = require('./PatchSchema')
-const Authentication = require('./authentication')
+const Authentication = require('./authentication');
+const { json } = require('body-parser');
 
 require('dotenv').config()
 
@@ -39,18 +40,26 @@ const signup = async (username, password, passwordConfirmation, email) => {
 module.exports.signup = signup
 
 const newPatch = async (username) => {
-    let status
     
-    const newPatch = await Patch.create({username , patchData: "", patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
+    const patchData = JSON.stringify({objects: {}, patchCables: {}})
+    const newPatch = await Patch.create({username , patchData, patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
         status = err
     })
     if (newPatch) return 200
 }
 module.exports.newPatch = newPatch
 
+// UPDATE PATCH
 const updatePatch = async (patchID, patchData) => {
-    const patch = await Patch.findOne({_id: patchID})
-    patch.patchData = patchData
+    const patch = await Patch.findOne({_id: patchID})    
+    const data = JSON.parse(patch.patchData)
+    
+    if (patchData.objects)
+        data.objects = patchData.objects
+    else 
+        data.patchCables = patchData.patchCables
+    
+    patch.patchData = JSON.stringify(data)    
     patch.save()
 }
 module.exports.updatePatch = updatePatch
@@ -64,7 +73,7 @@ const updatePatchName = async (patchID, newPatchName) => {
 module.exports.updatePatchName = updatePatchName
 
 const getPatch = async (patchID) => {
-    const patch = await Patch.findOne({_id: patchID})
+    const patch = await Patch.findOne({_id: patchID})    
     return patch
 }
 module.exports.getPatch = getPatch
