@@ -182,14 +182,23 @@ class Processor extends React.Component {
         }
     }
 
-    save() {
-        console.log("saving...");
-        
+    save(patchCables) {        
         const objects = {}
         for (let i in this.state.objects) {
             objects[i] = this.state.objects[i].toJSON()
         }
-        const data = {id: this.state.patchID, objects}      
+        let data
+        if (patchCables) {
+            data = {id: this.state.patchID, patchData: {
+                objects,
+                patchCables
+            }}          
+        }
+        else {
+            data = {id: this.state.patchID, patchData: {
+                objects
+            }}          
+        }
         axios.post('/update-patch', data)
     }
 
@@ -238,6 +247,7 @@ class Processor extends React.Component {
                 connectObjects={this.connectObjects} 
                 updateCables={this.updateCables}
                 lastDeleted={this.lastDeletedObjectID}
+                save={this.save}
                 >
                     {this.props.children}
                 </PatchCableManager>

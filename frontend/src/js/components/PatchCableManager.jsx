@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
+const axios = require('axios')
+const Url = require('url-parse');
+const queryString = require('query-string')
 
 export const PatchCableContext = React.createContext()
 
@@ -118,7 +121,8 @@ class PatchCableManager extends React.Component {
             activeCableID: -1,
             activeCableType: '',
             patchCables: {},
-            dimensions: {width: 0, height: 0}
+            dimensions: {width: 0, height: 0},
+            loading: true
         }
 
         this.handleClick = this.handleClick.bind(this)
@@ -130,9 +134,11 @@ class PatchCableManager extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem('patch')) {
-            this.loadFromJSON(JSON.parse(localStorage.getItem('patch')).patchCables)
-        }
+        this.getCablesFromServer().then((cables) => {
+            console.log(cables);
+            
+            this.loadFromJSON(cables)
+        })
         window.addEventListener('resize', () => this.setState({dimensions: {width: window.innerWidth, height: window.innerHeight}}))
     }
 
@@ -155,11 +161,17 @@ class PatchCableManager extends React.Component {
         this.lastDeleted = this.props.lastDeleted
     }
 
+    async getCablesFromServer() {
+        let { query } = new Url(window.location.href)      
+        query = queryString.parse(query)         
+        this.setState({ patchID: query.id })
+        const res = await axios.get('/patch', {params: {id: query.id}})
+        return JSON.parse(res.data.patchData).patchCables
+    }
+    
     saveCables() {
-        const patch = JSON.parse(localStorage.getItem('patch'))
-        patch.patchCables = this.getCablesAsJSON()
-        localStorage.setItem('patch', JSON.stringify(patch))
-        console.log(patch)
+        if (this.state.loading) return
+        this.props.save(this.getCablesAsJSON())
     }  
 
     updatePosition(ioletID, pos) {
@@ -261,6 +273,7 @@ class PatchCableManager extends React.Component {
         for (let i in json) {
             this.state.patchCables[i] = new PatchCable(json[i])            
         }
+        this.setState({loading: false, patchCables: this.state.patchCables})
     }
 
     render() {

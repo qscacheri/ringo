@@ -33,7 +33,7 @@ module.exports = function(app){
     // changes patch data by id
     app.post('/update-patch', authentication.authenticateToken, async (req, res) => {
         console.log(req.body);
-        await db.updatePatch(req.body.id, req.body)
+        await db.updatePatch(req.body.id, req.body.patchData)
         res.sendStatus(200)
     })
 }

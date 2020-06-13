@@ -56,7 +56,7 @@ const updatePatch = async (patchID, patchData) => {
     
     if (patchData.objects)
         data.objects = patchData.objects
-    else 
+    if (patchData.patchCables)
         data.patchCables = patchData.patchCables
     
     patch.patchData = JSON.stringify(data)    
