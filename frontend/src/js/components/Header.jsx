@@ -1,27 +1,27 @@
 /* eslint-disable */
 
-import React from "react";
+import React, {useState} from "react";
 import OBJECT_TYPES from '../constants/object-types';
 import '../../css/Header.css';
 import Processor from "../utils/ProcessorTree";
 import { Link } from "react-router-dom";
 import ProcessorTree from "../utils/ProcessorTree";
 
+import Sidebar from './Sidebar'
 
 function Header({ locked, workspace}) {
-    
-    const createObject = (type) => {
-        Processor.addObject(type, 200, 200);
-    }
-
-    const handleLock = () => {
-        ProcessorTree.toggleLock()
-    }
+    const [sidebarVisible, setSidebarVisible] = useState(false)
 
     return (
         <div className="Header">
             <div className="Header">
                 <h1 className="Title">Ringo</h1>
+                {/* <button onClick={()=>setSidebarVisible(!sidebarVisible)}>•••</button> */}
+                <Sidebar visible={sidebarVisible}>
+                    <Link to="my-patches">My Patches</Link>
+                    <Link to="about">About</Link>
+
+                </Sidebar>
             </div>
         </div>
     )

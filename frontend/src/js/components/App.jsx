@@ -103,8 +103,8 @@ function App() {
             </div>
           </Route>
         </Switch>
+        <Header />
       </Router>
-      <Header />
     </div>
     </AppContext.Provider>
   );

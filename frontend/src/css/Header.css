@@ -10,8 +10,8 @@
     height: 100%;
     border-bottom: solid 1px white;    
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    flex-direction: row;
+    justify-content: space-between;
     height: 10vh;
 }
 
@@ -19,7 +19,7 @@
     display: flex;
     text-align: center;
     padding: 0;
-    margin: 0;
+    margin: auto 0;
     color: white;
     font-family: 'Bungee Hairline', cursive;
     font-size: 5vh;

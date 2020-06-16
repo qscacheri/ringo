@@ -1,0 +1,38 @@
+._Sidebar {
+    background: none;   
+}
+
+._Sidebar.visible {
+
+}
+
+.sidebarButton {
+    background-color: black;
+    color: white;
+    z-index: 100;
+    margin: auto;
+
+}
+
+._Sidebar > .items {
+    z-index: -1;
+    top: 0;
+    width: 0;
+    position: absolute;
+    width: 25vw;
+    right: 0;
+    height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+._Sidebar > .items.visible {
+    width: 0;
+    position: absolute;
+    width: 25vw;
+    right: 0;
+    height: 100vh;
+    background: white;
+}
