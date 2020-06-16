@@ -19,7 +19,6 @@ const axios = require('axios')
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS;
 
 export const AppContext = React.createContext()
-const serverAddress = process.env.REACT_APP_SERVER_ADDRESS
 
 function App() {
   const [username, setUsername] = useState(null)
@@ -58,6 +57,9 @@ function App() {
           return
         })
     }
+
+    else setInitializing(false)
+
 }, []);
 
   const value = {
