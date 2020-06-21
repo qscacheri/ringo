@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import '../../css/Patch.css'
 import dots from '../../../assets/dots.svg'
+import PopupMenu from './PopupMenu'
 
 const axios = require('axios')
-const Patch = ({patchName, patchID, handleSelection}) => {
+const Patch = ({patchName, patchID, handleSelection, handleMenuItem}) => {
     const [textValue, setTextValue] = useState("")
     useEffect(() => {
         setTextValue(patchName)
@@ -15,10 +16,21 @@ const Patch = ({patchName, patchID, handleSelection}) => {
     }
 
     return (<div className="Patch" onClick={() => handleSelection(patchID)}>
-        <img className="dots" src={dots}></img>
-        <form onSubmit={handleSubmit}>
-            <input type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)}></input>
-        </form>
+        <div className="patchHeader">
+            <form onSubmit={handleSubmit}>
+                <input type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)} onClick={(e) => e.stopPropagation()}></input>
+            </form>
+            <PopupMenu buttonStyleName="popupButton">
+                <li onClick={(e)=>handleMenuItem(patchID, "delete", e)}>Delete</li>
+                <li onClick={()=>handleMenuItem("share")}>Share</li>
+                <form className="visibilityForm">
+                    <label>Public</label>
+                    <input type="checkbox" onClick={(e) => e.stopPropagation()}></input>
+                </form>
+                <li onClick={()=>handleMenuItem("duplicate")}>Duplicate</li>
+                <li onClick={()=>handleMenuItem("download")}>Download</li>
+            </PopupMenu>
+        </div>
     </div>)
 }
 

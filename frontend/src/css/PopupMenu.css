@@ -1,6 +1,19 @@
 ._PopupMenu {
+
+}
+
+._popupMenuButton {
+    fill: white;
+    width: 100%;
+    height: 100%;
+}
+
+._popupMenuOptions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: white;
     width: 20vh;
     height: 20vh;
-    background: red;
-    position: absolute;
 }

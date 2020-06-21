@@ -83,3 +83,9 @@ const getMyPatches = async (username) => {
     return patches
 }
 module.exports.getMyPatches = getMyPatches
+
+const deletePatch = async (_id) => {
+    const status = await Patch.deleteOne({ _id })
+    return status
+}
+module.exports.deletePatch = deletePatch

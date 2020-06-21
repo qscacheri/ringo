@@ -42,10 +42,31 @@ const MyPatches = () => {
         }).catch((err) => console.log(err))
     }
 
+    const handleMenuItem = (patchID, item, e) => {
+        e.stopPropagation();
+        switch(item) {
+            case "delete": 
+                axios.post('/delete-patch', { patchID }).then((res) => {
+                    getPatches()
+                }).catch((err) => {
+
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
     const renderPatches = () => {
         const renderPatches = []
         patches.map((patch) => {
-            renderPatches.push(<Patch key={patch._id} patchID = {patch._id} patchName={patch.patchName} handleSelection={handleSelection} />)
+            renderPatches.push(<Patch 
+                key={patch._id} 
+                patchID = {patch._id} 
+                patchName={patch.patchName} 
+                handleSelection={handleSelection} 
+                handleMenuItem={handleMenuItem} 
+            />)
         })
         return renderPatches
     }

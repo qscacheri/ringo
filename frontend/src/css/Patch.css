@@ -19,7 +19,7 @@
 .Patch > form {
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 60%;
 }
 
 .Patch > .dots {
@@ -27,4 +27,37 @@
     right: 2px;
     top: 2px;
     max-width: 15%;
+}
+
+.patchHeader {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.popupButton {
+    width: 40%;
+    height: 100%;
+}
+
+.visibilityForm {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-right: 10%;
+    border-bottom: 1px solid magenta;
+}
+.visibilityForm > label{
+    color: black;
+}
+
+li {
+    list-style: none;
+    color: black;
+    text-align: left;
+    margin-right: 10%;
+    border-bottom: 1px solid magenta;
 }

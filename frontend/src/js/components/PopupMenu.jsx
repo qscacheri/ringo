@@ -1,31 +1,28 @@
 import React, { useState, useRef } from 'react'
 import "../../css/PopupMenu.css"
 
-const PopupMenu = ({ visible, children, styleName, position = "top-right" }) => {
-    const [ref, setRef] = useState(null)
+const PopupMenu = ({ children, buttonStyleName, menuStyleName }) => {
 
+    let ref = useRef(null)
+    const [visible, setVisible] = useState(false)
 
-    if (!visible) return null
-   
-    const style = {}
-    if (ref) {
-        console.log(position);
-        
-        const width = ref.getBoundingClientRect().width
-        const height = ref.getBoundingClientRect().height
-        console.log(width);
-        
-        switch (position) {
-            case "top-right":
-                style.top = -height
-                style.left = width
-                break;
-        }
-
+    const handleClick = (e) => {
+        e.stopPropagation()
+        setVisible(!visible)
     }
+    
     return (
-        <div className={`_PopupMenu ${styleName}`} style={style} ref={setRef}>
-            {children}
+        <div className={`_PopupMenu ${buttonStyleName}`}>
+            <svg className="_popupMenuButton" onClick={handleClick} viewBox="0 0 100 100">
+                <circle cx="-30" cy="50" r="20"></circle>
+                <circle cx="40" cy="50" r="20"></circle>
+                <circle cx="110" cy="50" r="20"></circle>
+            </svg>
+            {visible ? (
+                <div className={`_popupMenuOptions ${menuStyleName}`}>
+                    {children}
+                </div>
+            ):null}
         </div>
     )
 }
