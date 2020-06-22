@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 require('./patchRoutes')(app) 
 app.use(cors())
+app.use(express.static('previews'))
 
 db.connect()
 

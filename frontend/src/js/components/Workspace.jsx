@@ -42,9 +42,14 @@ function Workspace({ processor }) {
             h2tml2canvas(ref.current, {windowWidth: window.innerWidth,
                 windowHeight: window.innerWidth
             }).then((c) => {
-                c.width = window.innerWidth
-                c.height = window.innerHeight
-                c.toBlob((blob) => {
+                const tempCanvas = document.createElement("canvas")
+                const context = tempCanvas.getContext('2d')
+                tempCanvas.width = window.innerWidth
+                tempCanvas.height = window.innerHeight
+
+                context.putImageData(c.getContext('2d').getImageData(0, window.innerHeight * .25, window.innerWidth, window.innerHeight), 0, 0)
+
+                tempCanvas.toBlob((blob) => {
                     data.set("id", ProcessorContext.patchID)                       
                     data.set("preview", blob)   
                     console.log(ProcessorContext.patchID);

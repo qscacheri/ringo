@@ -4,7 +4,9 @@ import dots from '../../../assets/dots.svg'
 import PopupMenu from './PopupMenu'
 
 const axios = require('axios')
-const Patch = ({patchName, patchID, handleSelection, handleMenuItem}) => {
+const Patch = ({patchName, patchID, handleSelection, handleMenuItem, previewImage}) => {
+    console.log(previewImage);
+    
     const [textValue, setTextValue] = useState("")
     const [inputRef,setInputRef] = useState(null)
     useEffect(() => {
@@ -33,6 +35,9 @@ const Patch = ({patchName, patchID, handleSelection, handleMenuItem}) => {
                 <li onClick={()=>handleMenuItem("download")}>Download</li>
             </PopupMenu>
         </div>
+        <div className="previewImageContainer">
+                <img className="previewImage" src={previewImage} /> 
+            </div>
     </div>)
 }
 

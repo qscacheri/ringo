@@ -5,14 +5,14 @@ import { Context } from './Processor'
 
 function Toolbar({ createObject, takeFocus}) {
     const ProcessorContext = useContext(Context)
+    const [localPatchName, setLocalPatchName] = useState("")
     let {patchName} = useContext(Context)
     useEffect(() => {
-        console.log(patchName);
-        
+        setLocalPatchName(patchName)        
     }, [patchName])
 
     const handleChange = (e) => {
-        // setPatchName(e.target.value)
+        setLocalPatchName(e.target.value)
         takeFocus()
     }
 
@@ -30,7 +30,7 @@ function Toolbar({ createObject, takeFocus}) {
             <div className="patchNameContainer">
                 <div className="patchNameLabel">Patch Name:</div>
                 <form className="patchName" onSubmit={handleSubmit} onClick={handleClick}>
-                    <input type="text" value={patchName} onChange={handleChange}></input>
+                    <input type="text" value={localPatchName} onChange={handleChange}></input>
                 </form>
             </div>
             <div className="Controls">

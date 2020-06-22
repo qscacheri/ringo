@@ -45,7 +45,7 @@ const newPatch = async (username) => {
     const newPatch = await Patch.create({username , patchData, patchName: 'Untitled', visiblity: 'private'}).catch((err) => {
         status = err
     })
-    if (newPatch) return 200
+    if (newPatch) return newPatch._id
 }
 module.exports.newPatch = newPatch
 

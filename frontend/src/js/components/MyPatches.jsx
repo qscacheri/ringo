@@ -6,35 +6,37 @@ import plus from '../../../assets/plus.svg'
 import { Redirect } from 'react-router-dom'
 const axios = require('axios')
 const MyPatches = () => {
-    const [patches, setPatches] = useState([])
+    const [patches, setPatches] = useState({})
     const {token, loggedIn, username} = useContext(AppContext)
     const [redirectTo, setRedirectTo] = useState()
-    useEffect(() => {   
-        console.log("tyring patches: ", loggedIn);
-             
-        if (!loggedIn) setRedirectTo('login-signup')
-        
+    const [loading, setLoading] = useState(true)
+    const [shouldRerender, setShouldRerender] = useState(false)
+    const getPatches = async () => {
         axios.get('/my-patches').then((res) => {
-            setPatches(res.data)
-            
+            const newPatches = {}
+            res.data.map((patch) => {
+                newPatches[patch._id] = patch
+            })
+            setPatches(newPatches)
+
         }).catch((err) => {
             if (err.response.status === 403) {
                 setRedirectTo('login-signup')
             }
-        })
+        })   
+     }
+
+    useEffect(() => {                
+        if (!loggedIn) setRedirectTo('login-signup')
+        
+        getPatches()
+
     }, [loggedIn, token])
 
     const handleSelection = (id) => {
         setRedirectTo(`patch?id=${id}`)
     }
 
-    const getPatches = async () => {
-        axios.get('/my-patches').then((res) => {
-            console.log(res);
-            
-            setPatches(res.data)
-        }).catch((err) => console.log(err))
-    }
 
     const handleNewPatch = () => {
         axios.post('/new-patch').then((res) => {
@@ -59,15 +61,17 @@ const MyPatches = () => {
 
     const renderPatches = () => {
         const renderPatches = []
-        patches.map((patch) => {
+        for (let i in patches) {
+            let patch = patches[i]
             renderPatches.push(<Patch 
                 key={patch._id} 
                 patchID = {patch._id} 
                 patchName={patch.patchName} 
                 handleSelection={handleSelection} 
                 handleMenuItem={handleMenuItem} 
+                previewImage={`${process.env.REACT_APP_SERVER_ADDRESS}/${patch._id}.jpeg`}
             />)
-        })
+        }
         return renderPatches
     }
 
