@@ -6,19 +6,21 @@ import PopupMenu from './PopupMenu'
 const axios = require('axios')
 const Patch = ({patchName, patchID, handleSelection, handleMenuItem}) => {
     const [textValue, setTextValue] = useState("")
+    const [inputRef,setInputRef] = useState(null)
     useEffect(() => {
         setTextValue(patchName)
     }, [patchName])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        inputRef.blur()
         await axios.post('/update-patch-name', {patchID, newPatchName: textValue})
     }
 
     return (<div className="Patch" onClick={() => handleSelection(patchID)}>
         <div className="patchHeader">
             <form onSubmit={handleSubmit}>
-                <input type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)} onClick={(e) => e.stopPropagation()}></input>
+                <input ref={setInputRef} type="text" className='patchName' value={textValue} onChange={(e) => setTextValue(e.target.value)} onClick={(e) => e.stopPropagation()}></input>
             </form>
             <PopupMenu buttonStyleName="popupButton">
                 <li onClick={(e)=>handleMenuItem(patchID, "delete", e)}>Delete</li>

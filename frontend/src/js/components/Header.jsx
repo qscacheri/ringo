@@ -1,28 +1,22 @@
 /* eslint-disable */
 
-import React, {useState} from "react";
-import OBJECT_TYPES from '../constants/object-types';
+import React, { useState } from "react";
 import '../../css/Header.css';
-import Processor from "../utils/ProcessorTree";
-import { Link } from "react-router-dom";
-import ProcessorTree from "../utils/ProcessorTree";
-
+import { Link, Redirect } from "react-router-dom";
+import hamburgerIcon from '../../assets/hamburger.svg'
 import Sidebar from './Sidebar'
 
-function Header({ locked, workspace}) {
+function Header() {
     const [sidebarVisible, setSidebarVisible] = useState(false)
 
     return (
         <div className="Header">
-            <div className="Header">
-                <h1 className="Title">Ringo</h1>
-                {/* <button onClick={()=>setSidebarVisible(!sidebarVisible)}>•••</button> */}
-                <Sidebar visible={sidebarVisible}>
-                    <Link to="my-patches">My Patches</Link>
-                    <Link to="about">About</Link>
-
-                </Sidebar>
-            </div>
+            <h1 className="Title">Ringo</h1>
+            <img className="hamburgerMenu" src={hamburgerIcon} onClick={() => setSidebarVisible(!sidebarVisible)} />
+            <Sidebar visible={sidebarVisible} onCloseButtonPressed={() => setSidebarVisible(false)}>
+                <Link className="sideBarItem" to="my-patches" onClick={()=>setSidebarVisible(false)}>My Patches</Link>
+                <Link className="sideBarItem" to="about" onClick={()=>setSidebarVisible(false)}>About</Link>
+            </Sidebar>
         </div>
     )
 }

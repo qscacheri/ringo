@@ -6,7 +6,7 @@
     top: 10vh;
     flex-direction: row;
     justify-content: space-between;
-    z-index: 100;
+    z-index: 10;
     outline: none;
     max-width:100%;  /* added */
     background-color: black;

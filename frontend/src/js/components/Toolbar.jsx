@@ -5,20 +5,19 @@ import { Context } from './Processor'
 
 function Toolbar({ createObject, takeFocus}) {
     const ProcessorContext = useContext(Context)
-    const [patchName, setPatchName] = useState('')
-    
+    let {patchName} = useContext(Context)
     useEffect(() => {
-        setPatchName(ProcessorContext.patchName)
-    }, [])
+        console.log(patchName);
+        
+    }, [patchName])
 
     const handleChange = (e) => {
-        setPatchName(e.target.value)
+        // setPatchName(e.target.value)
         takeFocus()
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        ProcessorContext.setPatchName(patchName)
     }
 
     const handleClick = (e) => {

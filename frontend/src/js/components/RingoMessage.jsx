@@ -13,11 +13,6 @@ function RingoMessage(props) {
     const [position, setPosition] = useState({x: 0, y: 0})
 
     useEffect(() => {
-        // ProcessorTree.registerMessageCallback(props.id, (newValue) => {
-        //     setTextValue(newValue)
-        // })
-        console.log(props.text);
-        
         if (textValue !== props.text)
             setTextValue(props.text)
     })

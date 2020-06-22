@@ -1,8 +1,14 @@
 ._Sidebar {
-    background: none;   
-}
-
-._Sidebar.visible {
+    z-index: 1000; 
+    background: none;  
+    display: flex;
+    flex-direction: column;
+    width: 25vh;
+    height: 100vh;
+    background: #347c76;
+    position: absolute;
+    top: 0;
+    right: 0;
 
 }
 
@@ -15,24 +21,24 @@
 }
 
 ._Sidebar > .items {
-    z-index: -1;
-    top: 0;
-    width: 0;
-    position: absolute;
-    width: 25vw;
-    right: 0;
-    height: 100vh;
-    background: white;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    
 }
 
 ._Sidebar > .items.visible {
     width: 0;
     position: absolute;
-    width: 25vw;
     right: 0;
-    height: 100vh;
     background: white;
+    z-index: 1000; 
+
+}
+
+._closeSidebar {
+    text-align: right;
+    margin: 10px 10px 0px auto;
+    cursor: pointer;
 }

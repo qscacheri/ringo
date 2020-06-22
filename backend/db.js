@@ -52,14 +52,15 @@ module.exports.newPatch = newPatch
 // UPDATE PATCH
 const updatePatch = async (patchID, patchData) => {
     const patch = await Patch.findOne({_id: patchID})    
-    const data = JSON.parse(patch.patchData)
-    
+    const data = JSON.parse(patch.patchData)    
     if (patchData.objects)
         data.objects = patchData.objects
-    if (patchData.patchCables)
+    if (patchData.patchCables) {
         data.patchCables = patchData.patchCables
+    }
     
-    patch.patchData = JSON.stringify(data)    
+    patch.patchData = JSON.stringify(data) 
+       
     patch.save()
 }
 module.exports.updatePatch = updatePatch

@@ -69,8 +69,9 @@ class Processor extends React.Component {
         query = queryString.parse(query)         
         this.setState({ patchID: query.id })
         const res = await axios.get('/patch', {params: {id: query.id}})
-        console.log(JSON.parse(res.data.patchData));
-        
+        this.setState({patchName: res.data.patchName})       
+        console.log(res.data.patchName);
+         
         return res.data.patchData
     }
 

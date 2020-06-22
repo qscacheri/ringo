@@ -77,6 +77,7 @@ function App() {
     <AppContext.Provider value={value}>
     <div className="App" ref={myRef}>
       <Router>
+        <Header />
         <Switch>
           <Route exact path="/">
             <Redirect to="/login-signup" />
@@ -88,24 +89,19 @@ function App() {
             <MyPatches />
           </Route>
           <Route path="/patch">
-            <div>
+            <React.Fragment>
               <Processor>
                 <Workspace />
               </Processor>
-            </div>
+            </React.Fragment>
           </Route>
           <Route exact path="/about">
-            <div>
               <About />
-            </div>
           </Route>
           <Route exact path="/loginsignup">
-            <div>
               <LoginSignup />
-            </div>
           </Route>
         </Switch>
-        <Header />
       </Router>
     </div>
     </AppContext.Provider>

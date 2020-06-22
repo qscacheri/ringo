@@ -49,7 +49,6 @@ function IOLet(props) {
             setShowInfo(true)
             const boundingRect = myRef.current.getBoundingClientRect()
             const offset = props.connectionType === 'IN' ? -25 : 20
-            props.updateShowInfo(true, {x: boundingRect.x, y:boundingRect.y + offset}, props.parentId, props.connectionType, props.ioletIndex)
         }, 600);
         
     }
@@ -57,7 +56,6 @@ function IOLet(props) {
     const handleMouseExit = (e) => {        
         clearTimeout(callback.current) 
         setShowInfo(false)
-        props.updateShowInfo(false, {x: 0, y:0}, props.parentId, props.connectionType, props.ioletIndex)
     }
 
 
