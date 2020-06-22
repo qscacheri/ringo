@@ -6,7 +6,7 @@ const db = require('./db')
 const authentication = require('./authentication')
 const cors = require('cors')
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 require('./patchRoutes')(app) 
 app.use(cors())
@@ -32,9 +32,7 @@ app.post('/validate-token', authentication.authenticateToken, async (req, res) =
 	res.send({ username: req.username })
 })
 
-app.post('/signup', async (req, res) => {
-	console.log('USER TRYING TO SIGNUP');
-	
+app.post('/signup', async (req, res) => {	
 	const {username, password, passwordConfirmation, email} = req.body
 	const status = await db.signup(username, password, passwordConfirmation, email)
 	if (status === 200)

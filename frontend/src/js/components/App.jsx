@@ -27,7 +27,7 @@ function App() {
   const [initializing, setInitializing] = useState(true)
 
   let myRef = useRef(null);
-  const generateThumbnail = async () => {
+  const generateThumbnail = async (id) => {
     if (!myRef) return
     h2tml2canvas(myRef.current).then((c) => {
         const imgData = c.toDataURL('image/png')
@@ -35,7 +35,6 @@ function App() {
         
         setCanvas(imgData)                
     })
-
 }
 
   useEffect(() => {

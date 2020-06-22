@@ -13,6 +13,7 @@ import IOLetDescriptionPopup from './IOletDescriptionPopup'
 import { PatchCableContext } from './PatchCableManager'
 import Toolbar from "./Toolbar";
 import h2tml2canvas from 'html2canvas'
+import axios from 'axios'
 
 function Workspace({ processor }) {
     const ProcessorContext = useContext(Context)
@@ -30,15 +31,32 @@ function Workspace({ processor }) {
     const [canvas, setCanvas] = useState(false)
 
     useEffect(() => {
-    }, [])
+        generatePreview()
+    }, [ProcessorContext.objects, ProcessorContext.patchCables])
 
-    const generateThumbnail = async () => {
+    const generatePreview = () => {
             if (!ref) return
-            h2tml2canvas(ref.current).then((c) => {
-                const imgData = c.toDataURL('image/png')
-                console.log(imgData);
+
+                        
+            let data = new FormData()
+            h2tml2canvas(ref.current, {windowWidth: window.innerWidth,
+                windowHeight: window.innerWidth
+            }).then((c) => {
+                c.width = window.innerWidth
+                c.height = window.innerHeight
+                c.toBlob((blob) => {
+                    data.set("id", ProcessorContext.patchID)                       
+                    data.set("preview", blob)   
+                    console.log(ProcessorContext.patchID);
+                    
+                    axios.post('/update-preview', data).then((res) => {
+
+                    }).catch((err) => {
+    
+                    })
+    
+                }, 'image/jpeg')
                 
-                setCanvas(imgData)                
             })
         
     }
