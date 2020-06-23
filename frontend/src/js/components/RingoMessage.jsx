@@ -15,7 +15,7 @@ function RingoMessage(props) {
     useEffect(() => {
         if (textValue !== props.text)
             setTextValue(props.text)
-    })
+    }, [props.text])
 
     function handleChange(e) {
         setTextValue(event.target.value);
@@ -29,9 +29,6 @@ function RingoMessage(props) {
 
     function handleClick(e) {
         e.stopPropagation();
-
-        // ProcessorTree.resume()
-        // ProcessorTree.setSelected(props.id)
         if (ProcessorContext.locked)
             ProcessorContext.triggerMessage(props.id)
         setIsDrag(false);

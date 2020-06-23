@@ -4,9 +4,7 @@ import dots from '../../../assets/dots.svg'
 import PopupMenu from './PopupMenu'
 
 const axios = require('axios')
-const Patch = ({patchName, patchID, handleSelection, handleMenuItem, previewImage}) => {
-    console.log(previewImage);
-    
+const Patch = ({patchName, patchID, handleSelection, handleMenuItem, previewImage}) => {    
     const [textValue, setTextValue] = useState("")
     const [inputRef,setInputRef] = useState(null)
     useEffect(() => {

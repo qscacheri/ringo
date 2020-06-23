@@ -1,7 +1,6 @@
 import RingoObject from '../base/RingoObject'
 import OBJECT_TYPES from '../../constants/object-types'
 import * as THREE from "three";
-import ProcessorTree from '../../utils/ProcessorTree';
 
 class ThreeShapeObject extends RingoObject {
     static type = OBJECT_TYPES.THREE_SHAPE
@@ -11,7 +10,6 @@ class ThreeShapeObject extends RingoObject {
         this.numInlets = 1
         this.numOutlets = 1
         this.hasDSP = true
-        this.receivers = this.createReceiverArray(this.numOutlets)
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         this.shape = new THREE.Mesh(geometry, material);
@@ -41,8 +39,8 @@ class ThreeShapeObject extends RingoObject {
     }
 
     connect(outletIndex, inletIndex, inputID) {
-        super.connect(outletIndex, inletIndex, inputID)
-        ProcessorTree.objects[inputID].addShape(this.shape)
+        super.connect(outletIndex, inletIndex, inputID)        
+        this.processor.state.objects[inputID].addShape(this.shape)
     }
 
     parseMessage(data) {        

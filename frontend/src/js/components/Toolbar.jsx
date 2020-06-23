@@ -4,7 +4,6 @@ import OBJECT_TYPES from '../constants/object-types'
 import { Context } from './Processor'
 
 function Toolbar({ createObject, takeFocus}) {
-    const ProcessorContext = useContext(Context)
     const [localPatchName, setLocalPatchName] = useState("")
     let {patchName} = useContext(Context)
     useEffect(() => {
