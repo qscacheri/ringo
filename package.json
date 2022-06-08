@@ -1,0 +1,52 @@
+{
+  "name": "ringo-next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@types/d3-path": "^3.0.0",
+    "d3-path": "^3.0.1",
+    "framer-motion": "^6.3.10",
+    "gradient-path": "^2.3.0",
+    "immutable": "^4.1.0",
+    "mobx": "^6.6.0",
+    "mobx-react": "^7.5.0",
+    "mobx-react-lite": "^3.4.0",
+    "next": "^12.1.6",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "react-draggable": "^4.4.5",
+    "serializr": "^2.0.5",
+    "styled-components": "^5.3.5",
+    "tone": "^14.7.77",
+    "uuid": "^8.3.2",
+    "webpack": "^5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@storybook/addon-actions": "^6.5.7",
+    "@storybook/addon-essentials": "^6.5.7",
+    "@storybook/addon-interactions": "^6.5.7",
+    "@storybook/addon-links": "^6.5.7",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack5": "^6.5.7",
+    "@storybook/manager-webpack5": "^6.5.7",
+    "@storybook/react": "^6.5.7",
+    "@storybook/testing-library": "^0.0.11",
+    "@types/node": "^17.0.39",
+    "@types/react": "18.0.11",
+    "@types/styled-components": "^5.1.25",
+    "@types/uuid": "^8.3.4",
+    "autoprefixer": "^10.4.7",
+    "babel-loader": "^8.2.5",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24",
+    "typescript": "4.7.3"
+  }
+}

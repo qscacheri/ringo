@@ -1,9 +1,0 @@
-.RingoButton {
-    width: 8vh;
-    height: 8vh;
-    display: flex;
-    flex-direction: column;
-    border-style: solid;
-    border-color: magenta;
-    border-radius: 10px;
-}
