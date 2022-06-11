@@ -23,7 +23,7 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
   }, []);
   return (
     <div
-      className="w-full h-full bg-white row-start-2 overflow-scroll"
+      className="w-full h-full row-start-2 overflow-scroll bg-white"
       ref={ref}
     >
       <Container
@@ -31,7 +31,10 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
         onClick={() => metaDataStore.clearSelectedNodes()}
       >
         {Array.from(graphManager.nodes.values()).map((node) => (
-          <RingoNodeComponentFactory node={node} />
+          <RingoNodeComponentFactory
+            position={metaDataStore.getNode(node.id)}
+            node={node}
+          />
         ))}
         {metaDataStore.activeCable && (
           <ActivePatchCableComponent

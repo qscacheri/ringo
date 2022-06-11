@@ -14,16 +14,14 @@ const Container = styled.div`
 `;
 
 const Home = observer(() => {
-  const { graphManager, metaDataStore } = useProjectStore();
+  const store = useProjectStore();
+  const { metaDataStore } = store;
   useEffect(() => {
-    graphManager.createNode('timer');
-    graphManager.createNode('print');
-
     document.addEventListener('mousemove', (e) => {
       metaDataStore.updateMousePos({ x: e.clientX, y: e.clientY });
     });
 
-    (window as any).graphManager = graphManager;
+    (window as any).store = store;
   }, []);
 
   useKeyCombo('k', 'meta', () => {

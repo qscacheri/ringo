@@ -3,13 +3,14 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
 import { RingoNode as RingoNodeType } from '../lib/nodes/core/RingoNode';
-import { TerminalType } from '../lib/types';
+import { Point, TerminalType } from '../lib/types';
 import { useProjectStore } from './ProjectProvider';
 import { TerminalStrip } from './TerminalStrip';
 
 interface RingoNodeContainerProps {
   node: RingoNodeType;
   element: JSX.Element;
+  position: Point;
 }
 
 const Container = styled.div`
@@ -18,11 +19,12 @@ const Container = styled.div`
 `;
 
 export const RingoNodeContainer: React.FC<RingoNodeContainerProps> = observer(
-  ({ node, element }) => {
+  ({ node, element, position }) => {
     const { metaDataStore } = useProjectStore();
     return (
       <Draggable
         defaultClassName="absolute"
+        position={position}
         onDrag={(_, data) => {
           metaDataStore.updateNodePos(node, {
             x: data.x,

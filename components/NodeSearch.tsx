@@ -12,19 +12,13 @@ export const NodeSearch: React.FC<NodeSearchProps> = ({ position }) => {
   const [search, setSearch] = useState('');
   const {
     graphManager,
-    metaDataStore: { setSearchActive },
+    metaDataStore: { setSearchActive, addNode },
   } = useProjectStore();
   const results = useSearch(search, RingoNodeTypes as unknown as string[]);
   const itemsToShow = search ? results : RingoNodeTypes;
   return (
-    <Draggable
-      defaultClassName="fixed"
-      onDrag={(e, data) => {
-        console.log({ e, data });
-      }}
-      defaultPosition={position}
-    >
-      <div className="w-96 bg-purple-800 p-2 rounded shadow">
+    <Draggable defaultClassName="fixed" defaultPosition={position}>
+      <div className="p-2 bg-purple-800 rounded shadow w-96">
         <input
           autoFocus={true}
           className="w-full h-10 px-2 rounded"
@@ -38,10 +32,11 @@ export const NodeSearch: React.FC<NodeSearchProps> = ({ position }) => {
             <button
               key={`node-search-${result}`}
               onClick={() => {
-                graphManager.createNode(result as RingoNodeType);
+                const node = graphManager.createNode(result as RingoNodeType);
+                addNode(node);
                 setSearchActive(false);
               }}
-              className="bg-white my-2 h-8 rounded w-full"
+              className="w-full h-8 my-2 bg-white rounded"
             >
               {result}
             </button>
