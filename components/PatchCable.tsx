@@ -8,6 +8,7 @@ import { useProjectStore } from './ProjectProvider';
 interface PatchCableProps {
   patchCable: PatchCableType;
   debug?: boolean;
+  selected: boolean;
 }
 
 const STROKE_WIDTH = 2;
@@ -27,7 +28,7 @@ const getPath = (p1: Point, p2: Point, width: number, height: number) => {
 };
 
 export const PatchCable = observer(
-  ({ patchCable, debug = false }: PatchCableProps) => {
+  ({ patchCable, debug = false, selected }: PatchCableProps) => {
     const { metaDataStore, uiStore } = useProjectStore();
 
     const [p1, p2] = useMemo(() => {
@@ -61,7 +62,7 @@ export const PatchCable = observer(
 
     return (
       <svg
-        className="absolute bg-none pointer-events-none"
+        className="absolute pointer-events-none bg-none"
         style={{
           left: 0,
           top: 0,
@@ -102,13 +103,13 @@ export const PatchCable = observer(
           <circle cx={bezier.cp2.x} cy={bezier.cp2.y} r={5} fill="blue" />
         )}
         <path
-          fill="none"
-          stroke="url(#grad1)"
-          className="PatchCable"
-          style={{
-            pointerEvents: 'none',
-            cursor: 'pointer',
+          onClick={(e) => {
+            e.stopPropagation();
+            metaDataStore.handlePatchCableClicked(patchCable, e.shiftKey);
           }}
+          fill="none"
+          stroke={selected ? 'url(#grad1)' : '#3b82f6'}
+          className="cursor-pointer pointer-events-auto hover:stroke-blue-500"
           strokeWidth={2}
           strokeLinecap="round"
           d={bezier.path}

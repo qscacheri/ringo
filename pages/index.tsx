@@ -1,11 +1,12 @@
 import { observer, Observer } from 'mobx-react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { start } from 'tone';
 import { GraphCanvas } from '../components/GraphCanvas';
 import { GraphHeader } from '../components/GraphHeader';
 import { useProjectStore } from '../components/ProjectProvider';
 import { ProjectSidePanel } from '../components/ProjectSidePanel/ProjectSidePanel';
-import { useKeyCombo } from '../hooks/useKeyCombo';
+import { useKeyCombo } from '../hooks/useKey';
 
 const Container = styled.div`
   display: grid;
@@ -15,13 +16,20 @@ const Container = styled.div`
 
 const Home = observer(() => {
   const store = useProjectStore();
-  const { metaDataStore } = store;
+  const { metaDataStore, graphManager } = store;
   useEffect(() => {
     document.addEventListener('mousemove', (e) => {
       metaDataStore.updateMousePos({ x: e.clientX, y: e.clientY });
     });
 
-    (window as any).store = store;
+    document.addEventListener('mousedown', (e) => {
+      start();
+    });
+    const stored = localStorage.getItem('graph');
+    if (stored) {
+      graphManager.deserialize(JSON.parse(stored));
+    }
+    window.store = store;
   }, []);
 
   useKeyCombo('k', 'meta', () => {

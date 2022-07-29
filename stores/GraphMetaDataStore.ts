@@ -48,6 +48,31 @@ export class GraphMetaDataStore {
         this.nodeBounds = this.nodeBounds.set(node.id, pos ?? this.mousePos)
     }
 
+    handleCanvasClicked() {
+        this.activeCable = null;
+        this.selectedNodes = [];
+        this.selectedPatchCables = [];
+    }
+
+    handlePatchCableClicked(patchCable: PatchCable, isMultiSelect: boolean) {
+        if (isMultiSelect) {
+            if (this.selectedPatchCables.includes(patchCable)) {
+                this.selectedPatchCables = this.selectedPatchCables.filter(pc => pc !== patchCable);
+            }
+            else {
+                this.selectedPatchCables = [...this.selectedPatchCables, patchCable];
+            }
+        }
+        else {
+            if (this.selectedPatchCables.includes(patchCable)) {
+                this.selectedPatchCables = [];
+            }
+            else {
+                this.selectedPatchCables = [patchCable];
+            }
+        }
+    }
+
     getNode(id: string) {
         const node = this.nodeBounds.get(id)
         if (!node) {

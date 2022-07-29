@@ -15,7 +15,7 @@ interface RingoNodeContainerProps {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1rem minmax(0, auto) 1rem;
 `;
 
 export const RingoNodeContainer: React.FC<RingoNodeContainerProps> = observer(
@@ -33,7 +33,7 @@ export const RingoNodeContainer: React.FC<RingoNodeContainerProps> = observer(
         }}
       >
         <Container
-          className={`w-56 h-12 bg-purple-400 rounded shadow ${
+          className={`min-w-[14rem] bg-purple-400 rounded shadow ${
             metaDataStore.selectedNodes[0]?.id === node.id &&
             'outline outline-blue-400'
           }`}

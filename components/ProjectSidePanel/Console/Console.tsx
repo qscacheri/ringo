@@ -18,15 +18,14 @@ export const Console: React.FC<ConsoleProps> = observer(({}) => {
     if (ref.current && !scrolled) {
       updatingScrollToBottom.current = true;
       ref.current.scrollTop = ref.current.scrollHeight;
-      console.log('scrolling');
     }
   }, [graphManager.messages]);
 
   return (
-    <div className="h-full w-full bg-neutral-300 relative">
+    <div className="relative w-full h-full bg-neutral-300">
       <div
         ref={ref}
-        className="w-full h-full overflow-scroll block p-2 "
+        className="block w-full h-full p-2 overflow-scroll "
         onScroll={() => {
           if (updatingScrollToBottom.current) {
             updatingScrollToBottom.current = false;
@@ -46,7 +45,7 @@ export const Console: React.FC<ConsoleProps> = observer(({}) => {
       {scrolled && (
         <button
           onClick={() => setScrolled(false)}
-          className="absolute bottom-0 bg-white grid place-items-center shadow left-0 right-0"
+          className="absolute bottom-0 left-0 right-0 grid bg-white shadow place-items-center"
         >
           Resume
         </button>

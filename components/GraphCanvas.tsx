@@ -23,6 +23,7 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
   }, []);
   return (
     <div
+      onClick={() => metaDataStore.handleCanvasClicked()}
       className="w-full h-full row-start-2 overflow-scroll bg-white"
       ref={ref}
     >
@@ -32,6 +33,7 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
       >
         {Array.from(graphManager.nodes.values()).map((node) => (
           <RingoNodeComponentFactory
+            key={node.id}
             position={metaDataStore.getNode(node.id)}
             node={node}
           />
@@ -45,7 +47,11 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
           <NodeSearch position={metaDataStore.mousePos} />
         )}
         {metaDataStore.patchCables.toArray().map(([id, cable]) => (
-          <PatchCable key={`pc-${id}`} patchCable={cable} />
+          <PatchCable
+            key={`pc-${id}`}
+            patchCable={cable}
+            selected={metaDataStore.selectedPatchCables.includes(cable)}
+          />
         ))}
       </Container>
     </div>

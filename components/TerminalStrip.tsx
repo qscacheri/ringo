@@ -1,8 +1,7 @@
 import React from 'react';
 import { RingoNode } from '../lib/nodes/core/RingoNode';
-import { PatchCable } from '../lib/PatchCable';
 import { TerminalType } from '../lib/types';
-import { useProjectStore } from './ProjectProvider';
+import { Terminal } from './Terminal';
 
 interface TerminalStripProps {
   node: RingoNode;
@@ -15,19 +14,15 @@ export const TerminalStrip: React.FC<TerminalStripProps> = ({
   node,
   type,
 }) => {
-  const { metaDataStore } = useProjectStore();
-
   return (
-    <div className="w-full h-full flex p-1">
+    <div className="flex w-full h-full p-1">
       {[...Array(numTerminals)].map((_, i) => (
-        <button
-          data-terminal-id={PatchCable.getTerminalId(node, i, type)}
-          onClick={() => {
-            metaDataStore.handleTerminalClicked(node, i, type);
-          }}
+        <Terminal
           key={`${node.id}-${type}-${i}`}
-          className="rounded-full h-full aspect-square bg-white mx-1 hover:outline hover:outline-blue-400 cursor-pointer"
-        ></button>
+          index={i}
+          node={node}
+          type={type}
+        />
       ))}
     </div>
   );

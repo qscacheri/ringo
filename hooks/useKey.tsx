@@ -21,3 +21,16 @@ export const useKeyCombo = (
     };
   }, []);
 };
+
+export const useKeyMap = (callbacks: Record<string, () => void>) => {
+  useEffect(() => {
+    document.addEventListener('keypress', (e) => {
+      if (callbacks[e.key]) {
+        callbacks[e.key]();
+      }
+    });
+    return () => {
+      document.removeEventListener('keypress', () => {});
+    };
+  }, [callbacks]);
+};

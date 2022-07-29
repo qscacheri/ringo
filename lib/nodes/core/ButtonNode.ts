@@ -1,26 +1,26 @@
-import { RingoNodeAttributeList } from '../../RingoObjectAttributeList';
+import { RingoNodeAttributeList } from '../../RingoNodeAttributeList';
 import { Terminal } from '../../Terminal';
 import { RingoNodeType } from '../../types';
 import { RingoNode } from './RingoNode';
 
 export class ButtonNode extends RingoNode {
-  getInitialAttributes(): RingoNodeAttributeList {
-    return new RingoNodeAttributeList([]);
-  }
+    getInitialAttributes(): RingoNodeAttributeList {
+        return new RingoNodeAttributeList([]);
+    }
 
-  getInletLayout(): Terminal[] {
-    return [];
-  }
+    getInletLayout(): Terminal[] {
+        return [];
+    }
 
-  getOutletLayout(): Terminal[] {
-    return [{ name: 'data', type: 'any' }];
-  }
+    getOutletLayout(): Terminal[] {
+        return [{ name: 'data', type: 'any' }];
+    }
 
-  getDataForOutlet(_: number): unknown {
-    return 'hello';
-  }
+    getDataForOutlet(_: number): unknown {
+        return 'hello';
+    }
 
-  getType(): RingoNodeType {
-    return 'button';
-  }
+    getType(): RingoNodeType {
+        return 'button';
+    }
 }

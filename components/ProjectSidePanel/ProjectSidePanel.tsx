@@ -10,7 +10,7 @@ export const ProjectSidePanel: React.FC<ProjectSidePanelProps> = observer(
   ({}) => {
     const { metaDataStore, graphManager } = useProjectStore();
     return (
-      <div className="w-full col-start-2 h-full p-4">
+      <div className="w-full h-full col-start-2 p-4">
         <TabbedContainer tabs={['Inspector', 'Console']} position="above">
           <NodeInspector node={metaDataStore.selectedNodes[0]} />
           <Console messages={graphManager.messages} />
