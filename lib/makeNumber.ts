@@ -1,4 +1,4 @@
-export function makeNumber(val: unknown): number {
+export function isNumber(val: unknown): number | undefined {
     if (typeof val === 'number') {
         return val
     }
@@ -8,5 +8,5 @@ export function makeNumber(val: unknown): number {
     if (typeof val === 'boolean') {
         return val ? 1 : 0
     }
-    throw new Error(`Cannot make number from ${val}`)
+    return undefined
 }

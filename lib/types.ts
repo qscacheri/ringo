@@ -13,7 +13,10 @@ export const RingoNodeTypes = [
     'display',
     'cube',
     'meter',
-    'mic'
+    'mic',
+    'int',
+    'float',
+    'sum',
 ] as const;
 
 export type RingoNodeType = typeof RingoNodeTypes[number];

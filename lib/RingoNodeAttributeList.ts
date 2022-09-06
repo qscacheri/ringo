@@ -1,10 +1,10 @@
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { RingoNodeAttribute } from './nodes/core/RingoNode';
 
 export type SerializedNodeAttributeList = Record<string, RingoNodeAttribute>
 
 export class RingoNodeAttributeList {
-    attributes: Map<string, RingoNodeAttribute> = observable.map(
+    @observable attributes: Map<string, RingoNodeAttribute> = observable.map(
         new Map<string, RingoNodeAttribute>()
     );
 
@@ -16,6 +16,7 @@ export class RingoNodeAttributeList {
         }
     }
 
+    @action
     get(key: string): RingoNodeAttribute {
         const attribute = this.attributes.get(key);
         if (!attribute) {
@@ -24,6 +25,7 @@ export class RingoNodeAttributeList {
         return attribute;
     }
 
+    @action
     set(key: string, value: unknown) {
         const currentVal = this.get(key);
         this.attributes = this.attributes.set(key, {

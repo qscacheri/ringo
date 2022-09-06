@@ -3,12 +3,13 @@ import { MeterNode } from './nodes/audio/MeterNode';
 import { MicNode } from './nodes/audio/MicNode';
 import { OscillatorNode } from './nodes/audio/OscillatorNode';
 import { SpeakerNode } from './nodes/audio/SpeakerNode';
-import { AddNode } from './nodes/core/AddNode';
 import { ButtonNode } from './nodes/core/ButtonNode';
+import { IntNode } from './nodes/core/IntNode';
 import { PrintNode } from './nodes/core/PrintNode';
 import { RandomNode } from './nodes/core/RandomNode';
 import { RingoNode, RingoNodeConstructorArgs, SerializedRingoNode } from './nodes/core/RingoNode';
 import { ScaleNode } from './nodes/core/ScaleNode';
+import { SumNode } from './nodes/core/SumNode';
 import { TimerNode } from './nodes/core/TimerNode';
 import { CubeNode } from './nodes/wobble/CubeNode';
 import { DisplayNode } from './nodes/wobble/DisplayNode';
@@ -21,7 +22,7 @@ export class RingoNodeFactory {
         args: RingoNodeConstructorArgs
     ): RingoNode {
         const type = nodeTypes[nodeType];
-        return type.create(args);
+        return (type as any).create(args);
     }
 
     static deserialize(graphManager: GraphManager, data: SerializedRingoNode) {
@@ -33,7 +34,6 @@ export class RingoNodeFactory {
 }
 
 const nodeTypes: { [key: string]: typeof RingoNode } = {
-    add: AddNode,
     timer: TimerNode,
     print: PrintNode,
     button: ButtonNode,
@@ -45,5 +45,7 @@ const nodeTypes: { [key: string]: typeof RingoNode } = {
     cube: CubeNode,
     speaker: SpeakerNode,
     meter: MeterNode,
-    mic: MicNode
+    mic: MicNode,
+    int: IntNode,
+    sum: SumNode
 };

@@ -34,6 +34,7 @@ export const RingoNodeContainer: React.FC<RingoNodeContainerProps> = observer(
       >
         <Container
           className={`min-w-[14rem] bg-purple-400 rounded shadow ${
+            metaDataStore.selectedNodes.length > 0 &&
             metaDataStore.selectedNodes[0]?.id === node.id &&
             'outline outline-blue-400'
           }`}

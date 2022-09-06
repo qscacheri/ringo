@@ -1,3 +1,4 @@
+import { BANG } from '../../bang';
 import { RingoNodeAttributeList } from '../../RingoNodeAttributeList';
 import { Terminal } from '../../Terminal';
 import { RingoNodeType } from '../../types';
@@ -17,7 +18,7 @@ export class ButtonNode extends RingoNode {
     }
 
     getDataForOutlet(_: number): unknown {
-        return 'hello';
+        return BANG
     }
 
     getType(): RingoNodeType {

@@ -23,6 +23,12 @@ export const GraphCanvas: React.FC<GraphCanvasProps> = observer(({}) => {
   }, []);
   return (
     <div
+      onScroll={(e) => {
+        uiStore.setCanvasScroll({
+          x: e.currentTarget.scrollLeft,
+          y: e.currentTarget.scrollTop,
+        });
+      }}
       onClick={() => metaDataStore.handleCanvasClicked()}
       className="w-full h-full row-start-2 overflow-scroll bg-white"
       ref={ref}

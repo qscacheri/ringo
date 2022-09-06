@@ -2,7 +2,7 @@ import { path } from 'd3-path';
 import { observer } from 'mobx-react';
 import React, { useMemo } from 'react';
 import { PatchCable as PatchCableType } from '../lib/PatchCable';
-import { Point } from '../lib/types';
+import { Point, Rectangle } from '../lib/types';
 import { useProjectStore } from './ProjectProvider';
 
 interface PatchCableProps {
@@ -27,28 +27,48 @@ const getPath = (p1: Point, p2: Point, width: number, height: number) => {
   return { path: p.toString(), cp1, cp2 };
 };
 
+function calculatePoint(
+  element: Element,
+  canvasBounds: Rectangle,
+  canvasScroll: Point
+): Point {
+  const bounds = element.getBoundingClientRect();
+  return {
+    x: bounds.x + bounds.width / 2 - canvasBounds.x - canvasScroll.x,
+    y: bounds.y + bounds.height / 2 + canvasScroll.y - canvasBounds.y,
+  };
+}
+
 export const PatchCable = observer(
   ({ patchCable, debug = false, selected }: PatchCableProps) => {
     const { metaDataStore, uiStore } = useProjectStore();
 
     const [p1, p2] = useMemo(() => {
       const outlet = patchCable.getOutletTerminalId();
-      const outletBounds = document
-        .querySelector(`[data-terminal-id="${outlet}"]`)!
-        .getBoundingClientRect();
-
-      const p1: Point = {
-        x: outletBounds.x + outletBounds.width / 2 - uiStore.canvasBounds.x,
-        y: outletBounds.y + outletBounds.height / 2 - uiStore.canvasBounds.y,
-      };
+      const outletElement = document.querySelector(
+        `[data-terminal-id="${outlet}"]`
+      );
       const inlet = patchCable.getInletTerminalId();
-      const inletBounds = document
-        .querySelector(`[data-terminal-id="${inlet}"]`)!
-        .getBoundingClientRect();
-      const p2: Point = {
-        x: inletBounds.x + inletBounds.width / 2 - uiStore.canvasBounds.x,
-        y: inletBounds.y + inletBounds.height / 2 - uiStore.canvasBounds.y,
-      };
+      const inletElement = document.querySelector(
+        `[data-terminal-id="${inlet}"]`
+      );
+      if (!outletElement || !inletElement) {
+        return [
+          { x: 0, y: 0 },
+          { x: 0, y: 0 },
+        ];
+      }
+      const p1 = calculatePoint(
+        outletElement,
+        uiStore.canvasBounds,
+        uiStore.canvasScroll
+      );
+      const p2 = calculatePoint(
+        inletElement,
+        uiStore.canvasBounds,
+        uiStore.canvasScroll
+      );
+
       return [p1, p2];
     }, [metaDataStore.nodeBounds]);
 

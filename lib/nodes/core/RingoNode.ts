@@ -35,7 +35,7 @@ export interface SerializedRingoNode {
     connections: Record<string, RingoNodeConnection>;
 }
 
-export class RingoNode {
+export abstract class RingoNode {
     id!: string;
     manager!: GraphManager;
     @observable attributes!: RingoNodeAttributeList;
@@ -58,29 +58,16 @@ export class RingoNode {
         }
     }
 
-
-    static create<T extends RingoNode>(
-        this: StaticThis<T>,
-        args: RingoNodeConstructorArgs
-    ) {
-        const that = new this(args);
-        return that;
+    static create<T = RingoNode>(this: { new(args: RingoNodeConstructorArgs): T }, args: RingoNodeConstructorArgs) {
+        return new this(args);
     }
 
-    getType(): RingoNodeType {
-        throw new Error('Method not implemented.');
-    }
+    abstract getType(): RingoNodeType
 
-    getInletLayout(): Terminal[] {
-        throw new Error('Method not implemented.');
-    }
-    getOutletLayout(): Terminal[] {
-        throw new Error('Method not implemented.');
-    }
+    abstract getInletLayout(): Terminal[]
+    abstract getOutletLayout(): Terminal[]
 
-    getInitialAttributes(): RingoNodeAttributeList {
-        throw new Error('Method not implemented.');
-    }
+    abstract getInitialAttributes(): RingoNodeAttributeList
 
     @action
     receive(inlet: number, data: unknown): void {

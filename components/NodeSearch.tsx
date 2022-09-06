@@ -20,14 +20,15 @@ export const NodeSearch: React.FC<NodeSearchProps> = ({ position }) => {
     <Draggable defaultClassName="fixed" defaultPosition={position}>
       <div className="p-2 bg-purple-800 rounded shadow w-96">
         <input
+          placeholder="node name..."
           autoFocus={true}
-          className="w-full h-10 px-2 rounded"
+          className="w-full h-10 px-2 rounded mb-2"
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col max-h-96 overflow-scroll gap-2">
           {itemsToShow.map((result) => (
             <button
               key={`node-search-${result}`}
@@ -36,7 +37,7 @@ export const NodeSearch: React.FC<NodeSearchProps> = ({ position }) => {
                 addNode(node);
                 setSearchActive(false);
               }}
-              className="w-full h-8 my-2 bg-white rounded"
+              className="w-full h-8 flex-shrink-0 bg-white rounded"
             >
               {result}
             </button>
